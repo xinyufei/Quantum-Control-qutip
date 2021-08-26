@@ -33,7 +33,7 @@ parser.add_argument('--max_iter', help='maximum number of iterations', type=int,
 parser.add_argument('--max_time', help='maximum allowed computational time (seconds)', type=float, default=7200)
 # Minimum gradient (sum of gradients squared)
 # as this tends to 0 -> local minimum has been found
-parser.add_argument('--min_grad', help='minimum gradient', type=float, default=1e-3)
+parser.add_argument('--min_grad', help='minimum gradient', type=float, default=1e-6)
 
 args = parser.parse_args()
 

@@ -31,7 +31,7 @@ parser.add_argument('--max_time_step', help='maximum allowed computational time 
                     type=float, default=7200)
 # Minimum gradient (sum of gradients squared)
 # as this tends to 0 -> local minimum has been found
-parser.add_argument('--min_grad', help='minimum gradient for each step', type=float, default=1e-3)
+parser.add_argument('--min_grad', help='minimum gradient for each step', type=float, default=1e-6)
 # TV regularizer parameter
 parser.add_argument('--alpha', help='TV regularizer parameter', type=float, default=0.001)
 # Lagrangian penalty parameter

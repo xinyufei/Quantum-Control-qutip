@@ -25,10 +25,15 @@ def time_evolution(H_d, H_c, n_ts, evo_time, u_list, X_0, sum_cons_1, ops_max_am
     return X[-1]
 
 
-def compute_obj(U_targ, U_result):
+def compute_obj_fid(U_targ, U_result):
     fid = np.abs(np.trace((np.linalg.inv(U_targ.full()).dot(U_result)))) / U_targ.full().shape[0]
     # fid = np.abs(np.trace(((U_targ.full()).dot(U_result)))) / U_targ.full().shape[0]
     obj = 1 - fid
+    return obj
+
+
+def compute_obj_energy(C, X_result):
+    obj = np.real(np.real(X_result.conj().T.dot(C.dot(X_result))))
     return obj
 
 

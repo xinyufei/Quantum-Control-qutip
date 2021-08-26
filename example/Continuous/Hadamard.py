@@ -105,11 +105,8 @@ for j in range(b_rel.shape[1]):
              markersize=marker_size_list[j])
 plt.legend()
 plt.savefig(output_fig.split(".png")[0] + "_continuous.png")
-f = open(output_num, "a+")
-print("Final term of max controllers: ", file=f)
-print(compute_sum_cons(b_rel, max_controllers), file=f)
-f.close()
 
 f = open(output_num, "a+")
 print("total tv norm", compute_TV_norm(b_rel), file=f)
 print("total l2 norm", compute_sum_cons(b_rel, 1), file=f)
+f.close()

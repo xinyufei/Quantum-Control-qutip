@@ -1,0 +1,16 @@
+     fun: 0.21347422163447394
+     jac: array([-0.76214072,  0.79367312, -0.76171591, -0.76188964, -0.54794633,
+       -0.76255001, -0.76137617])
+ message: 'Optimization terminated successfully'
+    nfev: 84
+     nit: 10
+    njev: 10
+  status: 0
+ success: True
+       x: array([1.36158723, 1.        , 1.02308218, 1.37881655, 1.        ,
+       1.14808972, 1.08842431])
+switching time points [1.36158723 2.36158723 3.38466941 4.76348596 5.76348596 6.91157569]
+computational time 0.25171709060668945
+alpha 0.05
+tv norm 12.0
+objective with tv norm 0.813474221634474

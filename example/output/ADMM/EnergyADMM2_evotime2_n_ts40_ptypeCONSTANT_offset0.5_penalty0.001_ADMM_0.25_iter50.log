@@ -1,0 +1,10 @@
+********* Summary *****************
+Final energy -0.9999996193372911
+Final objective value -0.9999887742805776
+Final norm value 0.0007680000000000013
+Final error 6.4e-05
+Final gradient norm 0.02560108469864164
+Number of iterations 50
+Terminated due to Exceed the maximum number of iteration of ADMM
+Completed in 0:12:29.725885 HH:MM:SS.US
+Computational time 749.7258851528168

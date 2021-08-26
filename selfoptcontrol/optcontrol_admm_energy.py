@@ -12,6 +12,7 @@ import scipy
 
 from tools import *
 
+
 class optcontrol_admm_energy():
     def __init__(self):
         self.J = None
@@ -73,7 +74,7 @@ class optcontrol_admm_energy():
         self.n_ts = n_ts
         self.evo_time = evo_time
         self.delta_t = self.evo_time / self.n_ts
-        self.tlist = list(map(lambda x: self.evo_time*x, map(lambda x: x/self.n_ts, range(0, self.n_ts + 1))))
+        self.tlist = list(map(lambda x: self.evo_time * x, map(lambda x: x / self.n_ts, range(0, self.n_ts + 1))))
         self.initial_type = initial_type
         self.initial_control = initial_control
         self.constant = constant
@@ -112,10 +113,10 @@ class optcontrol_admm_energy():
 
     def _compute_energy(self, *args):
         control_amps = args[0].copy()
-        if not (self.u == control_amps).all():
-            self.time_evolution(control_amps)
-            self.back_propagation(control_amps)
-            self.u = control_amps
+        # if not (self.u == control_amps).all():
+        self.time_evolution(control_amps)
+        self.back_propagation(control_amps)
+        self.u = control_amps
         obj = np.real(self._into[-1].conj().T.dot(self.C.dot(self._into[-1])))
         # return np.real(avg_energy(self.all_y[-1], self.diag))
         return obj
@@ -132,9 +133,17 @@ class optcontrol_admm_energy():
             self.u = control_amps
         grad = []
         for k in range(self.n_ts):
-            # grad += [calc_Phi(self.all_y[i], self.all_k[i], self.n, self.diag)]
+            if k == 0:
+                norm_grad_t = -self.rho * (control_amps[1] - control_amps[0] - self.v[0] + self._lambda[0])
+            if k == self.n_ts - 1:
+                norm_grad_t = self.rho * (control_amps[k] - control_amps[k - 1] - self.v[k - 1] + self._lambda[k - 1])
+            if 0 < k < self.n_ts - 1:
+                norm_grad_t = self.rho * (control_amps[k] - control_amps[k - 1] - self.v[k - 1] + self._lambda[k - 1]
+                                     - (control_amps[k + 1] - control_amps[k] - self.v[k] + self._lambda[k]))
+
             grad += [-np.imag(self._onto[self.n_ts - k - 1].dot((self.C - self.B).dot(self._into[k + 1]))
-                              * self.delta_t)]
+                              * self.delta_t) + norm_grad_t]
+
         return grad
 
     def _set_initial_amps(self):
@@ -144,7 +153,7 @@ class optcontrol_admm_energy():
         if self.initial_type == "CONSTANT":
             self.initial_amps = np.ones(self.n_ts) * self.constant
         if self.initial_type == "WARM":
-            warm_start_control = np.loadtxt(self.initial_control, delimiter=",")
+            warm_start_control = np.loadtxt(self.initial_control, delimiter=",")[:, 0]
             evo_time_start = warm_start_control.shape[0]
             step = self.n_ts / evo_time_start
             for time_step in range(self.n_ts):
@@ -163,11 +172,14 @@ class optcontrol_admm_energy():
     def _minimize_u(self):
         self._set_initial_amps()
         self.time_optimize_start_step = 0
-        [ulist, self.Philist, self.energy, state, nit] = gradient_descent_opt(
-            self.n, self.n_ts, self.evo_time, self.max_iter, self.min_grad, ulist_in=self.initial_amps,
-            type="admm", v=self.v, rho=self.rho, _lambda=self._lambda)
-        self.u = ulist
-        self.energy = compute_energy_u(self.tlist, self.evo_time, self.u)
+        # [ulist, self.Philist, self.energy, state, nit] = gradient_descent_opt(
+        #     self.n, self.n_ts, self.evo_time, self.max_iter, self.min_grad, ulist_in=self.initial_amps,
+        #     type="admm", v=self.v, rho=self.rho, _lambda=self._lambda)
+        results = scipy.optimize.fmin_l_bfgs_b(self._compute_energy, self.initial_amps.copy(),
+                                               bounds=[(0, 1)] * self.n_ts,
+                                               pgtol=self.min_grad, fprime=self._fprime, maxiter=self.max_iter)
+        self.u = results[0]
+        self.energy = results[1]
         self.cur_obj = self.energy + self.rho / 2 * self.compute_norm()
         self.cur_origin_obj = self.energy + self.alpha * self.compute_tv_norm()
 
@@ -227,7 +239,7 @@ class optcontrol_admm_energy():
         print("Final norm value {}".format(2 * self.compute_tv_norm()), file=report)
         print("Final error {}".format(self.err_list[-1]), file=report)
         # print("Final gradient {}".format(Philist), file=report)
-        print("Final gradient norm {}".format(np.linalg.norm(np.array(self.Philist), 2)), file=report)
+        # print("Final gradient norm {}".format(np.linalg.norm(np.array(self.Philist), 2)), file=report)
         print("Number of iterations {}".format(admm_num_iter), file=report)
         print("Terminated due to {}".format(tr), file=report)
         print("Completed in {} HH:MM:SS.US".format(datetime.timedelta(seconds=admm_opt_time - admm_start)), file=report)

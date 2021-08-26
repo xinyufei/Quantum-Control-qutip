@@ -1,0 +1,10 @@
+********* Summary *****************
+Final energy -0.9907374033706289
+Final objective value -0.9334120204855346
+Final penalized TV regularizer 0.05732538288509427
+Final norm value 0.5732538288509427
+Final error 1.4444474582904269e-34
+Number of iterations 100
+Terminated due to Exceed the maximum number of iteration of ADMM
+Completed in 0:00:28.096802 HH:MM:SS.US
+Computational time 28.0968017578125

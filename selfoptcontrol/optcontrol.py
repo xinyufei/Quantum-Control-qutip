@@ -85,7 +85,7 @@ def optcontrol(example_name, H_d, H_c, X_0, X_targ, n_ts, evo_time, initial_type
                 init_amps[:, j] = offset[j]
         else:
             file = open(initial_control)
-            warm_start_control = np.loadtxt(file, delimiter=",")
+            warm_start_control = np.loadtxt(file, delimiter=",")[:, 0]
             evo_time_start = warm_start_control.shape[0]
             step = n_ts / evo_time_start
             for j in range(n_ctrls):

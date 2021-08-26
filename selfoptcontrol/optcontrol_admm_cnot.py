@@ -147,7 +147,7 @@ class Optcontrol_ADMM_CNOT():
             self.init_amps = np.zeros((self.n_ts, self.n_ctrls)) + self.constant
         if self.p_type == "WARM":
             # file = open(self.initial_control)
-            warm_start_control = np.loadtxt(self.initial_control, delimiter=",")
+            warm_start_control = np.loadtxt(self.initial_control, delimiter=",")[:, 0]
             evo_time_start = warm_start_control.shape[0]
             step = self.n_ts / evo_time_start
             for j in range(self.n_ctrls):

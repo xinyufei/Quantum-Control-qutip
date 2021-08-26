@@ -1,6 +1,7 @@
 from pycombina import *
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 
 def rounding(b_rel, type, min_up_times=0, max_switches=10, compare=False, bin=True, out_fig=None):
@@ -10,6 +11,7 @@ def rounding(b_rel, type, min_up_times=0, max_switches=10, compare=False, bin=Tr
 
     binapprox = BinApprox(t, b_rel)
 
+    start = time.time()
     if type == "SUR":
         min_up_times = "SUR"
         sur = CombinaSUR(binapprox)
@@ -25,6 +27,7 @@ def rounding(b_rel, type, min_up_times=0, max_switches=10, compare=False, bin=Tr
         binapprox.set_n_max_switches(n_max_switches=[max_switches] * b_rel.shape[1])
         combina = CombinaBnB(binapprox)
         combina.solve()
+    end = time.time()
 
     b_bin = binapprox.b_bin
 
@@ -73,7 +76,7 @@ def rounding(b_rel, type, min_up_times=0, max_switches=10, compare=False, bin=Tr
         if type == "maxswitch":
             plt.savefig(out_fig + "_binary_maxswitch" + str(max_switches) + ".png")
 
-    return b_bin
+    return b_bin, end - start
 
 
 # if __name__ == '__main__':

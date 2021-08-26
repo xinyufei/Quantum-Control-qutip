@@ -76,7 +76,7 @@ opt.build_optimizer(B, C, args.n, y0[0:2**args.n], args.n_ts, args.evo_time, ini
                     constant=args.offset, rho=args.rho, alpha=args.alpha, max_iter_admm=args.max_iter_admm,
                     max_wall_time_admm=args.max_time_admm)
 
-# opt.optimize_admm()
+opt.optimize_admm()
 
 b_rel = np.loadtxt(output_control, delimiter=",")
 

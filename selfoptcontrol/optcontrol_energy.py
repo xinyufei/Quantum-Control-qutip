@@ -121,7 +121,7 @@ class optcontrol_energy():
         if self.initial_type == "CONSTANT":
             self.initial_amps = np.ones(self.n_ts) * self.constant
         if self.initial_type == "WARM":
-            warm_start_control = np.loadtxt(self.initial_control, delimiter=",")
+            warm_start_control = np.loadtxt(self.initial_control, delimiter=",")[:, 0]
             evo_time_start = warm_start_control.shape[0]
             step = self.n_ts / evo_time_start
             for time_step in range(self.n_ts):

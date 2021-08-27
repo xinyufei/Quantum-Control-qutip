@@ -6,9 +6,6 @@ import time
 import matplotlib.pyplot as plt
 import numpy as np
 
-from qutip import identity, sigmax, sigmaz, sigmay, tensor
-from qutip.qip.operations.gates import cnot
-
 sys.path.append("../..")
 from tools.auxiliary_energy import *
 from tools.evolution import *

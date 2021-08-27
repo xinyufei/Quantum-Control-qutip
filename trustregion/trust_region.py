@@ -2,7 +2,6 @@ import sys
 import time
 import numpy as np
 import random
-import gurobipy as gb
 import qutip.control.pulseoptim as cpo
 from qutip.control.optimizer import *
 from qutip import Qobj, identity, sigmax, sigmaz, sigmay, tensor
@@ -10,6 +9,7 @@ from qutip.qip.operations.gates import cnot
 
 sys.path.append("..")
 from tools import *
+import gurobipy as gb
 
 
 class TrustRegion:
@@ -239,13 +239,20 @@ class TrustRegion:
         obj = self._compute_obj(u_tilde.reshape(-1))
 
         out_log = open(self.out_log_file, "a+")
-        np.savetxt(self.out_control_file, u_tilde, delimiter=',')
         print("objective value without tv norm", obj, file=out_log)
         print("objective value with tv norm", obj + self.alpha * tv_u_tilde, file=out_log)
         print("norm", tv_u_tilde, file=out_log)
         print("computational time", end - start, file=out_log)
         print("total iterations", total_ite, file=out_log)
         out_log.close()
+
+        if self.obj_type == 'energy':
+            final_u = np.zeros((self.n_ts, 2))
+            final_u[:, 0] = u_tilde[:, 0]
+            final_u[:, 1] = 1 - u_tilde[:, 0]
+            np.savetxt(self.out_control_file, final_u, delimiter=',')
+        else:
+            np.savetxt(self.out_control_file, u_tilde, delimiter=',')
 
         return u_tilde, obj, obj + self.alpha * tv_u_tilde
 
@@ -365,12 +372,19 @@ class TrustRegion:
         obj = self._compute_obj(u_tilde.reshape(-1))
 
         out_log = open(self.out_log_file, "a+")
-        np.savetxt(self.out_control_file, u_tilde, delimiter=',')
         print("objective value without tv norm", obj, file=out_log)
         tv_u_tilde = self._compute_tv_norm(u_tilde)
         print("norm", tv_u_tilde, file=out_log)
         print("computational time", end - start, file=out_log)
         print("total iterations", total_ite, file=out_log)
         out_log.close()
+
+        if self.obj_type == 'energy':
+            final_u = np.zeros((self.n_ts, 2))
+            final_u[:, 0] = u_tilde[:, 0]
+            final_u[:, 1] = 1 - u_tilde[:, 0]
+            np.savetxt(self.out_control_file, final_u, delimiter=',')
+        else:
+            np.savetxt(self.out_control_file, u_tilde, delimiter=',')
 
         return u_tilde, obj

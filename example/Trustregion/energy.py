@@ -29,7 +29,7 @@ parser.add_argument('--sigma', help='ratio threshold for decrease to adjust trus
 # ratio threshold for decrease to update central point
 parser.add_argument('--eta', help='ratio threshold for decrease to update central point', type=float, default=0.001)
 # threshold for region to start precise search
-parser.add_argument('--delta_threshold', help='threshold for region to start precise search', type=int, default=30)
+parser.add_argument('--threshold', help='threshold for region to start precise search', type=int, default=30)
 # max iterations for trust-region method
 parser.add_argument('--max_iter', help='max iterations for trust-region method', type=int, default=100)
 # problem type of trust-region method
@@ -61,17 +61,17 @@ if not os.path.exists("../figure/Trustregion/"):
 if args.tr_type == 'tv':
     output_num = "../output/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
                  "_sigma{}_eta{}_threshold{}_iter{}_type{}".format(args.sigma, args.eta, args.threshold, args.max_iter,
-                                                                   args.type) + ".log"
+                                                                   args.tr_type) + ".log"
     output_fig = "../figure/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
                  "_sigma{}_eta{}_threshold{}_iter{}_type{}".format(args.sigma, args.eta, args.threshold, args.max_iter,
-                                                                   args.type) + ".png"
+                                                                   args.tr_type) + ".png"
     output_control = "../control/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
                      "_sigma{}_eta{}_threshold{}_iter{}_type{}".format(args.sigma, args.eta, args.threshold,
-                                                                       args.max_iter, args.type) + ".csv"
+                                                                       args.max_iter, args.tr_type) + ".csv"
     tr_optimizer = TrustRegion()
     tr_optimizer.build_optimizer(None, [B, C], y0[0:2 ** args.n], None, args.n_ts, args.evo_time, alpha=args.alpha,
                                  obj_type='energy', initial_file=args.initial_file,
-                                 sigma=args.sigma, eta=args.eta, delta_threshold=args.delta_threshold,
+                                 sigma=args.sigma, eta=args.eta, delta_threshold=args.threshold,
                                  max_iter=args.max_iter, out_log_file=output_num, out_control_file=output_control)
     tr_optimizer.trust_region_method_tv()
 
@@ -104,7 +104,7 @@ if args.tr_type == 'hard':
     tr_optimizer = TrustRegion()
     tr_optimizer.build_optimizer(None, [B, C], y0[0:2 ** args.n], None, args.n_ts, args.evo_time, alpha=args.alpha,
                                  obj_type='energy', initial_file=args.initial_file,
-                                 sigma=args.sigma, eta=args.eta, delta_threshold=args.delta_threshold,
+                                 sigma=args.sigma, eta=args.eta, delta_threshold=args.threshold,
                                  max_iter=args.max_iter, out_log_file=output_num, out_control_file=output_control)
     tr_optimizer.trust_region_method_hard()
 

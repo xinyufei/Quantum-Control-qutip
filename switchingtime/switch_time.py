@@ -119,10 +119,11 @@ class SwitchTimeOpt:
         retrieve switching points from the length of control intervals
         """
         # retrieve switching time points
-        self.switch_time = np.zeros(self.num_switch)
-        self.switch_time[0] = self.tau[0]
-        for k in range(1, self.num_switch):
-            self.switch_time[k] = self.switch_time[k - 1] + self.tau[k]
+        if self.num_switch > 0:
+            self.switch_time = np.zeros(self.num_switch)
+            self.switch_time[0] = self.tau[0]
+            for k in range(1, self.num_switch):
+                self.switch_time[k] = self.switch_time[k - 1] + self.tau[k]
 
     def retrieve_control(self, num_time_step):
         """

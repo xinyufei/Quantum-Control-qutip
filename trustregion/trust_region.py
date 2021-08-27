@@ -65,8 +65,8 @@ class TrustRegion:
 
         self.initial_file = initial_file
         self.alpha = alpha
-        if self.obj_type == 'energy':
-            self.alpha = 2 * alpha
+        # if self.obj_type == 'energy':
+        #     self.alpha = 2 * alpha
         self.sigma = sigma
         self.eta = eta
         self.delta_threshold = delta_threshold
@@ -127,6 +127,8 @@ class TrustRegion:
     def _compute_tv_norm(self, control_amps):
         norm = sum(sum(np.abs(control_amps[t, j] - control_amps[t + 1, j]) for j in range(self.n_ctrl))
                    for t in range(self.n_ts - 1))
+        if self.obj_type == 'energy':
+            norm = 2 * norm
         return norm
 
     def trust_region_method_tv(self):

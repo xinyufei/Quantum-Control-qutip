@@ -79,7 +79,8 @@ if not os.path.exists("../figure/SwitchTime/"):
 
 # output file
 output_name = "../output/SwitchTime/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}".format(
-    args.name, str(args.evo_time), str(args.n_ts), str(num_switch), args.initial_type, str(args.min_up_time)) + ".log"
+    args.name + str(args.n), str(args.evo_time), str(args.n_ts), str(num_switch), args.initial_type,
+    str(args.min_up_time)) + ".log"
 output_file = open(output_name, "a+")
 print(res, file=output_file)
 print("switching time points", energy_opt.switch_time, file=output_file)
@@ -87,7 +88,8 @@ print("computational time", end - start, file=output_file)
 
 # retrieve control
 control_name = "../control/SwitchTime/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}".format(
-    args.name, str(args.evo_time), str(args.n_ts), str(num_switch), args.initial_type, str(args.min_up_time)) + ".csv"
+    args.name + str(args.n), str(args.evo_time), str(args.n_ts), str(num_switch), args.initial_type,
+    str(args.min_up_time)) + ".csv"
 control = energy_opt.retrieve_control(args.n_ts)
 np.savetxt(control_name, control, delimiter=",")
 
@@ -98,7 +100,8 @@ print("objective with tv norm", energy_opt.obj + args.alpha * tv_norm, file=outp
 
 # figure file
 figure_name = "../figure/SwitchTime/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}".format(
-    args.name, str(args.evo_time), str(args.n_ts), str(num_switch), args.initial_type, str(args.min_up_time)) + ".png"
+    args.name + str(args.n), str(args.evo_time), str(args.n_ts), str(num_switch), args.initial_type,
+    str(args.min_up_time)) + ".png"
 energy_opt.draw_control(figure_name)
 
 b_bin = np.loadtxt(control_name, delimiter=",")

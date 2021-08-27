@@ -2,6 +2,6 @@
 predictive decrease -0.12415405571071811 actual decrease -0.8235132107945562
 objective value with out tv norm -0.9716619662680948
 objective value without tv norm -0.9716619662680948
-norm 5.0
-computational time 0.44635605812072754
+norm 10.0
+computational time 0.464465856552124
 total iterations 20

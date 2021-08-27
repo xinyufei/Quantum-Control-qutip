@@ -16,7 +16,7 @@ cd ../../example/Continuous/
 #python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 --initial_type=WARM \
 #    --initial_control="../control/ADMM/EnergyADMM2_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv" \
 #    --alpha=1e-1 --rho=10 --max_iter_admm=100
-#cd ../SwitchingTime/
+cd ../SwitchingTime/
 #python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 --admm_control="../control/ADMM/EnergyADMM2_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv" \
 #    --min_up_time=0 --alpha=0.01
 #python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 --admm_control="../control/ADMM/EnergyADMM2_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv" \
@@ -40,6 +40,16 @@ python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 \
     --alpha=0.01 --tr_type="hard" --hard_type="maxswitch" --max_switch=5
 python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 \
     --initial_file="../control/Rounding/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_maxswitch5.csv" \
+    --alpha=0.01 --tr_type="hard" --hard_type="maxswitch" --max_switch=5
+
+python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 \
+    --initial_file="../control/SwitchTime/EnergyST2_evotime_2.0_n_ts40_n_switch0_initwarm_minuptime0.0.csv" \
+    --alpha=0.01 --tr_type="tv"
+python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 \
+    --initial_file="../control/SwitchTime/EnergyST2_evotime_2.0_n_ts40_n_switch0_initwarm_minuptime0.5.csv" \
+    --alpha=0.01 --tr_type="hard" --hard_type="minup" --min_up=10
+python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 \
+    --initial_file="../control/SwitchTime/EnergyST2_evotime_2.0_n_ts40_n_switch0_initwarm_minuptime0.0.csv" \
     --alpha=0.01 --tr_type="hard" --hard_type="maxswitch" --max_switch=5
 
 cd ../../scripts/linux

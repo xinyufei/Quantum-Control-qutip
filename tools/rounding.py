@@ -4,10 +4,9 @@ import matplotlib.pyplot as plt
 import time
 
 
-def rounding(b_rel, type, min_up_times=0, max_switches=10, compare=False, bin=True, out_fig=None):
+def rounding(b_rel, evo_time, time_steps, type, min_up_times=0, max_switches=10, compare=False, bin=True, out_fig=None):
 
-    t = np.array([t_step for t_step in range(b_rel.shape[0] + 1)])
-    ts_interval = 20
+    t = np.linspace(0, evo_time, time_steps + 1)
 
     binapprox = BinApprox(t, b_rel)
 
@@ -19,7 +18,7 @@ def rounding(b_rel, type, min_up_times=0, max_switches=10, compare=False, bin=Tr
 
     if type == "minup":
         # binapprox.set_n_max_switches(n_max_switches=[min_up_times, min_up_times])
-        binapprox.set_min_up_times(min_up_times=[min_up_times] * b_rel.shape[1])
+        binapprox.set_min_up_times(min_up_times=[min_up_times * evo_time / time_steps] * b_rel.shape[1])
         combina = CombinaBnB(binapprox)
         combina.solve()
 
@@ -65,7 +64,7 @@ def rounding(b_rel, type, min_up_times=0, max_switches=10, compare=False, bin=Tr
         marker_list = ['-o', '--^', '-*', '--s']
         marker_size_list = [5, 5, 8, 5]
         for j in range(b_rel.shape[1]):
-            plt.step(t, np.hstack((b_rel[:, j], b_rel[-1, j])),
+            plt.step(t, np.hstack((b_bin.T[:, j], b_bin.T[-1, j])),
                      marker_list[j], where='post', linewidth=2, label='controller ' + str(j + 1), markevery=(j, 4),
                      markersize=marker_size_list[j])
         plt.legend()

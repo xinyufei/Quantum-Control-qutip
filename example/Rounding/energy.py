@@ -63,15 +63,16 @@ if args.type == "maxswitch":
 
 # round the solution
 b_rel = np.loadtxt(args.initial_control, delimiter=',')
-b_bin, c_time = rounding(b_rel, args.type, args.min_up / args.n_ts, args.max_switch, out_fig=output_fig)
+b_bin, c_time = rounding(b_rel, args.evo_time, args.n_ts,
+                         args.type, args.min_up, args.max_switch, out_fig=output_fig)
 
 bin_result = time_evolution(np.zeros((2**args.n, 2**args.n), dtype=complex), [B, C], args.n_ts, args.evo_time, b_bin.T,
                             y0, False, 1)
 
-f = open(output_num, "a+")
+f = open(output_num, "w+")
 print("computational time", c_time, file=f)
 print("original objective", compute_obj_energy(C, bin_result), file=f)
-print("total tv norm", compute_TV_norm(b_bin), file=f)
+print("total tv norm", compute_TV_norm(b_bin.T), file=f)
 f.close()
 
 np.savetxt(output_control, b_bin.T, delimiter=',')

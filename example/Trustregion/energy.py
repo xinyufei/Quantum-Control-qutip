@@ -58,7 +58,7 @@ if not os.path.exists("../control/Trustregion/"):
 if not os.path.exists("../figure/Trustregion/"):
     os.makedirs("../figure/Trustregion/")
 
-if args.tr_type == 'tv':
+if args.tr_type in ['tv', 'tvc']:
     output_num = "../output/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
                  "_sigma{}_eta{}_threshold{}_iter{}_type{}".format(args.sigma, args.eta, args.threshold, args.max_iter,
                                                                    args.tr_type) + ".log"
@@ -73,7 +73,11 @@ if args.tr_type == 'tv':
                                  obj_type='energy', initial_file=args.initial_file,
                                  sigma=args.sigma, eta=args.eta, delta_threshold=args.threshold,
                                  max_iter=args.max_iter, out_log_file=output_num, out_control_file=output_control)
-    tr_optimizer.trust_region_method_tv()
+    if args.tr_type == 'tv':
+        tr_optimizer.trust_region_method_tv(type='binary')
+    if args.tr_type == 'tvc':
+        tr_optimizer.trust_region_method_tv(type='continuous')
+
 
 if args.tr_type == 'hard':
     if args.hard_type == 'minup':

@@ -131,7 +131,7 @@ class TrustRegion:
             norm = 2 * norm
         return norm
 
-    def trust_region_method_tv(self):
+    def trust_region_method_tv(self, type='binary'):
         delta_0 = self.n_ts * self.n_ctrl
 
         out_log = open(self.out_log_file, "w+")
@@ -161,8 +161,10 @@ class TrustRegion:
                 # solve the trust-region problem
                 tr = gb.Model()
                 # add variants
-                u_var = tr.addVars(self.n_ts, self.n_ctrl, vtype=gb.GRB.BINARY)
-                # u_var = tr.addVars(n_ts, n_ctrl, vtype=gb.GRB.CONTINUOUS)
+                if type == 'binary':
+                    u_var = tr.addVars(self.n_ts, self.n_ctrl, vtype=gb.GRB.BINARY)
+                if type == 'continuous':
+                    u_var = tr.addVars(self.n_ts, self.n_ctrl, vtype=gb.GRB.CONTINUOUS)
                 v_var = tr.addVars(self.n_ts - 1, self.n_ctrl, lb=0)
                 w_var = tr.addVars(self.n_ts, self.n_ctrl, lb=0)
                 # objective function

@@ -5,8 +5,7 @@ import sys
 import matplotlib.pyplot as plt
 import numpy as np
 sys.path.append("../..")
-from tools.auxiliary_energy import *
-from tools.evolution import *
+from tools import *
 from selfoptcontrol.optcontrol_energy import optcontrol_energy
 
 parser = argparse.ArgumentParser()
@@ -47,26 +46,27 @@ if not os.path.exists("../control/Rounding/"):
 if not os.path.exists("../figure/Rounding/"):
     os.makedirs("../figure/Rounding/")
 
-output_fig = "../figure/Rounding/" + args.initial_file.split('/')[-1].split('.csv')[0]
-if type == "SUR":
-    output_num = "../output/Rounding/" + args.initial_file.split('/')[-1].split('.csv')[0] + "_SUR.log"
-    output_control = "../control/Rounding/" + args.initial_file.split('/')[-1].split('.csv')[0] + "_SUR.log"
-if type == "minup":
-    output_num = "../output/Rounding/" + args.initial_file.split('/')[-1].split('.csv')[0] \
-                 + "_minup" + str(min_up_times) + ".log"
-    output_control = "../control/Rounding/" + args.initial_file.split('/')[-1].split('.csv')[0] \
-                     + "_minup" + str(min_up_times) + ".csv"
-if type == "maxswitch":
-    output_num = "../output/Rounding/" + args.initial_file.split('/')[-1].split('.csv')[0] \
-                 + "_maxswitch" + str(max_switches) + ".log"
-    output_control = "../control/Rounding/" + args.initial_file.split('/')[-1].split('.csv')[0] \
-                     + "_maxswitch" + str(max_switches) + ".csv"
+output_fig = "../figure/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0]
+if args.type == "SUR":
+    output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.log"
+    output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.log"
+if args.type == "minup":
+    output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
+                 + "_minup" + str(args.min_up) + ".log"
+    output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
+                     + "_minup" + str(args.min_up) + ".csv"
+if args.type == "maxswitch":
+    output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
+                 + "_maxswitch" + str(args.max_switch) + ".log"
+    output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
+                     + "_maxswitch" + str(args.max_switch) + ".csv"
 
 # round the solution
-b_rel = np.loadtxt(args.initial_control, delimeter=',')
-b_bin, c_time = rounding(b_rel, args.type, args.min_up / args.n_ts, args.max_switch, output_fig=output_fig)
+b_rel = np.loadtxt(args.initial_control, delimiter=',')
+b_bin, c_time = rounding(b_rel, args.type, args.min_up / args.n_ts, args.max_switch, out_fig=output_fig)
 
-bin_result = time_evolution(np.zeros(2**args.n), [B, C], args.n_ts, args.evo_time, b_bin.T, y0, False, 1)
+bin_result = time_evolution(np.zeros((2**args.n, 2**args.n), dtype=complex), [B, C], args.n_ts, args.evo_time, b_bin.T,
+                            y0, False, 1)
 
 f = open(output_num, "a+")
 print("computational time", c_time, file=f)
@@ -74,4 +74,4 @@ print("original objective", compute_obj_energy(C, bin_result), file=f)
 print("total tv norm", compute_TV_norm(b_bin), file=f)
 f.close()
 
-np.savetxt(output_control, b_bin.T, delimeter=',')
+np.savetxt(output_control, b_bin.T, delimiter=',')

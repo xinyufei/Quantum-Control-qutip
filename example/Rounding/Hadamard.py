@@ -54,27 +54,27 @@ if not os.path.exists("../control/Rounding/"):
 if not os.path.exists("../figure/Rounding/"):
     os.makedirs("../figure/Rounding/")
 
-output_fig = "../figure/Rounding/" + args.initial_file.split('/')[-1].split('.csv')[0]
+output_fig = "../figure/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0]
 if type == "SUR":
-    output_num = "../output/Rounding/" + args.initial_file.split('/')[-1].split('.csv')[0] + "_SUR.log"
-    output_control = "../control/Rounding/" + args.initial_file.split('/')[-1].split('.csv')[0] + "_SUR.log"
+    output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.log"
+    output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.log"
 if type == "minup":
-    output_num = "../output/Rounding/" + args.initial_file.split('/')[-1].split('.csv')[0] \
-                 + "_minup" + str(min_up_times) + ".log"
-    output_control = "../control/Rounding/" + args.initial_file.split('/')[-1].split('.csv')[0] \
-                     + "_minup" + str(min_up_times) + ".csv"
+    output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
+                 + "_minup" + str(args.min_up_times) + ".log"
+    output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
+                     + "_minup" + str(args.min_up_times) + ".csv"
 if type == "maxswitch":
-    output_num = "../output/Rounding/" + args.initial_file.split('/')[-1].split('.csv')[0] \
-                 + "_maxswitch" + str(max_switches) + ".log"
-    output_control = "../control/Rounding/" + args.initial_file.split('/')[-1].split('.csv')[0] \
-                     + "_maxswitch" + str(max_switches) + ".csv"
+    output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
+                 + "_maxswitch" + str(args.max_switches) + ".log"
+    output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
+                     + "_maxswitch" + str(args.max_switches) + ".csv"
 
 # round the solution
 b_rel = np.loadtxt(args.initial_control, delimiter=',')
-round = Rouding()
+round = Rounding()
 round.build_rounding_optimizer(b_rel, args.evo_time, args.n_ts, args.type, args.min_up, args.max_switch,
-                               output_fig=output_fig)
-if sos1:
+                               out_fig=output_fig)
+if args.sos1:
     b_bin, c_time = round.rounding_with_sos1()
 else:
     b_bin, c_time = round.rounding_without_sos1()

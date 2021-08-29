@@ -63,10 +63,10 @@ if args.type == "maxswitch":
 
 # round the solution
 b_rel = np.loadtxt(args.initial_control, delimiter=',')
-round = Rouding()
+round = Rounding()
 round.build_rounding_optimizer(b_rel, args.evo_time, args.n_ts, args.type, args.min_up, args.max_switch,
-                               output_fig=output_fig)
-if sos1:
+                               out_fig=output_fig)
+if args.sos1:
     b_bin, c_time = round.rounding_with_sos1()
 else:
     b_bin, c_time = round.rounding_without_sos1()

@@ -34,7 +34,7 @@ class Rounding:
         self.bin = bin
         self.out_fig = out_fig
 
-        self.n_ctrls = self.b_real.shape[1]
+        self.n_ctrls = self.b_rel.shape[1]
         self.t = np.linspace(0, self.evo_time, self.time_steps + 1)
         self.delta_t = self.evo_time / self.time_steps
 
@@ -43,7 +43,7 @@ class Rounding:
             for control_idx in range(int(np.ceil(self.time_steps / 2))):
                 plt.figure(dpi=300)
                 f, (ax1, ax2) = plt.subplots(2, sharex=True)
-                ax1.step(self.t, self.self.b_rel[:, control_idx * 2], label="b_rel", color="C0",
+                ax1.step(self.t, self.b_rel[:, control_idx * 2], label="b_rel", color="C0",
                          linestyle="dashed", where="post")
                 ax1.step(self.t, self.b_bin[:, control_idx * 2], label="b_bin", color="C0",
                          where="post")
@@ -89,7 +89,7 @@ class Rounding:
 
     def rounding_with_sos1(self):
 
-        binapprox = BinApprox(t, self.b_rel)
+        binapprox = BinApprox(self.t, self.b_rel)
 
         start = time.time()
         if self.type == "SUR":

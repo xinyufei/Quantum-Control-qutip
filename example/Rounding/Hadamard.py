@@ -70,14 +70,22 @@ if type == "maxswitch":
                      + "_maxswitch" + str(max_switches) + ".csv"
 
 # round the solution
-b_rel = np.loadtxt(args.initial_control, delimeter=',')
-b_bin = rounding(b_rel, args.type, args.min_up / args.n_ts, args.max_switch, output_fig=output_fig)
+b_rel = np.loadtxt(args.initial_control, delimiter=',')
+round = Rouding()
+round.build_rounding_optimizer(b_rel, args.evo_time, args.n_ts, args.type, args.min_up, args.max_switch,
+                               output_fig=output_fig)
+if sos1:
+    b_bin, c_time = round.rounding_with_sos1()
+else:
+    b_bin, c_time = round.rounding_without_sos1()
 
-bin_result = time_evolution(np.zeros(2**args.n), [B, C], args.n_ts, args.evo_time, b_bin.T, y0, False, 1)
+bin_result = time_evolution(H_d.full(), [hc.full() for hc in H_c], args.n_ts, args.evo_time, b_bin, X_0.full(), False,
+                            1)
 
-f = open(output_num, "a+")
+f = open(output_num, "w+")
+print("computational time", c_time, file=f)
 print("original objective", compute_obj_energy(C, bin_result), file=f)
 print("total tv norm", compute_TV_norm(b_bin), file=f)
 f.close()
 
-np.savetxt(output_control, b_bin.T, delimeter=',')
+np.savetxt(output_control, b_bin, delimeter=',')

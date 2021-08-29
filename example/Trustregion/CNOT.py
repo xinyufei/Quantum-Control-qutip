@@ -20,6 +20,8 @@ parser.add_argument('--evo_time', help='evolution time', type=float, default=1)
 parser.add_argument('--n_ts', help='time steps', type=int, default=20)
 # initial control file for the trust-region method
 parser.add_argument('--initial_file', help='file name of initial control', type=str, default=None)
+# if sos1 property holds
+parser.add_argument('--sos1', help='sos1 property holds or not', type=bool, default=True)
 # TV regularizer parameter
 parser.add_argument('--alpha', help='TV regularizer parameter', type=float, default=0.001)
 # ratio threshold for decrease to adjust trust region
@@ -43,9 +45,8 @@ parser.add_argument('--max_switch', help='maximum number of switches', type=int,
 args = parser.parse_args()
 
 # Drift Hamiltonian
-H_d = tensor(sigmax(), sigmax()) + tensor(sigmay(), sigmay()) + tensor(sigmaz(), sigmaz()) \
-      + tensor(sigmay(), identity(2))
-H_c = [tensor(sigmax(), identity(2)) - tensor(sigmay(), identity(2))]
+H_d = tensor(sigmax(), sigmax()) + tensor(sigmay(), sigmay()) + tensor(sigmaz(), sigmaz())
+H_c = [tensor(sigmax(), identity(2)), tensor(sigmay(), identity(2))]
 # start point for the gate evolution
 X_0 = identity(4)
 # Target for the gate evolution
@@ -74,7 +75,7 @@ if args.tr_type == 'tv':
                                  initial_file=args.initial_file,
                                  sigma=args.sigma, eta=args.eta, delta_threshold=args.delta_threshold,
                                  max_iter=args.max_iter, out_log_file=output_num, out_control_file=output_control)
-    tr_optimizer.trust_region_method_tv()
+    tr_optimizer.trust_region_method_tv(sos1=args.sos1)
 
 if args.tr_type == 'hard':
     if args.hard_type == 'minup':
@@ -108,7 +109,7 @@ if args.tr_type == 'hard':
                                  initial_file=args.initial_file,
                                  sigma=args.sigma, eta=args.eta, delta_threshold=args.delta_threshold,
                                  max_iter=args.max_iter, out_log_file=output_num, out_control_file=output_control)
-    tr_optimizer.trust_region_method_hard()
+    tr_optimizer.trust_region_method_hard(sos1=args.sos1)
 
 b_bin = np.loadtxt(output_control, delimiter=",")
 if len(b_bin.shape) == 1:

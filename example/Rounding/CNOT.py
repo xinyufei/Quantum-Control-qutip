@@ -19,6 +19,8 @@ parser.add_argument('--evo_time', help='evolution time', type=float, default=10)
 parser.add_argument('--n_ts', help='time steps', type=int, default=200)
 # initial control file
 parser.add_argument('--initial_control', help='file name of initial control', type=str, default=None)
+# if sos1 property holds
+parser.add_argument('--sos1', help='sos1 property holds or not', type=bool, default=True)
 # rounding type
 parser.add_argument('--type', help='type of rounding (SUR, minup, maxswitch)', type=str, default='SUR')
 # minimum up time steps
@@ -66,17 +68,25 @@ if type == "maxswitch":
                      + "_maxswitch" + str(max_switches) + ".csv"
 
 # round the solution
-b_rel = np.loadtxt(args.initial_control, delimeter=',')
-b_bin = rounding(b_rel, args.type, args.min_up / args.n_ts, args.max_switch, output_fig=output_fig)
+b_rel = np.loadtxt(args.initial_control, delimiter=',')
+round = Rouding()
+round.build_rounding_optimizer(b_rel, args.evo_time, args.n_ts, args.type, args.min_up, args.max_switch,
+                               output_fig=output_fig)
+if sos1:
+    b_bin, c_time = round.rounding_with_sos1()
+else:
+    b_bin, c_time = round.rounding_without_sos1()
+# b_bin = rounding(b_rel, args.type, args.min_up / args.n_ts, args.max_switch, output_fig=output_fig)
 h_d_mat = (tensor(sigmax(), sigmax()) + tensor(sigmay(), sigmay()) + tensor(sigmaz(), sigmaz())).full()
 h_c_mat = [tensor(sigmax(), identity(2)).full(), tensor(sigmay(), identity(2)).full()]
-bin_result = time_evolution(h_d_mat, h_c_mat, args.n_ts, args.evo_time, b_bin.T, X_0.full(), False, 1)
+bin_result = time_evolution(h_d_mat, h_c_mat, args.n_ts, args.evo_time, b_bin, X_0.full(), False, 1)
 
-f = open(output_num, "a+")
+f = open(output_num, "w+")
+print("computational time", c_time, file=f)
 print("original objective", compute_obj_fid(X_targ.full(), bin_result), file=f)
 print("total tv norm", compute_TV_norm(b_bin), file=f)
 f.close()
 
-np.savetxt(output_control, b_bin.T, delimeter=',')
+np.savetxt(output_control, b_bin, delimeter=',')
 
 

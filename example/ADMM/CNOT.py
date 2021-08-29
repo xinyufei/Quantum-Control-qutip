@@ -11,7 +11,7 @@ from selfoptcontrol.optcontrol_admm_cnot import Optcontrol_ADMM_CNOT
 
 parser = argparse.ArgumentParser()
 # name of example
-parser.add_argument('--name', help='example name', type=str, default='CNOTADMM')
+parser.add_argument('--name', help='example name', type=str, default='CNOTADMMSOS1')
 # evolution time
 parser.add_argument('--evo_time', help='evolution time', type=float, default=1)
 # time steps
@@ -46,9 +46,8 @@ parser.add_argument('--max_time_admm', help='maximum computational time for ADMM
 args = parser.parse_args()
 
 # Drift Hamiltonian
-H_d = tensor(sigmax(), sigmax()) + tensor(sigmay(), sigmay()) + tensor(sigmaz(), sigmaz()) \
-      + tensor(sigmay(), identity(2))
-H_c = [tensor(sigmax(), identity(2)) - tensor(sigmay(), identity(2))]
+H_d = tensor(sigmax(), sigmax()) + tensor(sigmay(), sigmay()) + tensor(sigmaz(), sigmaz())
+H_c = [tensor(sigmax(), identity(2)), tensor(sigmay(), identity(2))]
 # start point for the gate evolution
 X_0 = identity(4)
 # Target for the gate evolution
@@ -78,7 +77,7 @@ output_control = "../control/ADMM/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}_obj{
 # solve the optimization model
 CNOT_opt_admm = Optcontrol_ADMM_CNOT()
 CNOT_opt_admm.build_optimizer(H_d, H_c, X_0, X_targ, args.n_ts, args.evo_time,
-                              amp_lbound=0, amp_ubound=1,
+                              amp_lbound=0, amp_ubound=1, sum_cons_1=False,
                               fid_err_targ=args.fid_err_targ, min_grad=args.min_grad, max_iter_step=args.max_iter_step,
                               max_wall_time_step=args.max_time_step, fid_type="UNIT", phase_option="PSU",
                               p_type=args.initial_type, seed=None, constant=args.offset,

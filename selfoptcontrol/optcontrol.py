@@ -10,7 +10,7 @@ import qutip.control.pulsegen as pulsegen
 
 
 def optcontrol(example_name, H_d, H_c, X_0, X_targ, n_ts, evo_time, initial_type, initial_control,
-               output_num=None, output_fig=None, output_control=None, sum_one_constraint=False,
+               output_num=None, output_fig=None, output_control=None, sum_cons_1=False,
                fid_err_targ=1e-10, max_iter=500, max_wall_time=600, min_grad=1e-10, constant=0.5):
     """
 
@@ -36,13 +36,13 @@ def optcontrol(example_name, H_d, H_c, X_0, X_targ, n_ts, evo_time, initial_type
     # Set this to None or logging.WARN for 'quiet' execution
     log_level = logging.INFO
 
-    if sum_one_constraint:
-        # if there are constraints about the summation, we modify the control Hamiltonians
-        # The control Hamiltonians
-        H_c_origin = H_c
-        H_c = [H_c_origin[i] - H_c_origin[-1] for i in range(len(H_c_origin) - 1)]
-        # Drift Hamiltonian
-        H_d = H_d + H_c_origin[-1]
+    # if sum_cons_1:
+    #     # if there are constraints about the summation, we modify the control Hamiltonians
+    #     # The control Hamiltonians
+    #     H_c_origin = H_c
+    #     H_c = [H_c_origin[i] - H_c_origin[-1] for i in range(len(H_c_origin) - 1)]
+    #     # Drift Hamiltonian
+    #     H_d = H_d + H_c_origin[-1]
 
     # Number of controllers
     n_ctrls = len(H_c)
@@ -85,7 +85,10 @@ def optcontrol(example_name, H_d, H_c, X_0, X_targ, n_ts, evo_time, initial_type
                 init_amps[:, j] = offset[j]
         else:
             file = open(initial_control)
-            warm_start_control = np.loadtxt(file, delimiter=",")[:, 0]
+            if sum_cons_1:
+                warm_start_control = np.loadtxt(file, delimiter=",")[:, 0]
+            else:
+                warm_start_control = np.loadtxt(file, delimiter=",")
             evo_time_start = warm_start_control.shape[0]
             step = n_ts / evo_time_start
             for j in range(n_ctrls):
@@ -125,15 +128,15 @@ def optcontrol(example_name, H_d, H_c, X_0, X_targ, n_ts, evo_time, initial_type
         ax1.step(result.time,
                  np.hstack((result.initial_amps[:, j], result.initial_amps[-1, j])),
                  where='post')
-    if n_ctrls == 1:
+    if sum_cons_1:
         ax1.step(result.time,
                  np.hstack((1 - result.initial_amps[:, 0], 1 - result.initial_amps[-1, 0])),
                  where='post')
-    if sum_one_constraint:
-        ax1.step(result.time,
-                 np.hstack((1 - sum(result.initial_amps[:, j] for j in range(n_ctrls)),
-                            1 - sum(result.initial_amps[-1, j] for j in range(n_ctrls)))),
-                 where='post')
+    # if sum_one_constraint:
+    #     ax1.step(result.time,
+    #              np.hstack((1 - sum(result.initial_amps[:, j] for j in range(n_ctrls)),
+    #                         1 - sum(result.initial_amps[-1, j] for j in range(n_ctrls)))),
+    #              where='post')
 
     ax2 = fig1.add_subplot(2, 1, 2)
     ax2.set_title("Optimised Control Sequences")
@@ -143,29 +146,29 @@ def optcontrol(example_name, H_d, H_c, X_0, X_targ, n_ts, evo_time, initial_type
         ax2.step(result.time,
                  np.hstack((result.final_amps[:, j], result.final_amps[-1, j])),
                  where='post')
-    if n_ctrls == 1:
+    if sum_cons_1:
         ax1.step(result.time,
                  np.hstack((1 - result.final_amps[:, 0], 1 - result.final_amps[-1, 0])),
                  where='post')
-    if sum_one_constraint:
-        ax2.step(result.time,
-                 np.hstack((1 - sum(result.final_amps[:, j] for j in range(n_ctrls)),
-                            1 - sum(result.final_amps[-1, j] for j in range(n_ctrls)))),
-                 where='post')
+    # if sum_one_constraint:
+    #     ax2.step(result.time,
+    #              np.hstack((1 - sum(result.final_amps[:, j] for j in range(n_ctrls)),
+    #                         1 - sum(result.final_amps[-1, j] for j in range(n_ctrls)))),
+    #              where='post')
     plt.tight_layout()
     if output_fig:
         plt.savefig(output_fig)
 
     final_amps = np.zeros((n_ts, max(n_ctrls, 2)))
-    if sum_one_constraint:
-        final_amps = np.zeros((n_ts, n_ctrls + 1))
+    # if sum_one_constraint:
+    #     final_amps = np.zeros((n_ts, n_ctrls + 1))
     for j in range(n_ctrls):
         final_amps[:, j] = result.final_amps[:, j]
-    if n_ctrls == 1:
+    if sum_cons_1:
         final_amps[:, 1] = 1 - result.final_amps[:, 0]
-    if sum_one_constraint:
-        for t in range(n_ts):
-            final_amps[t, n_ctrls] = 1 - sum(result.final_amps[t, j] for j in range(n_ctrls))
+    # if sum_one_constraint:
+    #     for t in range(n_ts):
+    #         final_amps[t, n_ctrls] = 1 - sum(result.final_amps[t, j] for j in range(n_ctrls))
 
     if output_control:
         np.savetxt(output_control, final_amps, delimiter=",")

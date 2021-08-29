@@ -39,9 +39,8 @@ args = parser.parse_args()
 # a two-qubit system with target control mode as CNOT gate with summation one constraint
 # The control Hamiltonians (Qobj classes)
 # Drift Hamiltonian
-H_d = tensor(sigmax(), sigmax()) + tensor(sigmay(), sigmay()) + tensor(sigmaz(), sigmaz()) \
-      + tensor(sigmay(), identity(2))
-H_c = [tensor(sigmax(), identity(2)) - tensor(sigmay(), identity(2))]
+H_d = tensor(sigmax(), sigmax()) + tensor(sigmay(), sigmay()) + tensor(sigmaz(), sigmaz())
+H_c = [tensor(sigmax(), identity(2)), tensor(sigmay(), identity(2))]
 # start point for the gate evolution
 X_0 = identity(4)
 # Target for the gate evolution

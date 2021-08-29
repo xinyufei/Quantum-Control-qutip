@@ -94,28 +94,29 @@ class Optcontrol_ADMM_CNOT():
         self.max_iter_admm = max_iter_admm
         self.max_wall_time_admm = max_wall_time_admm
         self.admm_err_targ = admm_err_targ
-        self.alpha = alpha * 2
         self.rho = rho
         self.seed = seed
+        self.alpha = alpha
 
         if self.sum_cons_1:
-            H_c_origin = H_c
-            # Controller Hamiltonian
-            self.H_c = [H_c_origin[i].full() - H_c_origin[-1].full() for i in range(len(H_c_origin) - 1)]
-            self.H_c_qobj = [H_c_origin[i] - H_c_origin[-1] for i in range(len(H_c_origin) - 1)]
-            # Drift Hamiltonian
-            self.H_d = H_d.full() + H_c_origin[-1].full()
-            self.H_d_qobj = H_d + H_c_origin[-1]
+            # H_c_origin = H_c
+            # # Controller Hamiltonian
+            # self.H_c = [H_c_origin[i].full() - H_c_origin[-1].full() for i in range(len(H_c_origin) - 1)]
+            # self.H_c_qobj = [H_c_origin[i] - H_c_origin[-1] for i in range(len(H_c_origin) - 1)]
+            # # Drift Hamiltonian
+            # self.H_d = H_d.full() + H_c_origin[-1].full()
+            # self.H_d_qobj = H_d + H_c_origin[-1]
+            self.alpha = 2 * alpha
 
         self.n_ctrls = len(self.H_c)
         self.rho = rho
         self.u = np.zeros((self.n_ts, self.n_ctrls))
-        if self.sum_cons_1:
-            self.v = np.zeros((self.n_ts - 1, self.n_ctrls + 1))
-            self._lambda = np.zeros((self.n_ts - 1, self.n_ctrls + 1))
-        else:
-            self.v = np.zeros((self.n_ts - 1, self.n_ctrls))
-            self._lambda = np.zeros((self.n_ts - 1, self.n_ctrls))
+        # if self.sum_cons_1:
+        #     self.v = np.zeros((self.n_ts - 1, self.n_ctrls + 1))
+        #     self._lambda = np.zeros((self.n_ts - 1, self.n_ctrls + 1))
+        # else:
+        self.v = np.zeros((self.n_ts - 1, self.n_ctrls))
+        self._lambda = np.zeros((self.n_ts - 1, self.n_ctrls))
 
         self.cur_obj = 0
         self.onto = [None] * (self.n_ts + 1)
@@ -147,7 +148,10 @@ class Optcontrol_ADMM_CNOT():
             self.init_amps = np.zeros((self.n_ts, self.n_ctrls)) + self.constant
         if self.p_type == "WARM":
             # file = open(self.initial_control)
-            warm_start_control = np.loadtxt(self.initial_control, delimiter=",")[:, 0]
+            if self.sum_cons_1:
+                warm_start_control = np.loadtxt(self.initial_control, delimiter=",")[:, 0]
+            else:
+                warm_start_control = np.loadtxt(self.initial_control, delimiter=",")
             evo_time_start = warm_start_control.shape[0]
             step = self.n_ts / evo_time_start
             for j in range(self.n_ctrls):
@@ -179,10 +183,10 @@ class Optcontrol_ADMM_CNOT():
         norm = sum(sum(np.power(control_amps[time_step + 1, j] - control_amps[time_step, j] - self.v[time_step, j]
                                 + self._lambda[time_step, j], 2) for time_step in range(self.n_ts - 1))
                    for j in range(self.n_ctrls))
-        if self.sum_cons_1:
-            norm += sum(np.power(sum(control_amps[time_step, j] - control_amps[time_step + 1, j]
-                                     for j in range(self.n_ctrls)) - self.v[time_step, self.n_ctrls]
-                                 + self._lambda[time_step, self.n_ctrls], 2) for time_step in range(self.n_ts - 1))
+        # if self.sum_cons_1:
+        #     norm += sum(np.power(sum(control_amps[time_step, j] - control_amps[time_step + 1, j]
+        #                              for j in range(self.n_ctrls)) - self.v[time_step, self.n_ctrls]
+        #                          + self._lambda[time_step, self.n_ctrls], 2) for time_step in range(self.n_ts - 1))
         return norm
 
     def compute_tv_norm(self):
@@ -309,15 +313,15 @@ class Optcontrol_ADMM_CNOT():
                     self.v[t, j] = self.alpha / self.rho + temp
                 if -self.alpha / self.rho <= temp <= self.alpha / self.rho:
                     self.v[t, j] = 0
-        if self.sum_cons_1:
-            for t in range(self.n_ts - 1):
-                temp = sum(self.u[t, j] - self.u[t + 1, j] for j in range(self.n_ctrls)) + self._lambda[t, self.n_ctrls]
-                if temp > self.alpha / self.rho:
-                    self.v[t, self.n_ctrls] = -self.alpha / self.rho + temp
-                if temp < -self.alpha / self.rho:
-                    self.v[t, self.n_ctrls] = self.alpha / self.rho + temp
-                if -self.alpha / self.rho <= temp <= self.alpha / self.rho:
-                    self.v[t, self.n_ctrls] = 0
+        # if self.sum_cons_1:
+        #     for t in range(self.n_ts - 1):
+        #         temp = sum(self.u[t, j] - self.u[t + 1, j] for j in range(self.n_ctrls)) + self._lambda[t, self.n_ctrls]
+        #         if temp > self.alpha / self.rho:
+        #             self.v[t, self.n_ctrls] = -self.alpha / self.rho + temp
+        #         if temp < -self.alpha / self.rho:
+        #             self.v[t, self.n_ctrls] = self.alpha / self.rho + temp
+        #         if -self.alpha / self.rho <= temp <= self.alpha / self.rho:
+        #             self.v[t, self.n_ctrls] = 0
 
     def _update_dual(self):
         for j in range(self.n_ctrls):
@@ -331,9 +335,9 @@ class Optcontrol_ADMM_CNOT():
     def _admm_err(self):
         err = sum(sum(np.power(self.u[t + 1, j] - self.u[t, j] - self.v[t, j], 2) for j in range(self.n_ctrls))
                   for t in range(self.n_ts - 1))
-        if self.sum_cons_1:
-            err += sum(np.power(sum(self.u[t, j] - self.u[t + 1, j] for j in range(self.n_ctrls))
-                                - self.v[t, self.n_ctrls], 2) for t in range(self.n_ts - 1))
+        # if self.sum_cons_1:
+        #     err += sum(np.power(sum(self.u[t, j] - self.u[t + 1, j] for j in range(self.n_ctrls))
+        #                         - self.v[t, self.n_ctrls], 2) for t in range(self.n_ts - 1))
         return err
 
     def optimize_admm(self):
@@ -386,7 +390,10 @@ class Optcontrol_ADMM_CNOT():
         print("Final fidelity error {}".format(1 - fid), file=report)
         print("Final objective value {}".format(self.cur_origin_obj), file=report)
         print("Final penalized TV regularizer {}".format(self.alpha * self.compute_tv_norm()), file=report)
-        print("Final norm value {}".format(2 * self.compute_tv_norm()), file=report)
+        if self.sum_cons_1:
+            print("Final norm value {}".format(2 * self.compute_tv_norm()), file=report)
+        else:
+            print("Final norm value {}".format(self.compute_tv_norm()), file=report)
         print("Final error {}".format(self.err_list[-1]), file=report)
         print("Terminate reason {}".format(tr), file=report)
         print("Number of iterations {}".format(self.admm_num_iter), file=report)
@@ -402,9 +409,11 @@ class Optcontrol_ADMM_CNOT():
         #     final_amps[:, j] = self.u[:, j]
         # if self.sum_cons_1:
         final_amps = np.zeros((self.n_ts, 2))
-        for t in range(self.n_ts):
-            final_amps[t, 1] = 1 - self.u[t, 0]
-            final_amps[t, 0] = self.u[t, 0]
+        final_amps[:, 0] = self.u[:, 0]
+        if self.sum_cons_1:
+            final_amps[:, 1] = 1 - self.u[:, 0]
+        else:
+            final_amps[:, 1] = self.u[:, 1]
 
         if self.output_control:
             np.savetxt(self.output_control, final_amps, delimiter=",")
@@ -418,11 +427,11 @@ class Optcontrol_ADMM_CNOT():
         ax1.set_ylabel("Control amplitude")
         for j in range(self.n_ctrls):
             ax1.step(time_list, np.hstack((initial_amps[:, j], initial_amps[-1, j])), where='post')
-        if self.n_ctrls == 1:
-            ax1.step(time_list, np.hstack((1 - initial_amps[:, 0], 1 - initial_amps[-1, 0])), where='post')
         if self.sum_cons_1:
-            ax1.step(time_list, np.hstack((1 - sum(initial_amps[:, j] for j in range(self.n_ctrls)),
-                                           1 - sum(initial_amps[-1, j] for j in range(self.n_ctrls)))), where='post')
+            ax1.step(time_list, np.hstack((1 - initial_amps[:, 0], 1 - initial_amps[-1, 0])), where='post')
+        # if self.sum_cons_1:
+        #     ax1.step(time_list, np.hstack((1 - sum(initial_amps[:, j] for j in range(self.n_ctrls)),
+        #                                    1 - sum(initial_amps[-1, j] for j in range(self.n_ctrls)))), where='post')
 
         ax2 = fig1.add_subplot(2, 1, 2)
         ax2.set_title("Optimised Control Sequences")

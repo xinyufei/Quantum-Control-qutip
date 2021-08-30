@@ -112,10 +112,10 @@ class Rounding:
 
         self.b_bin = binapprox.b_bin.T
 
-        if compare:
+        if self.compare:
             self.draw_compare_figure()
 
-        if bin:
+        if self.bin:
             self.draw_bin_figure()
 
         return self.b_bin, end - start
@@ -143,10 +143,10 @@ class Rounding:
             for k in range(self.time_steps):
                 self.b_bin[k, j] = bin_val[k, j].x
 
-        if compare:
+        if self.compare:
             self.draw_compare_figure()
 
-        if bin:
+        if self.bin:
             self.draw_bin_figure()
 
         return self.b_bin, end - start

@@ -125,7 +125,7 @@ class Rounding:
         start = time.time()
 
         round = gb.Model()
-        bin_val = round.addVars(self.time_steps, self.n_ctrls, type=gb.GRB.BINARY)
+        bin_val = round.addVars(self.time_steps, self.n_ctrls, vtype=gb.GRB.BINARY)
         up_diff = round.addVar(lb=0)
 
         round.addConstrs(gb.quicksum(self.b_rel[t, j] - bin_val[t, j] for t in range(k)) * self.delta_t + up_diff >= 0

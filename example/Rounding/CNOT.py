@@ -53,15 +53,15 @@ if not os.path.exists("../figure/Rounding/"):
     os.makedirs("../figure/Rounding/")
 
 output_fig = "../figure/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0]
-if type == "SUR":
+if args.type == "SUR":
     output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.log"
     output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.log"
-if type == "minup":
+if args.type == "minup":
     output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
                  + "_minup" + str(args.min_up_times) + ".log"
     output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
                      + "_minup" + str(args.min_up_times) + ".csv"
-if type == "maxswitch":
+if args.type == "maxswitch":
     output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
                  + "_maxswitch" + str(args.max_switches) + ".log"
     output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
@@ -83,10 +83,10 @@ bin_result = time_evolution(h_d_mat, h_c_mat, args.n_ts, args.evo_time, b_bin, X
 
 f = open(output_num, "w+")
 print("computational time", c_time, file=f)
-print("original objective", compute_obj_fid(X_targ.full(), bin_result), file=f)
+print("original objective", compute_obj_fid(X_targ, bin_result), file=f)
 print("total tv norm", compute_TV_norm(b_bin), file=f)
 f.close()
 
-np.savetxt(output_control, b_bin, delimeter=',')
+np.savetxt(output_control, b_bin, delimiter=',')
 
 

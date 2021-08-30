@@ -60,14 +60,14 @@ if args.type == "SUR":
     output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.log"
 if args.type == "minup":
     output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
-                 + "_minup" + str(args.min_up_times) + ".log"
+                 + "_minup" + str(args.min_up_time) + ".log"
     output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
-                     + "_minup" + str(args.min_up_times) + ".csv"
+                     + "_minup" + str(args.min_up_time) + ".csv"
 if args.type == "maxswitch":
     output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
-                 + "_maxswitch" + str(args.max_switches) + ".log"
+                 + "_maxswitch" + str(args.max_switch) + ".log"
     output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
-                     + "_maxswitch" + str(args.max_switches) + ".csv"
+                     + "_maxswitch" + str(args.max_switch) + ".csv"
 
 # round the solution
 b_rel = np.loadtxt(args.initial_control, delimiter=',')

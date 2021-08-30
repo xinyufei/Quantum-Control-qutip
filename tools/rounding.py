@@ -135,10 +135,10 @@ class Rounding:
 
         if self.type == "minup":
             v_var = round.addVars(self.time_steps - 1, self.n_ctrls, lb=0)
-            tr.addConstrs(u_var[t, j] - u_var[t + 1, j] + v_var[t, j] >= 0 for t in range(self.time_steps - 1)
-                          for j in range(self.n_ctrls))
-            tr.addConstrs(u_var[t, j] - u_var[t + 1, j] - v_var[t, j] <= 0 for t in range(self.time_steps - 1)
-                          for j in range(self.n_ctrls))
+            round.addConstrs(bin_val[t, j] - bin_val[t + 1, j] + v_var[t, j] >= 0 for t in range(self.time_steps - 1)
+                             for j in range(self.n_ctrls))
+            round.addConstrs(bin_val[t, j] - bin_val[t + 1, j] - v_var[t, j] <= 0 for t in range(self.time_steps - 1)
+                             for j in range(self.n_ctrls))
             round.addConstrs(gb.quicksum(v_var[t + tt, j] for tt in range(self.min_up_times)) <= 1
                              for t in range(self.time_steps - self.min_up_times) for j in range(self.n_ctrls))
             round.addConstrs(gb.quicksum(v_var[t, j] for t in range(self.min_up_times - 1)) == 0
@@ -146,12 +146,12 @@ class Rounding:
 
         if self.type == 'maxswitch':
             v_var = round.addVars(self.time_steps - 1, self.n_ctrls, lb=0)
-            tr.addConstrs(u_var[t, j] - u_var[t + 1, j] + v_var[t, j] >= 0 for t in range(self.time_steps - 1)
-                          for j in range(self.n_ctrls))
-            tr.addConstrs(u_var[t, j] - u_var[t + 1, j] - v_var[t, j] <= 0 for t in range(self.time_steps - 1)
-                          for j in range(self.n_ctrls))
-            tr.addConstrs(gb.quicksum(v_var[t, j] for t in range(self.time_steps)) <= self.max_switches
-                          for j in range(self.n_ctrls))
+            round.addConstrs(bin_val[t, j] - bin_val[t + 1, j] + v_var[t, j] >= 0 for t in range(self.time_steps - 1)
+                             for j in range(self.n_ctrls))
+            round.addConstrs(bin_val[t, j] - bin_val[t + 1, j] - v_var[t, j] <= 0 for t in range(self.time_steps - 1)
+                             for j in range(self.n_ctrls))
+            round.addConstrs(gb.quicksum(v_var[t, j] for t in range(self.time_steps - 1)) <= self.max_switches
+                             for j in range(self.n_ctrls))
 
         round.setObjective(up_diff)
         round.optimize()

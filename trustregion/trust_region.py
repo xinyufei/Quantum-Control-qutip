@@ -317,7 +317,7 @@ class TrustRegion:
                                   for j in range(self.n_ctrl))
                 if cons_parameter['hard_type'] == 'maxswitch':
                     max_switches = cons_parameter['switch']
-                    tr.addConstrs(gb.quicksum(v_var[t, j] for t in range(self.n_ts)) <= max_switches
+                    tr.addConstrs(gb.quicksum(v_var[t, j] for t in range(self.n_ts - 1)) <= max_switches
                                   for j in range(self.n_ctrl))
                 if self.n_ctrl > 1 and sos1:
                     tr.addConstrs(gb.quicksum(u_var[t, j] for j in range(self.n_ctrl)) == 1 for t in range(self.n_ts))

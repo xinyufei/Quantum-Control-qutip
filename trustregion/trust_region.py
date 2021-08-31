@@ -244,6 +244,7 @@ class TrustRegion:
 
         out_log = open(self.out_log_file, "a+")
         print("objective value without tv norm", obj, file=out_log)
+        print("alpha", self.alpha, file=out_log)
         print("objective value with tv norm", obj + self.alpha * tv_u_tilde, file=out_log)
         print("norm", tv_u_tilde, file=out_log)
         print("computational time", end - start, file=out_log)

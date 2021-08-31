@@ -1,0 +1,10 @@
+[20]
+predictive decrease -0.11996818169880163 actual decrease -2.3817246029877097
+objective value without tv norm -0.7962453789871864
+objective value with tv norm -0.7199927669405976
+objective value without tv norm -0.7962453789871864
+alpha 0.1
+objective value with tv norm -0.7199927669405976
+norm 0.7625261204658884
+computational time 0.06748580932617188
+total iterations 0

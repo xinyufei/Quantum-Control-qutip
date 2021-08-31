@@ -30,6 +30,9 @@ parser.add_argument('--min_up', help='minimum up time steps', type=int, default=
 parser.add_argument('--max_switch', help='maximum number of switches', type=int, default=10)
 
 args = parser.parse_args()
+# args.type = "minup"
+# args.initial_control = "../control/Continuous/CNOT_evotime10.0_n_ts200_ptypeCONSTANT_offset0.5_objUNIT.csv"
+# args.sos1 = 1
 # QuTiP control modules
 # a two-qubit system with target control mode as CNOT gate with summation one constraint
 # The control Hamiltonians (Qobj classes)
@@ -58,9 +61,9 @@ if args.type == "SUR":
     output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.log"
 if args.type == "minup":
     output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
-                 + "_minup" + str(args.min_up_time) + ".log"
+                 + "_minup" + str(args.min_up) + ".log"
     output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
-                     + "_minup" + str(args.min_up_time) + ".csv"
+                     + "_minup" + str(args.min_up) + ".csv"
 if args.type == "maxswitch":
     output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
                  + "_maxswitch" + str(args.max_switch) + ".log"

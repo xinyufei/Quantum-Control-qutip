@@ -11,7 +11,7 @@ from selfoptcontrol.optcontrol_admm_cnot import Optcontrol_ADMM_CNOT
 
 parser = argparse.ArgumentParser()
 # name of example
-parser.add_argument('--name', help='example name', type=str, default='CNOTADMMSOS1')
+parser.add_argument('--name', help='example name', type=str, default='CNOTADMM')
 # evolution time
 parser.add_argument('--evo_time', help='evolution time', type=float, default=1)
 # time steps

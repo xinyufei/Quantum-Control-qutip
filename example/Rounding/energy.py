@@ -22,6 +22,8 @@ parser.add_argument('--evo_time', help='evolution time', type=float, default=2)
 parser.add_argument('--n_ts', help='time steps', type=int, default=40)
 # initial control file
 parser.add_argument('--initial_control', help='file name of initial control', type=str, default=None)
+# if sos1 property holds
+parser.add_argument('--sos1', help='sos1 property holds or not', type=int, default=1)
 # rounding type
 parser.add_argument('--type', help='type of rounding (SUR, minup, maxswitch)', type=str, default='SUR')
 # minimum up time steps

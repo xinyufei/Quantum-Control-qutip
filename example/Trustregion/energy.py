@@ -59,15 +59,18 @@ if not os.path.exists("../figure/Trustregion/"):
     os.makedirs("../figure/Trustregion/")
 
 if args.tr_type in ['tv', 'tvc']:
-    output_num = "../output/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
-                 "_sigma{}_eta{}_threshold{}_iter{}_type{}".format(args.sigma, args.eta, args.threshold, args.max_iter,
-                                                                   args.tr_type) + ".log"
-    output_fig = "../figure/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
-                 "_sigma{}_eta{}_threshold{}_iter{}_type{}".format(args.sigma, args.eta, args.threshold, args.max_iter,
-                                                                   args.tr_type) + ".png"
-    output_control = "../control/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
-                     "_sigma{}_eta{}_threshold{}_iter{}_type{}".format(args.sigma, args.eta, args.threshold,
-                                                                       args.max_iter, args.tr_type) + ".csv"
+    output_num = "../output/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[
+        0] + "_alpha{}_sigma{}_eta{}_threshold{}_iter{}_type{}".format(args.alpha, args.sigma, args.eta,
+                                                                       args.threshold, args.max_iter,
+                                                                       args.tr_type) + ".log"
+    output_fig = "../figure/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[
+        0] + "_alpha{}_sigma{}_eta{}_threshold{}_iter{}_type{}".format(args.alpha, args.sigma, args.eta,
+                                                                       args.threshold, args.max_iter,
+                                                                       args.tr_type) + ".png"
+    output_control = "../control/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[
+        0] + "_alpha{}_sigma{}_eta{}_threshold{}_iter{}_type{}".format(args.alpha, args.sigma, args.eta,
+                                                                       args.threshold, args.max_iter,
+                                                                       args.tr_type) + ".csv"
     tr_optimizer = TrustRegion()
     tr_optimizer.build_optimizer(None, [B, C], y0[0:2 ** args.n], None, args.n_ts, args.evo_time, alpha=args.alpha,
                                  obj_type='energy', initial_file=args.initial_file,

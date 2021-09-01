@@ -81,4 +81,8 @@ cd ../Trustregion/
 #    --initial_file="../control/Rounding/CNOTADMM_evotime10.0_n_ts200_ptypeWARM_offset0.5_objUNIT_penalty0.001_ADMM_0.25_iter100_maxswitch20.csv" \
 #    --alpha=0.001 --tr_type="hard" --hard_type="maxswitch" --max_switch=20
 
+#python CNOT.py --evo_time=10 --n_ts=200 \
+#    --initial_file="../control/Rounding/CNOT_evotime10.0_n_ts200_ptypeCONSTANT_offset0.5_objUNIT_SUR.csv" \
+#    --alpha=0.001 --tr_type="tv"
+
 cd ../../scripts/linux

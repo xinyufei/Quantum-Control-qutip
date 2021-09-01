@@ -106,14 +106,14 @@ if args.tr_type == 'hard':
                          "_sigma{}_eta{}_threshold{}_iter{}_type{}_switch{}".format(
                              args.sigma, args.eta, args.threshold, args.max_iter, args.hard_type,
                              args.max_switch) + ".csv"
-        cons_parameter = dict(hard_type=args.hard_type, time=args.max_switch)
+        cons_parameter = dict(hard_type=args.hard_type, switch=args.max_switch)
 
     tr_optimizer = TrustRegion()
     tr_optimizer.build_optimizer(None, [B, C], y0[0:2 ** args.n], None, args.n_ts, args.evo_time, alpha=args.alpha,
                                  obj_type='energy', initial_file=args.initial_file,
                                  sigma=args.sigma, eta=args.eta, delta_threshold=args.threshold,
                                  max_iter=args.max_iter, out_log_file=output_num, out_control_file=output_control)
-    tr_optimizer.trust_region_method_hard()
+    tr_optimizer.trust_region_method_hard(cons_parameter)
 
 b_bin = np.loadtxt(output_control, delimiter=",")
 if len(b_bin.shape) == 1:

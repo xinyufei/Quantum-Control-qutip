@@ -58,7 +58,7 @@ if not os.path.exists("../figure/Rounding/"):
 output_fig = "../figure/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0]
 if args.type == "SUR":
     output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.log"
-    output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.log"
+    output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.csv"
 if args.type == "minup":
     output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
                  + "_minup" + str(args.min_up) + ".log"

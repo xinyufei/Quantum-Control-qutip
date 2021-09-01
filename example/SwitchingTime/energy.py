@@ -51,7 +51,8 @@ warm_start_length, num_switch, ctrl_hamil_idx = obtain_switching_time(args.admm_
 # sequence of control hamiltonians
 ctrl_hamil = [B, C]
 
-X_0 = np.expand_dims(y0[0:2**args.n], 1)
+# X_0 = np.expand_dims(y0[0:2**args.n], 1)
+X_0 = y0[0:2 ** args.n]
 
 if args.initial_type == "ave":
     initial = np.ones(num_switch + 1) * evo_time / (num_switch + 1)
@@ -107,4 +108,5 @@ energy_opt.draw_control(figure_name)
 b_bin = np.loadtxt(control_name, delimiter=",")
 f = open(output_name, "a+")
 print("total tv norm", compute_TV_norm(b_bin), file=f)
+print("initial file", args.admm_control, file=f)
 f.close()

@@ -87,7 +87,7 @@ class SwitchTimeOpt:
             fid = np.abs(np.trace(self.xtarg.conj().T.dot(final_state))) / self.xtarg.shape[0]
             return 1 - fid
         if self.obj_type == "energy":
-            obj = np.real(final_state.conj().T.dot(self.hlist[1].dot(final_state)))[0]
+            obj = np.real(final_state.conj().T.dot(self.hlist[1].dot(final_state)))
             return obj
 
     def optimize(self):
@@ -138,7 +138,7 @@ class SwitchTimeOpt:
         cur_time_r = 0
         for k in range(self.num_switch):
             cur_time_r = self.switch_time[k]
-            for time_step in range(int(cur_time_l / delta_t), int(cur_time_r / delta_t)):
+            for time_step in range(int(cur_time_l / delta_t), min(int(cur_time_r / delta_t), num_time_step)):
                 control[time_step, self.ctrl_hamil_idx[k]] = 1
             cur_time_l = cur_time_r
 

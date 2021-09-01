@@ -1,0 +1,70 @@
+     fun: -0.15628282460710763
+     jac: array([4.78040668, 0.48066217, 1.92963424, 1.92033859, 5.98459999,
+       7.09654051])
+ message: 'Positive directional derivative for linesearch'
+    nfev: 260
+     nit: 23
+    njev: 19
+  status: 8
+ success: False
+       x: array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5])
+switching time points [0.5 1.  1.5 2.  2.5]
+computational time 6.3576226234436035
+     fun: -0.15628282460710763
+     jac: array([4.78040668, 0.48066217, 1.92963424, 1.92033859, 5.98459999,
+       7.09654051])
+ message: 'Positive directional derivative for linesearch'
+    nfev: 260
+     nit: 23
+    njev: 19
+  status: 8
+ success: False
+       x: array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5])
+switching time points [0.5 1.  1.5 2.  2.5]
+computational time 7.002349853515625
+     fun: -0.15628282460710763
+     jac: array([4.78040668, 0.48066217, 1.92963424, 1.92033859, 5.98459999,
+       7.09654051])
+ message: 'Positive directional derivative for linesearch'
+    nfev: 260
+     nit: 23
+    njev: 19
+  status: 8
+ success: False
+       x: array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5])
+switching time points [0.5 1.  1.5 2.  2.5]
+computational time 6.038610219955444
+total tv norm 6.0
+initial file ../control/Trustregion/Energy6_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv
+     fun: -0.15628282460710763
+     jac: array([4.78040668, 0.48066217, 1.92963424, 1.92033859, 5.98459999,
+       7.09654051])
+ message: 'Positive directional derivative for linesearch'
+    nfev: 260
+     nit: 23
+    njev: 19
+  status: 8
+ success: False
+       x: array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5])
+switching time points [0.5 1.  1.5 2.  2.5]
+computational time 6.266142129898071
+alpha 0.01
+tv norm 6.0
+objective with tv norm -0.09628282460710763
+total tv norm 6.0
+initial file ../control/Trustregion/Energy6_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv
+     fun: -0.15628282460710763
+     jac: array([4.78040668, 0.48066217, 1.92963424, 1.92033859, 5.98459999,
+       7.09654051])
+ message: 'Positive directional derivative for linesearch'
+    nfev: 260
+     nit: 23
+    njev: 19
+  status: 8
+ success: False
+       x: array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5])
+switching time points [0.5 1.  1.5 2.  2.5]
+computational time 5.832481622695923
+alpha 0.01
+tv norm 6.0
+objective with tv norm -0.09628282460710763

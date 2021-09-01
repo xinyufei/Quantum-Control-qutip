@@ -131,7 +131,7 @@ class TrustRegion:
             norm = 2 * norm
         return norm
 
-    def trust_region_method_tv(self, type='binary', sos1=True):
+    def trust_region_method_tv(self, type='binary', sos1=1):
         delta_0 = self.n_ts * self.n_ctrl
 
         out_log = open(self.out_log_file, "w+")
@@ -182,7 +182,7 @@ class TrustRegion:
                               for j in range(self.n_ctrl))
                 tr.addConstrs(u_var[t, j] - u_var[t + 1, j] - v_var[t, j] <= 0 for t in range(self.n_ts - 1)
                               for j in range(self.n_ctrl))
-                if self.n_ctrl > 1 and sos1:
+                if self.n_ctrl > 1 and sos1 == 1:
                     tr.addConstrs(gb.quicksum(u_var[t, j] for j in range(self.n_ctrl)) == 1 for t in range(self.n_ts))
                 # solve the optimization model
                 tr.optimize()
@@ -261,7 +261,7 @@ class TrustRegion:
 
         return u_tilde, obj, obj + self.alpha * tv_u_tilde
 
-    def trust_region_method_hard(self, cons_parameter=None, sos1=True):
+    def trust_region_method_hard(self, cons_parameter=None, sos1=1):
         if cons_parameter is None:
             cons_parameter = dict(hard_type='minup', time=10)
 
@@ -320,7 +320,7 @@ class TrustRegion:
                     max_switches = cons_parameter['switch']
                     tr.addConstrs(gb.quicksum(v_var[t, j] for t in range(self.n_ts - 1)) <= max_switches
                                   for j in range(self.n_ctrl))
-                if self.n_ctrl > 1 and sos1:
+                if self.n_ctrl > 1 and sos1 == 1:
                     tr.addConstrs(gb.quicksum(u_var[t, j] for j in range(self.n_ctrl)) == 1 for t in range(self.n_ts))
                 # solve the optimization model
                 tr.optimize()

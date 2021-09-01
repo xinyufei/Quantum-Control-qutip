@@ -21,7 +21,7 @@ parser.add_argument('--n_ts', help='time steps', type=int, default=20)
 # initial control file for the trust-region method
 parser.add_argument('--initial_file', help='file name of initial control', type=str, default=None)
 # if sos1 property holds
-parser.add_argument('--sos1', help='sos1 property holds or not', type=bool, default=True)
+parser.add_argument('--sos1', help='sos1 property holds or not', type=int, default=0)
 # TV regularizer parameter
 parser.add_argument('--alpha', help='TV regularizer parameter', type=float, default=0.001)
 # ratio threshold for decrease to adjust trust region
@@ -29,7 +29,7 @@ parser.add_argument('--sigma', help='ratio threshold for decrease to adjust trus
 # ratio threshold for decrease to update central point
 parser.add_argument('--eta', help='ratio threshold for decrease to update central point', type=float, default=0.001)
 # threshold for region to start precise search
-parser.add_argument('--delta_threshold', help='threshold for region to start precise search', type=int, default=30)
+parser.add_argument('--threshold', help='threshold for region to start precise search', type=int, default=30)
 # max iterations for trust-region method
 parser.add_argument('--max_iter', help='max iterations for trust-region method', type=int, default=100)
 # problem type of trust-region method
@@ -59,7 +59,7 @@ if not os.path.exists("../control/Trustregion/"):
 if not os.path.exists("../figure/Trustregion/"):
     os.makedirs("../figure/Trustregion/")
 
-if args.tr_type == 'tv':
+if args.tr_type in ['tv', 'tvc']:
     output_num = "../output/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[
         0] + "_alpha{}_sigma{}_eta{}_threshold{}_iter{}_type{}".format(args.alpha, args.sigma, args.eta,
                                                                        args.threshold, args.max_iter,
@@ -73,12 +73,15 @@ if args.tr_type == 'tv':
                                                                        args.threshold, args.max_iter,
                                                                        args.tr_type) + ".csv"
     tr_optimizer = TrustRegion()
-    tr_optimizer.build_optimizer(H_d.full(), [hc.full() for hc in H_c], X_0.full(), X_targ.full(),
-                                 args.n_ts, args.evo_time, alpha=args.alpha, obj_type='fid',
+    tr_optimizer.build_optimizer(H_d.full(), [hc.full() for hc in H_c], X_0.full(), X_targ.full(), 
+                                 args.n_ts, args.evo_time, alpha=args.alpha, obj_type="fid", 
                                  initial_file=args.initial_file,
-                                 sigma=args.sigma, eta=args.eta, delta_threshold=args.delta_threshold,
+                                 sigma=args.sigma, eta=args.eta, delta_threshold=args.threshold,
                                  max_iter=args.max_iter, out_log_file=output_num, out_control_file=output_control)
-    tr_optimizer.trust_region_method_tv(sos1=args.sos1)
+    if args.tr_type == 'tv':
+        tr_optimizer.trust_region_method_tv(sos1=args.sos1, type='binary')
+    if args.tr_type == 'tvc':
+        tr_optimizer.trust_region_method_tv(sos1=args.sos1, type='continuous')
 
 if args.tr_type == 'hard':
     if args.hard_type == 'minup':
@@ -104,15 +107,15 @@ if args.tr_type == 'hard':
                          "_sigma{}_eta{}_threshold{}_iter{}_type{}_switch{}".format(
                              args.sigma, args.eta, args.threshold, args.max_iter, args.hard_type,
                              args.max_switch) + ".csv"
-        cons_parameter = dict(hard_type=args.hard_type, time=args.max_switch)
+        cons_parameter = dict(hard_type=args.hard_type, switch=args.max_switch)
 
     tr_optimizer = TrustRegion()
     tr_optimizer.build_optimizer(H_d.full(), [hc.full() for hc in H_c], X_0.full(), X_targ.full(),
                                  args.n_ts, args.evo_time, alpha=args.alpha, obj_type='fid',
                                  initial_file=args.initial_file,
-                                 sigma=args.sigma, eta=args.eta, delta_threshold=args.delta_threshold,
+                                 sigma=args.sigma, eta=args.eta, delta_threshold=args.threshold,
                                  max_iter=args.max_iter, out_log_file=output_num, out_control_file=output_control)
-    tr_optimizer.trust_region_method_hard(sos1=args.sos1)
+    tr_optimizer.trust_region_method_hard(cons_parameter, sos1=args.sos1)
 
 b_bin = np.loadtxt(output_control, delimiter=",")
 if len(b_bin.shape) == 1:

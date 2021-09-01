@@ -43,3 +43,93 @@ computational time 0.002541065216064453
 alpha 0.01
 tv norm 0.0
 objective with tv norm 0.0
+total tv norm 0.0
+     fun: 0.0
+     jac: array([-0.])
+ message: 'Optimization terminated successfully'
+    nfev: 2
+     nit: 1
+    njev: 1
+  status: 0
+ success: True
+       x: array([2.])
+switching time points None
+computational time 0.002248048782348633
+alpha 0.01
+tv norm 0.0
+objective with tv norm 0.0
+     fun: 0.0
+     jac: array([-0.])
+ message: 'Optimization terminated successfully'
+    nfev: 2
+     nit: 1
+    njev: 1
+  status: 0
+ success: True
+       x: array([2.])
+switching time points None
+computational time 0.0023729801177978516
+alpha 0.01
+tv norm 0.0
+objective with tv norm 0.0
+total tv norm 0.0
+     fun: 0.0
+     jac: array([-0.])
+ message: 'Optimization terminated successfully'
+    nfev: 2
+     nit: 1
+    njev: 1
+  status: 0
+ success: True
+       x: array([2.])
+switching time points None
+computational time 0.002317190170288086
+alpha 0.01
+tv norm 0.0
+objective with tv norm 0.0
+total tv norm 0.0
+     fun: 0.0
+     jac: array([-0.])
+ message: 'Optimization terminated successfully'
+    nfev: 2
+     nit: 1
+    njev: 1
+  status: 0
+ success: True
+       x: array([2.])
+switching time points None
+computational time 0.0022580623626708984
+alpha 0.01
+tv norm 0.0
+objective with tv norm 0.0
+total tv norm 0.0
+total tv norm 0.0
+     fun: 0.0
+     jac: array([-0.])
+ message: 'Optimization terminated successfully'
+    nfev: 2
+     nit: 1
+    njev: 1
+  status: 0
+ success: True
+       x: array([2.])
+switching time points None
+computational time 0.002354145050048828
+alpha 0.01
+tv norm 0.0
+objective with tv norm 0.0
+total tv norm 0.0
+     fun: 0.0
+     jac: array([-0.])
+ message: 'Optimization terminated successfully'
+    nfev: 2
+     nit: 1
+    njev: 1
+  status: 0
+ success: True
+       x: array([2.])
+switching time points None
+computational time 0.002295970916748047
+alpha 0.01
+tv norm 0.0
+objective with tv norm 0.0

@@ -1,0 +1,30 @@
+total tv norm 2.0
+     fun: -0.9499532869735454
+     jac: array([-0.55416498, -0.55399737])
+ message: 'Optimization terminated successfully'
+    nfev: 18
+     nit: 6
+    njev: 6
+  status: 0
+ success: True
+       x: array([0.6434949, 0.3565051])
+switching time points [0.6434949]
+computational time 0.022210121154785156
+alpha 0.1
+tv norm 2.0
+objective with tv norm -0.7499532869735455
+total tv norm 2.0
+     fun: -0.9499532869735454
+     jac: array([-0.55416498, -0.55399737])
+ message: 'Optimization terminated successfully'
+    nfev: 18
+     nit: 6
+    njev: 6
+  status: 0
+ success: True
+       x: array([0.6434949, 0.3565051])
+switching time points [0.6434949]
+computational time 0.01057887077331543
+alpha 0.1
+tv norm 2.0
+objective with tv norm -0.7499532869735455

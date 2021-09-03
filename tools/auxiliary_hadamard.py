@@ -313,3 +313,7 @@ def generate_spin_func(qubit_num):
     # Hops,Hnames,ops_max_amp = append_separate_krons(Q_y,'z',qubit_num,qubit_state_num,Hops,Hnames,ops_max_amp,amp=max_amp)
 
     return Hops_new, H0, U0, U
+
+if __name__ == '__main__':
+    Hops_new, H0, U0, U = generate_spin_func(3)
+    print(U)

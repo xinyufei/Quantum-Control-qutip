@@ -20,6 +20,10 @@ parser.add_argument('--evo_time', help='evolution time', type=float, default=8)
 parser.add_argument('--n_ts', help='time steps', type=int, default=80)
 # initial control file
 parser.add_argument('--initial_control', help='file name of initial control', type=str, default=None)
+# if initial sos1 property holds
+parser.add_argument('--sos1', help='sos1 property holds or not', type=int, default=1)
+# if target sos1 property holds
+parser.add_argument('--t_sos1', help='sos1 property holds or not', type=int, default=1)
 # rounding type
 parser.add_argument('--type', help='type of rounding (SUR, minup, maxswitch)', type=str, default='SUR')
 # minimum up time steps
@@ -57,12 +61,12 @@ if not os.path.exists("../figure/Rounding/"):
 output_fig = "../figure/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0]
 if args.type == "SUR":
     output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.log"
-    output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.log"
+    output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.csv"
 if args.type == "minup":
     output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
-                 + "_minup" + str(args.min_up_time) + ".log"
+                 + "_minup" + str(args.min_up) + ".log"
     output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
-                     + "_minup" + str(args.min_up_time) + ".csv"
+                     + "_minup" + str(args.min_up) + ".csv"
 if args.type == "maxswitch":
     output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
                  + "_maxswitch" + str(args.max_switch) + ".log"
@@ -77,14 +81,14 @@ round.build_rounding_optimizer(b_rel, args.evo_time, args.n_ts, args.type, args.
 if args.sos1:
     b_bin, c_time = round.rounding_with_sos1()
 else:
-    b_bin, c_time = round.rounding_without_sos1()
+    b_bin, c_time = round.rounding_without_sos1(sos1=args.t_sos1)
 
 bin_result = time_evolution(H_d.full(), [hc.full() for hc in H_c], args.n_ts, args.evo_time, b_bin, X_0.full(), False,
                             1)
 
 f = open(output_num, "w+")
 print("computational time", c_time, file=f)
-print("original objective", compute_obj_energy(X_targ, bin_result), file=f)
+print("original objective", compute_obj_fid(X_targ, bin_result), file=f)
 print("total tv norm", compute_TV_norm(b_bin), file=f)
 f.close()
 

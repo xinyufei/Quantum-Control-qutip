@@ -41,7 +41,7 @@ parser.add_argument('--min_grad', help='minimum gradient for each step', type=fl
 # TV regularizer parameter
 parser.add_argument('--alpha', help='TV regularizer parameter', type=float, default=0.001)
 # Lagrangian penalty parameter
-parser.add_argument('--rho', help='Lagrangian penalty function parameter', type=float, default=1)
+parser.add_argument('--rho', help='Lagrangian penalty function parameter', type=float, default=0.001)
 # maximum iterations for ADMM
 parser.add_argument('--max_iter_admm', help='maximum iterations for ADMM', type=int, default=200)
 # maximum computational time
@@ -70,15 +70,15 @@ if not os.path.exists("../control/ADMM/"):
 if not os.path.exists("../figure/ADMM/"):
     os.makedirs("../figure/ADMM/")
 
-output_num = "../output/ADMM/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}_penalty{}_sum_penalty{}_rho{}_iter{}".format(
-    args.name + str(args.qubit_num), args.evo_time, args.n_ts, args.initial_type, args.offset, args.alpha,
-    args.sum_penalty, args.rho, args.max_iter_admm) + ".log"
-output_fig = "../figure/ADMM/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}_penalty{}_sum_penalty{}_rho{}_iter{}".format(
-    args.name + str(args.qubit_num), args.evo_time, args.n_ts, args.initial_type, args.offset, args.alpha,
-    args.sum_penalty, args.rho, args.max_iter_admm) + ".png"
-output_control = "../control/ADMM/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}_penalty{}_sum_penalty{}_rho{}_iter{}". \
-    format(args.name + str(args.qubit_num), args.evo_time, args.n_ts, args.initial_type, args.offset, args.alpha,
-           args.sum_penalty, args.rho, args.max_iter_admm) + ".csv"
+output_num = "../output/ADMM/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}_sum_penalty{}_penalty{}_ADMM_{}_iter{}". \
+    format(args.name + str(args.qubit_num), args.evo_time, args.n_ts, args.initial_type, args.offset, args.sum_penalty, 
+           args.alpha, args.rho, args.max_iter_admm) + ".log"
+output_fig = "../figure/ADMM/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}_sum_penalty{}_penalty{}_ADMM_{}_iter{}". \
+    format(args.name + str(args.qubit_num), args.evo_time, args.n_ts, args.initial_type, args.offset, args.sum_penalty, 
+           args.alpha, args.rho, args.max_iter_admm) + ".png"
+output_control = "../control/ADMM/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}_sum_penalty{}_penalty{}_ADMM_{}_iter{}". \
+    format(args.name + str(args.qubit_num), args.evo_time, args.n_ts, args.initial_type, args.offset, args.sum_penalty, 
+           args.alpha, args.rho, args.max_iter_admm) + ".csv"
 
 # solve the optimization model
 ops_max_amp = 1

@@ -1,0 +1,18 @@
+total tv norm 14.0
+initial file ../control/Trustregion/Hadamard2_evotime8.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty0.01_alpha0.0001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv
+     fun: 0.9097199709884513
+     jac: array([-0.35702392, -0.23974604, -0.33885358, -0.36505049, -0.29559592,
+       -0.30293471, -0.28630357, -0.34349347, -0.24577882, -0.3839601 ,
+       -0.36254599, -0.25248681, -0.16939001, -0.43394746, -0.13702265])
+ message: 'Iteration limit reached'
+    nfev: 2388
+     nit: 100
+    njev: 100
+  status: 9
+ success: False
+       x: array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.])
+switching time points [ 1.  2.  3.  4.  5.  6.  7.  8.  9. 10. 11. 12. 13. 14.]
+computational time 7.8839521408081055
+alpha 0.0001
+tv norm 14.0
+objective with tv norm 0.9111199709884512

@@ -109,6 +109,13 @@ class TrustRegion:
             obj = np.real(self._into[-1].conj().T.dot(self.H_c[1].dot(self._into[-1])))
         return obj
 
+    def _compute_obj_with_l2(self, control_amps, rho):
+        if self.obj_type == 'fid':
+            obj = self.optim.fid_err_func_compute(control_amps.reshape(-1))
+            obj += rho * sum(np.power(sum(control_amps[t, j] for j in range(self.n_ctrl)) - 1, 2) 
+                             for t in range(self.n_ts))
+            return obj
+
     def _compute_gradient(self, control_amps):
         if self.obj_type == 'fid':
             grad = self.optim.fid_err_grad_compute(control_amps)
@@ -124,12 +131,157 @@ class TrustRegion:
             grad = np.expand_dims(np.array(grad), 1)
         return grad
 
+    def _compute_penalized_gradient(self, control_amps, rho):
+        if self.obj_type == 'fid':
+            penalized_grad = np.zeros((self.n_ts, self.n_ctrl))
+            for t in range(self.n_ts):
+                grad_p = 2 * rho * (sum(control_amps[t, j] for j in range(self.n_ctrl)) - 1)
+                for j in range(self.n_ctrl):
+                    penalized_grad[t, j] = grad_p
+            return penalized_grad
+
     def _compute_tv_norm(self, control_amps):
         norm = sum(sum(np.abs(control_amps[t, j] - control_amps[t + 1, j]) for j in range(self.n_ctrl))
                    for t in range(self.n_ts - 1))
         if self.obj_type == 'energy':
             norm = 2 * norm
         return norm
+
+    def trust_region_method_l2_tv(self, rho):
+        delta_0 = self.n_ts * self.n_ctrl
+
+        out_log = open(self.out_log_file, "w+")
+
+        terminate = False
+        total_ite = 0
+
+        pred = np.infty
+
+        self._init_amps()
+        u_tilde = self.initial_amps.copy()
+
+        start = time.time()
+        for n in range(self.max_iter):
+            k = 0
+            delta_n = delta_0
+            delta_list = []
+
+            # get the gradient
+            grad = self._compute_gradient(u_tilde.reshape(-1))
+            penalized_grad = self._compute_penalized_gradient(u_tilde, rho)
+            # pre-compute objective value
+            # obj_u_tilde = self._compute_obj(u_tilde.reshape(-1))
+            obj_u_tilde = self._compute_obj_with_l2(u_tilde, rho)
+            # pre-compute tv norm of u_tilde
+            tv_u_tilde = self._compute_tv_norm(u_tilde)
+
+            while 1:
+                # solve the trust-region problem
+                tr = gb.Model()
+                # add variants
+                # if type == 'binary':
+                #     u_var = tr.addVars(self.n_ts, self.n_ctrl, vtype=gb.GRB.BINARY)
+                # if type == 'continuous':
+                u_var = tr.addVars(self.n_ts, self.n_ctrl, vtype=gb.GRB.CONTINUOUS)
+                v_var = tr.addVars(self.n_ts - 1, self.n_ctrl, lb=0)
+                w_var = tr.addVars(self.n_ts, self.n_ctrl, lb=0)
+                # objective function
+                tr.setObjective(gb.quicksum(gb.quicksum(
+                    (grad[t, j] + penalized_grad[t, j]) * (u_var[t, j] - u_tilde[t, j])
+                    for j in range(self.n_ctrl)) for t in range(self.n_ts))
+                                + self.alpha * gb.quicksum(gb.quicksum(v_var[t, j] for j in range(self.n_ctrl))
+                                                           for t in range(self.n_ts - 1)) - self.alpha * tv_u_tilde)
+                tr.addConstrs(u_var[t, j] - u_tilde[t, j] + w_var[t, j] >= 0 for t in range(self.n_ts)
+                              for j in range(self.n_ctrl))
+                tr.addConstrs(u_var[t, j] - u_tilde[t, j] - w_var[t, j] <= 0 for t in range(self.n_ts)
+                              for j in range(self.n_ctrl))
+                tr.addConstr(gb.quicksum(gb.quicksum(w_var[t, j] for j in range(self.n_ctrl))
+                                         for t in range(self.n_ts)) <= delta_n)
+                tr.addConstrs(u_var[t, j] - u_var[t + 1, j] + v_var[t, j] >= 0 for t in range(self.n_ts - 1)
+                              for j in range(self.n_ctrl))
+                tr.addConstrs(u_var[t, j] - u_var[t + 1, j] - v_var[t, j] <= 0 for t in range(self.n_ts - 1)
+                              for j in range(self.n_ctrl))
+                # solve the optimization model
+                tr.Params.LogToConsole = 0
+                tr.optimize()
+                # obtain the optimal solution
+                u_val = np.zeros((self.n_ts, self.n_ctrl))
+                for t in range(self.n_ts):
+                    for j in range(self.n_ctrl):
+                        u_val[t, j] = u_var[t, j].x
+                # u_val = tr.getAttr('X', u_var)
+                # compute the TV norm
+                tv_u_val = self._compute_tv_norm(u_val)
+                # compute the predictive decrease
+                pred = sum(sum((grad[t, j] + penalized_grad[t, j]) * (u_tilde[t, j] - u_val[t, j])
+                               for j in range(self.n_ctrl))
+                           for t in range(self.n_ts)) + self.alpha * tv_u_tilde - self.alpha * tv_u_val
+                # compute the actual decrease
+                # ared = obj_u_tilde + self.alpha * tv_u_tilde - self._compute_obj(u_val.reshape(-1)) \
+                #        - self.alpha * tv_u_val
+                ared = obj_u_tilde + self.alpha * tv_u_tilde - self._compute_obj_with_l2(u_val, rho) - self.alpha * tv_u_val
+
+                delta_list.append(delta_n)
+
+                if pred <= 0:
+                    # obtain the local minimum
+                    terminate = True
+                    break
+                elif ared < self.sigma * pred:
+                    # reduce the trust-region radius
+                    k = k + 1
+                    if delta_n <= self.delta_threshold:
+                        if delta_n <= 1:
+                            delta_n /= 2
+                        else:
+                            delta_n = delta_n - 1
+                    else:
+                        delta_n = max(delta_n / 2, self.delta_threshold)
+
+                # if there is sufficient decrease
+                if ared >= self.eta * pred:
+                    u_tilde = u_val
+                    tv_u_tilde = tv_u_val
+                    k = k + 1
+                    break
+
+            total_ite += k
+
+            out_log = open(self.out_log_file, "a+")
+            print(delta_list, file=out_log)
+            print("predictive decrease", pred, "actual decrease", ared, file=out_log)
+            obj = self._compute_obj_with_l2(u_tilde, rho)
+            print("objective value without tv norm", obj, file=out_log)
+            print("objective value with tv norm", obj + self.alpha * tv_u_tilde, file=out_log)
+            out_log.close()
+
+            if terminate:
+                break
+
+        end = time.time()
+
+        obj = self._compute_obj_with_l2(u_tilde, rho)
+        out_log = open(self.out_log_file, "a+")
+        print("original energy", self._compute_obj(u_tilde.reshape(-1)), file=out_log)
+        print("objective value without tv norm", obj, file=out_log)
+        print("alpha", self.alpha, file=out_log)
+        print("objective value with tv norm", obj + self.alpha * tv_u_tilde, file=out_log)
+        print("tv norm", tv_u_tilde, file=out_log)
+        print("l2 norm", sum(np.power(sum(u_tilde[t, j] for j in range(self.n_ctrl)) - 1, 2) 
+                             for t in range(self.n_ts)), file=out_log)
+        print("computational time", end - start, file=out_log)
+        print("total iterations", total_ite, file=out_log)
+        out_log.close()
+
+        if self.obj_type == 'energy':
+            final_u = np.zeros((self.n_ts, 2))
+            final_u[:, 0] = u_tilde[:, 0]
+            final_u[:, 1] = 1 - u_tilde[:, 0]
+            np.savetxt(self.out_control_file, final_u, delimiter=',')
+        else:
+            np.savetxt(self.out_control_file, u_tilde, delimiter=',')
+
+        return u_tilde, obj, obj + self.alpha * tv_u_tilde
 
     def trust_region_method_tv(self, type='binary', sos1=1):
         delta_0 = self.n_ts * self.n_ctrl
@@ -185,6 +337,7 @@ class TrustRegion:
                 if self.n_ctrl > 1 and sos1 == 1:
                     tr.addConstrs(gb.quicksum(u_var[t, j] for j in range(self.n_ctrl)) == 1 for t in range(self.n_ts))
                 # solve the optimization model
+                tr.Params.LogToConsole = 0
                 tr.optimize()
                 # obtain the optimal solution
                 u_val = np.zeros((self.n_ts, self.n_ctrl))
@@ -323,6 +476,7 @@ class TrustRegion:
                 if self.n_ctrl > 1 and sos1 == 1:
                     tr.addConstrs(gb.quicksum(u_var[t, j] for j in range(self.n_ctrl)) == 1 for t in range(self.n_ts))
                 # solve the optimization model
+                tr.Params.LogToConsole = 0
                 tr.optimize()
                 # obtain the optimal solution
                 u_val = np.zeros((self.n_ts, self.n_ctrl))

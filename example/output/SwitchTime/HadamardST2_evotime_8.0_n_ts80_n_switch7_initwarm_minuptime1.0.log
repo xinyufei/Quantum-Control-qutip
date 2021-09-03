@@ -1,0 +1,17 @@
+total tv norm 14.0
+initial file ../control/ADMM/HadamardADMM2_evotime8.0_n_ts80_ptypeWARM_offset0.5_sum_penalty0.01_penalty0.0001_ADMM_0.5_iter100.csv
+     fun: 0.9538522644907841
+     jac: array([-0.26450372, -0.26219101, -0.30368111, -0.30824015, -0.33242704,
+       -0.33474224, -0.23316012, -0.22859859])
+ message: 'Optimization terminated successfully'
+    nfev: 18
+     nit: 2
+    njev: 2
+  status: 0
+ success: True
+       x: array([1., 1., 1., 1., 1., 1., 1., 1.])
+switching time points [1. 2. 3. 4. 5. 6. 7.]
+computational time 0.03699207305908203
+alpha 0.0001
+tv norm 14.0
+objective with tv norm 0.955252264490784

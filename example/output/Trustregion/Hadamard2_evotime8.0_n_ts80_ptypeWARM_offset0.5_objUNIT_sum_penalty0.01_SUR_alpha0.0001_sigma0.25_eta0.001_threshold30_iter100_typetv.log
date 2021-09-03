@@ -1,0 +1,30 @@
+[320, 160.0, 80.0, 40.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5]
+predictive decrease 0.317913942247997 actual decrease 0.0028656675333630817
+objective value without tv norm 0.19149322546138892
+objective value with tv norm 0.2046932254613889
+[320, 160.0, 80.0, 40.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5]
+predictive decrease 0.3228064430244445 actual decrease 0.10269041748855166
+objective value without tv norm 0.08880280797283724
+objective value with tv norm 0.10200280797283724
+[320, 160.0, 80.0, 40.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3]
+predictive decrease 0.10692713843621438 actual decrease 0.016576088874995624
+objective value without tv norm 0.07222671909784162
+objective value with tv norm 0.08542671909784162
+[320, 160.0, 80.0, 40.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3]
+predictive decrease 0.10778234547779489 actual decrease 0.015118790576009646
+objective value without tv norm 0.057307928521831974
+objective value with tv norm 0.07030792852183197
+[320, 160.0, 80.0, 40.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3]
+predictive decrease 0.10324448428032355 actual decrease 0.009844009258314653
+objective value without tv norm 0.04766391926351732
+objective value with tv norm 0.06046391926351732
+[320, 160.0, 80.0, 40.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+predictive decrease 0.0 actual decrease -1.734723475976807e-18
+objective value without tv norm 0.04766391926351732
+objective value with tv norm 0.06046391926351732
+objective value without tv norm 0.04766391926351732
+alpha 0.0001
+objective value with tv norm 0.06046391926351732
+norm 128.0
+computational time 6.336236000061035
+total iterations 193

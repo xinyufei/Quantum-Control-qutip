@@ -68,23 +68,32 @@ cd ../Rounding
 #    --sos1=0 --type="maxswitch" --max_switch=20
 
 cd ../Trustregion/
+#python CNOT.py --evo_time=20 --n_ts=400 \
+#    --initial_file="../control/Rounding/CNOT_evotime20.0_n_ts400_ptypeCONSTANT_offset0.5_objUNIT_SUR.csv" \
+#    --alpha=0.0001 --tr_type="tv"
+#python CNOT.py --evo_time=20 --n_ts=400 \
+#    --initial_file="../control/Rounding/CNOTADMM_evotime20.0_n_ts400_ptypeWARM_offset0.5_objUNIT_penalty0.0001_ADMM_0.25_iter100_SUR.csv" \
+#    --alpha=0.0001 --tr_type="tv"
+#python CNOT.py --evo_time=20 --n_ts=400 \
+#    --initial_file="../control/Rounding/CNOT_evotime20.0_n_ts400_ptypeCONSTANT_offset0.5_objUNIT_minup10.csv" \
+#    --alpha=0.0001 --tr_type="hard" --hard_type="minup" --min_up=10
+#python CNOT.py --evo_time=20 --n_ts=400 \
+#    --initial_file="../control/Rounding/CNOTADMM_evotime20.0_n_ts400_ptypeWARM_offset0.5_objUNIT_penalty0.0001_ADMM_0.25_iter100_minup10.csv" \
+#    --alpha=0.0001 --tr_type="hard" --hard_type="minup" --min_up=10
+#python CNOT.py --evo_time=20 --n_ts=400 \
+#    --initial_file="../control/Rounding/CNOT_evotime20.0_n_ts400_ptypeCONSTANT_offset0.5_objUNIT_maxswitch20.csv" \
+#    --alpha=0.0001 --tr_type="hard" --hard_type="maxswitch" --max_switch=20
+#python CNOT.py --evo_time=20 --n_ts=400 \
+#    --initial_file="../control/Rounding/CNOTADMM_evotime20.0_n_ts400_ptypeWARM_offset0.5_objUNIT_penalty0.0001_ADMM_0.25_iter100_maxswitch20.csv" \
+#    --alpha=0.0001 --tr_type="hard" --hard_type="maxswitch" --max_switch=20
 python CNOT.py --evo_time=20 --n_ts=400 \
-    --initial_file="../control/Rounding/CNOT_evotime20.0_n_ts400_ptypeCONSTANT_offset0.5_objUNIT_SUR.csv" \
+    --initial_file="../control/Rounding/CNOT_evotime20.0_n_ts400_ptypeCONSTANT_offset0.5_objUNIT_alpha0.0001_sigma0.25_eta0.001_threshold30_iter100_typetvc_SUR.csv" \
     --alpha=0.0001 --tr_type="tv"
 python CNOT.py --evo_time=20 --n_ts=400 \
-    --initial_file="../control/Rounding/CNOTADMM_evotime20.0_n_ts400_ptypeWARM_offset0.5_objUNIT_penalty0.0001_ADMM_0.25_iter100_SUR.csv" \
-    --alpha=0.0001 --tr_type="tv"
-python CNOT.py --evo_time=20 --n_ts=400 \
-    --initial_file="../control/Rounding/CNOT_evotime20.0_n_ts400_ptypeCONSTANT_offset0.5_objUNIT_minup10.csv" \
+    --initial_file="../control/Rounding/CNOT_evotime20.0_n_ts400_ptypeCONSTANT_offset0.5_objUNIT_alpha0.0001_sigma0.25_eta0.001_threshold30_iter100_typetvc_minup10.csv" \
     --alpha=0.0001 --tr_type="hard" --hard_type="minup" --min_up=10
 python CNOT.py --evo_time=20 --n_ts=400 \
-    --initial_file="../control/Rounding/CNOTADMM_evotime20.0_n_ts400_ptypeWARM_offset0.5_objUNIT_penalty0.0001_ADMM_0.25_iter100_minup10.csv" \
-    --alpha=0.0001 --tr_type="hard" --hard_type="minup" --min_up=10
-python CNOT.py --evo_time=20 --n_ts=400 \
-    --initial_file="../control/Rounding/CNOT_evotime20.0_n_ts400_ptypeCONSTANT_offset0.5_objUNIT_maxswitch20.csv" \
-    --alpha=0.0001 --tr_type="hard" --hard_type="maxswitch" --max_switch=20
-python CNOT.py --evo_time=20 --n_ts=400 \
-    --initial_file="../control/Rounding/CNOTADMM_evotime20.0_n_ts400_ptypeWARM_offset0.5_objUNIT_penalty0.0001_ADMM_0.25_iter100_maxswitch20.csv" \
+    --initial_file="../control/Rounding/CNOT_evotime20.0_n_ts400_ptypeCONSTANT_offset0.5_objUNIT_alpha0.0001_sigma0.25_eta0.001_threshold30_iter100_typetvc_maxswitch20.csv" \
     --alpha=0.0001 --tr_type="hard" --hard_type="maxswitch" --max_switch=20
 
 

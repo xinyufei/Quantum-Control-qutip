@@ -1,0 +1,36 @@
+     fun: 0.039831394399917674
+     jac: array([-0.01126264, -0.0103728 , -0.01131263, -0.01104686, -0.0110575 ,
+       -0.0088328 , -0.0120827 , -0.0111848 ])
+ message: 'Optimization terminated successfully'
+    nfev: 126
+     nit: 13
+    njev: 13
+  status: 0
+ success: True
+       x: array([2.45109666e+00, 2.16840434e-19, 8.11041110e-01, 1.18671474e+00,
+       4.89168593e-01, 9.77666749e-01, 7.98696991e-02, 2.00444244e+00])
+switching time points [2.45109666 2.45109666 3.26213777 4.44885252 4.93802111 5.91568786
+ 5.99555756]
+computational time 0.21968317031860352
+alpha 0.0001
+tv norm 10.0
+objective with tv norm 0.040831394399917675
+total tv norm 10.0
+initial file ../control/ADMM/HadamardADMM2_evotime8.0_n_ts80_ptypeWARM_offset0.5_sum_penalty0.01_penalty0.0001_ADMM_0.5_iter100.csv
+     fun: 0.039831394399917674
+     jac: array([-0.01126264, -0.0103728 , -0.01131263, -0.01104686, -0.0110575 ,
+       -0.0088328 , -0.0120827 , -0.0111848 ])
+ message: 'Optimization terminated successfully'
+    nfev: 126
+     nit: 13
+    njev: 13
+  status: 0
+ success: True
+       x: array([2.45109666e+00, 2.16840434e-19, 8.11041110e-01, 1.18671474e+00,
+       4.89168593e-01, 9.77666749e-01, 7.98696991e-02, 2.00444244e+00])
+switching time points [2.45109666 2.45109666 3.26213777 4.44885252 4.93802111 5.91568786
+ 5.99555756]
+computational time 0.22023868560791016
+alpha 0.0001
+tv norm 10.0
+objective with tv norm 0.040831394399917675

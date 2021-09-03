@@ -84,7 +84,7 @@ if not os.path.exists("../figure/SwitchTime/"):
 output_name = "../output/SwitchTime/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}".format(
     args.name + str(args.qubit_num), str(args.evo_time), str(args.n_ts), str(num_switch), args.initial_type,
     str(args.min_up_time)) + ".log"
-output_file = open(output_name, "w+")
+output_file = open(output_name, "a+")
 print(res, file=output_file)
 print("switching time points", spin_opt.switch_time, file=output_file)
 print("computational time", end - start, file=output_file)

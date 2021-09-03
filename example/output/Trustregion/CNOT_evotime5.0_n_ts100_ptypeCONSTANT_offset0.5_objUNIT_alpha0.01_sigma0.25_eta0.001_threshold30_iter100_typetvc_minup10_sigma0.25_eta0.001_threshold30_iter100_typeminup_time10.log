@@ -1,0 +1,76 @@
+[200, 100.0, 50.0]
+predictive decrease 0.6167580990702104 actual decrease 0.21832670578029056
+objective value with out tv norm 0.30763988637362416
+[200, 100.0, 50.0, 30]
+predictive decrease 0.33739162639379267 actual decrease 0.036988217100852205
+objective value with out tv norm 0.27065166927277196
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19]
+predictive decrease 0.2244140870809238 actual decrease 0.003880101229474797
+objective value with out tv norm 0.26677156804329716
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19]
+predictive decrease 0.2230305274546056 actual decrease 0.0031429723848951374
+objective value with out tv norm 0.263628595658402
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18]
+predictive decrease 0.21891653345086828 actual decrease 0.00798671455099309
+objective value with out tv norm 0.25564188110740893
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17]
+predictive decrease 0.19348303182506388 actual decrease 0.00030953977558045853
+objective value with out tv norm 0.25533234133182847
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17]
+predictive decrease 0.19379803846587726 actual decrease 0.0020477955885239707
+objective value with out tv norm 0.2532845457433045
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16]
+predictive decrease 0.17895386292952933 actual decrease 0.006435134683434818
+objective value with out tv norm 0.24684941105986968
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15]
+predictive decrease 0.15620434964409965 actual decrease 0.004797401341785079
+objective value with out tv norm 0.2420520097180846
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14]
+predictive decrease 0.13638953610471663 actual decrease 0.0034669553318364965
+objective value with out tv norm 0.2385850543862481
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13]
+predictive decrease 0.12001060647617567 actual decrease 0.006418168079269648
+objective value with out tv norm 0.23216688630697846
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12]
+predictive decrease 0.0984182393078191 actual decrease 0.0012039415360646233
+objective value with out tv norm 0.23096294477091384
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11]
+predictive decrease 0.08788623460664391 actual decrease 0.007049856060093562
+objective value with out tv norm 0.22391308871082027
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9]
+predictive decrease 0.05648644362647397 actual decrease 0.01110362967520273
+objective value with out tv norm 0.21280945903561754
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8]
+predictive decrease 0.0441883196655731 actual decrease 0.000507055093950104
+objective value with out tv norm 0.21230240394166744
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7]
+predictive decrease 0.03836011826224461 actual decrease 0.0031206009703113047
+objective value with out tv norm 0.20918180297135613
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5]
+predictive decrease 0.026442881998051976 actual decrease 0.0034527537915998163
+objective value with out tv norm 0.20572904917975632
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9]
+predictive decrease 0.031099044998757746 actual decrease 0.001420423943595539
+objective value with out tv norm 0.20430862523616078
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5]
+predictive decrease 0.026272103786106338 actual decrease 0.003094362384909899
+objective value with out tv norm 0.20121426285125088
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4]
+predictive decrease 0.015534640463442526 actual decrease 0.00023706622815322653
+objective value with out tv norm 0.20097719662309765
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3]
+predictive decrease 0.010971630694202147 actual decrease 0.0022198940604368778
+objective value with out tv norm 0.19875730256266078
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+predictive decrease 0.0020060123712014066 actual decrease 0.0010095480291861803
+objective value with out tv norm 0.1977477545334746
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2]
+predictive decrease 0.002747428488332293 actual decrease 0.0009620699065890914
+objective value with out tv norm 0.1967856846268855
+[200, 100.0, 50.0, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0.5]
+predictive decrease 0.0 actual decrease 0.0
+objective value with out tv norm 0.1967856846268855
+objective value without tv norm 0.1967856846268855
+norm 10.0
+computational time 20.34498405456543
+total iterations 550

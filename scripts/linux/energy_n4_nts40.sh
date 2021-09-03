@@ -74,33 +74,43 @@ cd ../SwitchingTime/
 #    --min_up_time=0.5 --alpha=0.01
 cd ../Trustregion/
 #conda activate qcopt
-python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
-    --initial_file="../control/Rounding/EnergyADMM4_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_SUR.csv" \
-    --alpha=0.01 --tr_type="tv"
-python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
-    --initial_file="../control/Rounding/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_SUR.csv" \
-    --alpha=0.01 --tr_type="tv"
-python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
-    --initial_file="../control/Rounding/EnergyADMM4_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_minup10.csv" \
-    --alpha=0.01 --tr_type="hard" --hard_type="minup" --min_up=10
-python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
-    --initial_file="../control/Rounding/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_minup10.csv" \
-    --alpha=0.01 --tr_type="hard" --hard_type="minup" --min_up=10
-python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
-    --initial_file="../control/Rounding/EnergyADMM4_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_maxswitch5.csv" \
-    --alpha=0.01 --tr_type="hard" --hard_type="maxswitch" --max_switch=5
-python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
-    --initial_file="../control/Rounding/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_maxswitch5.csv" \
-    --alpha=0.01 --tr_type="hard" --hard_type="maxswitch" --max_switch=5
+#python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
+#    --initial_file="../control/Rounding/EnergyADMM4_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_SUR.csv" \
+#    --alpha=0.01 --tr_type="tv"
+#python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
+#    --initial_file="../control/Rounding/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_SUR.csv" \
+#    --alpha=0.01 --tr_type="tv"
+#python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
+#    --initial_file="../control/Rounding/EnergyADMM4_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_minup10.csv" \
+#    --alpha=0.01 --tr_type="hard" --hard_type="minup" --min_up=10
+#python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
+#    --initial_file="../control/Rounding/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_minup10.csv" \
+#    --alpha=0.01 --tr_type="hard" --hard_type="minup" --min_up=10
+#python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
+#    --initial_file="../control/Rounding/EnergyADMM4_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_maxswitch5.csv" \
+#    --alpha=0.01 --tr_type="hard" --hard_type="maxswitch" --max_switch=5
+#python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
+#    --initial_file="../control/Rounding/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_maxswitch5.csv" \
+#    --alpha=0.01 --tr_type="hard" --hard_type="maxswitch" --max_switch=5
+#
+#python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
+#    --initial_file="../control/SwitchTime/EnergyST4_evotime_2.0_n_ts40_n_switch3_initwarm_minuptime0.0.csv" \
+#    --alpha=0.01 --tr_type="tv"
+#python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
+#    --initial_file="../control/SwitchTime/EnergyST4_evotime_2.0_n_ts40_n_switch3_initwarm_minuptime0.5.csv" \
+#    --alpha=0.01 --tr_type="hard" --hard_type="minup" --min_up=10
+#python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
+#    --initial_file="../control/SwitchTime/EnergyST4_evotime_2.0_n_ts40_n_switch3_initwarm_minuptime0.0.csv" \
+#    --alpha=0.01 --tr_type="hard" --hard_type="maxswitch" --max_switch=5
 
 python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
-    --initial_file="../control/SwitchTime/EnergyST4_evotime_2.0_n_ts40_n_switch3_initwarm_minuptime0.0.csv" \
+    --initial_file="../control/Rounding/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc_SUR.csv" \
     --alpha=0.01 --tr_type="tv"
 python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
-    --initial_file="../control/SwitchTime/EnergyST4_evotime_2.0_n_ts40_n_switch3_initwarm_minuptime0.5.csv" \
+    --initial_file="../control/Rounding/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc_minup10.csv" \
     --alpha=0.01 --tr_type="hard" --hard_type="minup" --min_up=10
 python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
-    --initial_file="../control/SwitchTime/EnergyST4_evotime_2.0_n_ts40_n_switch3_initwarm_minuptime0.0.csv" \
+    --initial_file="../control/Rounding/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc_maxswitch5.csv" \
     --alpha=0.01 --tr_type="hard" --hard_type="maxswitch" --max_switch=5
 
 #python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \

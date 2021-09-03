@@ -102,7 +102,7 @@ class Rounding:
             binapprox.set_min_up_times(
                 min_up_times=[self.min_up_times * self.evo_time / self.time_steps] * self.n_ctrls)
             combina = CombinaBnB(binapprox)
-            
+
             combina.solve()
 
         if self.type == "maxswitch":
@@ -121,20 +121,45 @@ class Rounding:
 
         return self.b_bin, end - start
 
-    def rounding_without_sos1(self):
+    def rounding_without_sos1(self, sos1=False):
 
         start = time.time()
 
         if self.type == "SUR":
-            self.b_bin = np.zeros((self.time_steps, self.n_ctrls))
-            for k in range(self.time_steps):
+            if not sos1:
+                self.b_bin = np.zeros((self.time_steps, self.n_ctrls))
+                for k in range(self.time_steps):
+                    for j in range(self.n_ctrls):
+                        diff = sum(self.b_rel[t, j] - self.b_bin[t, j] for t in range(k)) + self.b_rel[k, j]
+                        if diff * self.delta_t >= 0.5 * self.delta_t:
+                            self.b_bin[k, j] = 1
+                        else:
+                            self.b_bin[k, j] = 0
+            if sos1:
+                round = gb.Model()
+                bin_val = round.addVars(self.time_steps, self.n_ctrls, vtype=gb.GRB.BINARY)
+                # bin_val = self.b_bin.copy()
+                up_diff = round.addVar()
+
+                round.addConstrs(
+                    gb.quicksum(self.b_rel[t, j] - bin_val[t, j] for t in range(k)) * self.delta_t + up_diff >= 0
+                    for j in range(self.n_ctrls) for k in range(1, self.time_steps + 1))
+                round.addConstrs(
+                    gb.quicksum(self.b_rel[t, j] - bin_val[t, j] for t in range(k)) * self.delta_t - up_diff <= 0
+                    for j in range(self.n_ctrls) for k in range(1, self.time_steps + 1))
+
+                round.addConstrs(gb.quicksum(bin_val[t, j] for j in range(self.n_ctrls)) == 1
+                                 for t in range(self.time_steps))
+                round.setObjective(up_diff)
+                round.Params.TimeLimit = 60
+                round.optimize()
+                print(round.objval)
+
+                self.b_bin = np.zeros((self.time_steps, self.n_ctrls))
                 for j in range(self.n_ctrls):
-                    diff = sum(self.b_rel[t, j] - self.b_bin[t, j] for t in range(k)) + self.b_rel[k, j]
-                    if diff * self.delta_t >= 0.5 * self.delta_t:
-                        self.b_bin[k, j] = 1
-                    else:
-                        self.b_bin[k, j] = 0
-                        
+                    for k in range(self.time_steps):
+                        self.b_bin[k, j] = bin_val[k, j].x
+
         # if self.type == "minup":
         #     self.b_bin = np.zeros((self.time_steps, self.n_ctrls))
         #     for j in range(self.n_ctrls):
@@ -153,14 +178,18 @@ class Rounding:
             bin_val = round.addVars(self.time_steps, self.n_ctrls, vtype=gb.GRB.BINARY)
             # bin_val = self.b_bin.copy()
             up_diff = round.addVar()
-            
+
             round.addConstrs(
                 gb.quicksum(self.b_rel[t, j] - bin_val[t, j] for t in range(k)) * self.delta_t + up_diff >= 0
                 for j in range(self.n_ctrls) for k in range(1, self.time_steps + 1))
             round.addConstrs(
                 gb.quicksum(self.b_rel[t, j] - bin_val[t, j] for t in range(k)) * self.delta_t - up_diff <= 0
                 for j in range(self.n_ctrls) for k in range(1, self.time_steps + 1))
-            
+
+            if sos1:
+                round.addConstrs(gb.quicksum(bin_val[t, j] for j in range(self.n_ctrls)) == 1
+                                 for t in range(self.time_steps))
+
         if self.type == "minup":
             v_var = round.addVars(self.time_steps - 1, self.n_ctrls, lb=0)
             round.addConstrs(bin_val[t, j] - bin_val[t + 1, j] + v_var[t, j] >= 0 for t in range(self.time_steps - 1)
@@ -171,7 +200,7 @@ class Rounding:
                              for t in range(self.time_steps - self.min_up_times) for j in range(self.n_ctrls))
             round.addConstrs(gb.quicksum(v_var[t, j] for t in range(self.min_up_times - 1)) == 0
                              for j in range(self.n_ctrls))
-         
+
         if self.type == 'maxswitch':
             v_var = round.addVars(self.time_steps - 1, self.n_ctrls, lb=0)
             round.addConstrs(bin_val[t, j] - bin_val[t + 1, j] + v_var[t, j] >= 0 for t in range(self.time_steps - 1)
@@ -186,7 +215,7 @@ class Rounding:
             round.Params.TimeLimit = 60
             round.optimize()
             print(round.objval)
-         
+
         end = time.time()
 
         if self.type in ["minup", "maxswitch"]:

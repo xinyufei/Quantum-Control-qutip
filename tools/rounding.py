@@ -77,8 +77,8 @@ class Rounding:
             marker_size_list = [5, 5, 8, 5]
             for j in range(self.n_ctrls):
                 plt.step(self.t, np.hstack((self.b_bin[:, j], self.b_bin[-1, j])),
-                         marker_list[j], where='post', linewidth=2, label='controller ' + str(j + 1), markevery=(j, 4),
-                         markersize=marker_size_list[j])
+                         marker_list[j % 4], where='post', linewidth=2, label='controller ' + str(j + 1), 
+                         markevery=(j, 4), markersize=marker_size_list[j % 4])
             plt.legend()
             if self.type == "SUR":
                 plt.savefig(self.out_fig + "_binary_SUR.png")

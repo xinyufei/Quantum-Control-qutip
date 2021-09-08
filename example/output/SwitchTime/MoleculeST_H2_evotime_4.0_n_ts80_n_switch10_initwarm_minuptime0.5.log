@@ -16,3 +16,21 @@ computational time 4.567862541
 alpha 0.0001
 tv norm 14.0
 objective with tv norm 0.7513999999960109
+total tv norm 14.0
+initial file ../control/Trustregion/Molecule_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0_alpha0.0001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv
+     fun: 0.749999999996011
+     jac: array([ 4.47034836e-08,  4.47034836e-08,  4.47034836e-08,  1.14125036e-01,
+       -2.63430547e+00, -4.83441398e-01, -2.63430549e+00,  1.14125036e-01,
+        4.47034836e-08,  4.47034836e-08,  4.47034836e-08])
+ message: 'Iteration limit reached'
+    nfev: 1927
+     nit: 100
+    njev: 96
+  status: 9
+ success: False
+       x: array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5])
+switching time points [0.5 1.  1.5 2.  2.5 3.  3.5 4.  4.5 5. ]
+computational time 4.555051542
+alpha 0.0001
+tv norm 14.0
+objective with tv norm 0.7513999999960109

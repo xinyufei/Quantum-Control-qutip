@@ -33,13 +33,13 @@ parser.add_argument('--sum_penalty', help='penalty parameter for L_2 term', type
 # Fidelity error target
 parser.add_argument('--fid_err_targ', help='target for the fidelity error', type=float, default=1e-10)
 # Maximum iterations for the optimise algorithm
-parser.add_argument('--max_iter_step', help='maximum number of iterations', type=int, default=1000)
+parser.add_argument('--max_iter_step', help='maximum number of iterations', type=int, default=2000)
 # Maximum (elapsed) time allowed in seconds
 parser.add_argument('--max_time_step', help='maximum allowed computational time (seconds) for each step',
                     type=float, default=7200)
 # Minimum gradient (sum of gradients squared)
 # as this tends to 0 -> local minimum has been found
-parser.add_argument('--min_grad', help='minimum gradient for each step', type=float, default=1e-6)
+parser.add_argument('--min_grad', help='minimum gradient for each step', type=float, default=1e-4)
 # TV regularizer parameter
 parser.add_argument('--alpha', help='TV regularizer parameter', type=float, default=0.001)
 # Lagrangian penalty parameter

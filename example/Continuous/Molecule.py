@@ -31,7 +31,7 @@ parser.add_argument('--sum_penalty', help='penalty parameter for L_2 term', type
 # Fidelity error target
 parser.add_argument('--fid_err_targ', help='target for the fidelity error', type=float, default=1e-8)
 # Maximum iterations for the optimise algorithm
-parser.add_argument('--max_iter', help='maximum number of iterations', type=int, default=1000)
+parser.add_argument('--max_iter', help='maximum number of iterations', type=int, default=3000)
 # Maximum (elapsed) time allowed in seconds
 parser.add_argument('--max_time', help='maximum allowed computational time (seconds)', type=float, default=7200)
 # Minimum gradient (sum of gradients squared)

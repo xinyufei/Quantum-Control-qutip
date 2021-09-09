@@ -127,8 +127,8 @@ plt.ylim([0, 1])
 marker_list = ['-o', '--^', '-*', '--s']
 marker_size_list = [5, 5, 8, 5]
 for j in range(b_bin.shape[1]):
-    plt.step(np.linspace(0, args.evo_time, args.n_ts + 1), np.hstack((b_bin[:, j], b_bin[-1, j])), marker_list[j],
+    plt.step(np.linspace(0, args.evo_time, args.n_ts + 1), np.hstack((b_bin[:, j], b_bin[-1, j])), marker_list[j % 4],
              where='post', linewidth=2, label='controller ' + str(j + 1), markevery=(j, 4),
-             markersize=marker_size_list[j])
+             markersize=marker_size_list[j % 4])
 plt.legend()
 plt.savefig(output_fig)

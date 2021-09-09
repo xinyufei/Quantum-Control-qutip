@@ -433,13 +433,13 @@ class TrustRegion:
 
         self._init_amps()
         u_tilde = self.initial_amps.copy()
-
-        bin_result = time_evolution(self.H_d, self.H_c, self.n_ts, self.evo_time, u_tilde, self.X_0,
-                                    False, 1)
         
-        print(compute_obj_fid(Qobj(self.X_targ), bin_result))
-        
-        print(self._compute_obj(u_tilde.reshape(-1)))
+        # bin_result = time_evolution(self.H_d, self.H_c, self.n_ts, self.evo_time, u_tilde, self.X_0,
+        #                             False, 1)
+        # 
+        # print(compute_obj_fid(Qobj(self.X_targ), bin_result))
+        # 
+        # print(self._compute_obj(u_tilde.reshape(-1)))
 
         out_log = open(self.out_log_file, "w+")
 

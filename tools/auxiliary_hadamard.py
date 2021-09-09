@@ -309,9 +309,10 @@ def generate_spin_func(qubit_num):
                                                       amp=max_amp)
     Hops, Hnames, ops_max_amp = append_separate_krons(Q_y, 'y', qubit_num, qubit_state_num, Hops, Hnames, ops_max_amp,
                                                       amp=max_amp)
-    Hops_new = [hops_o * ops_max_amp[0] for hops_o in Hops]
+    Hops_new = [hops_o.astype('complex128') * ops_max_amp[0] for hops_o in Hops]
     # Hops,Hnames,ops_max_amp = append_separate_krons(Q_y,'z',qubit_num,qubit_state_num,Hops,Hnames,ops_max_amp,amp=max_amp)
 
+    H0 = H0.astype('complex128')
     return Hops_new, H0, U0, U
 
 if __name__ == '__main__':

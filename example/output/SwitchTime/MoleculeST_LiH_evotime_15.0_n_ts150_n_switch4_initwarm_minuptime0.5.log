@@ -1,0 +1,16 @@
+total tv norm 8.0
+initial file ../control/ADMM/MoleculeADMM_LiH_evotime15.0_n_ts150_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.0001_ADMM_0.5_iter100.csv
+     fun: 0.7976675406800445
+     jac: array([-0.0150144 , -0.01497055, -0.00452197, -0.0150144 , -0.01516853])
+ message: 'Optimization terminated successfully'
+    nfev: 121
+     nit: 20
+    njev: 20
+  status: 0
+ success: True
+       x: array([5.51586447, 1.99206857, 0.5       , 4.71586443, 2.27620253])
+switching time points [ 5.51586447  7.50793304  8.00793304 12.72379747]
+computational time 0.35840345799999973
+alpha 0.0001
+tv norm 8.0
+objective with tv norm 0.7984675406800446

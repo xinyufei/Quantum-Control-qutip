@@ -31,6 +31,8 @@ parser.add_argument('--type', help='type of rounding (SUR, minup, maxswitch)', t
 parser.add_argument('--min_up', help='minimum up time steps', type=int, default=10)
 # maximum number of switches
 parser.add_argument('--max_switch', help='maximum number of switches', type=int, default=10)
+# time limit for rounding by Gurobi
+parser.add_argument('--time_limit', help='time limit for rounding by Gurobi', type=int, default=60)
 
 args = parser.parse_args()
 
@@ -66,8 +68,8 @@ if args.type == "maxswitch":
 # round the solution
 b_rel = np.loadtxt(args.initial_control, delimiter=',')
 round = Rounding()
-round.build_rounding_optimizer(b_rel, args.evo_time, args.n_ts, args.type, args.min_up, args.max_switch,
-                               out_fig=output_fig)
+round.build_rounding_optimizer(b_rel, args.evo_time, args.n_ts, args.type, args.min_up, args.max_switch, 
+                               time_limit=args.time_limit, out_fig=output_fig)
 if args.sos1:
     b_bin, c_time = round.rounding_with_sos1()
 else:

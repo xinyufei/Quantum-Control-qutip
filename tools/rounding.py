@@ -22,8 +22,8 @@ class Rounding:
         self.n_ctrls = None
         self.delta_t = None
 
-    def build_rounding_optimizer(self, b_rel, evo_time, time_steps, type, min_up_times=0, max_switches=10,
-                                 compare=False, bin=True, out_fig=None):
+    def build_rounding_optimizer(self, b_rel, evo_time, time_steps, type, min_up_times=0, max_switches=10, 
+                                 time_limit=60, compare=False, bin=True, out_fig=None):
         self.b_rel = b_rel
         self.evo_time = evo_time
         self.time_steps = time_steps
@@ -33,6 +33,7 @@ class Rounding:
         self.compare = compare
         self.bin = bin
         self.out_fig = out_fig
+        self.time_limit = time_limit
 
         self.n_ctrls = self.b_rel.shape[1]
         self.t = np.linspace(0, self.evo_time, self.time_steps + 1)
@@ -212,7 +213,7 @@ class Rounding:
 
         if self.type in ["minup", "maxswitch"]:
             round.setObjective(up_diff)
-            round.Params.TimeLimit = 60
+            round.Params.TimeLimit = self.time_limit
             round.optimize()
             print(round.objval)
 

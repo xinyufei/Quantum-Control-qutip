@@ -26,8 +26,9 @@ def time_evolution(H_d, H_c, n_ts, evo_time, u_list, X_0, sum_cons_1, ops_max_am
 
 
 def compute_obj_fid(U_targ, U_result):
-    fid = np.abs(np.trace((np.linalg.inv(U_targ.full()).dot(U_result)))) / U_targ.full().shape[0]
+    # fid = np.abs(np.trace((np.linalg.inv(U_targ.full()).dot(U_result)))) / U_targ.full().shape[0]
     # fid = np.abs(np.trace(((U_targ.full()).dot(U_result)))) / U_targ.full().shape[0]
+    fid = np.abs(np.trace((U_targ.full().conj().T.dot(U_result)))) / U_targ.full().shape[0]
     obj = 1 - fid
     return obj
 

@@ -246,6 +246,9 @@ class TrustRegion:
                     break
 
             total_ite += k
+            
+            if n % 10 == 0:
+                print("**********" + str(n) + " iterations completed" + "**********")
 
             out_log = open(self.out_log_file, "a+")
             print(delta_list, file=out_log)
@@ -380,6 +383,9 @@ class TrustRegion:
 
             total_ite += k
 
+            if n % 10 == 0:
+                print("**********" + str(n) + " iterations completed" + "**********")
+
             out_log = open(self.out_log_file, "a+")
             print(delta_list, file=out_log)
             print("predictive decrease", pred, "actual decrease", ared, file=out_log)
@@ -420,8 +426,6 @@ class TrustRegion:
 
         delta_0 = self.n_ts * self.n_ctrl
 
-        out_log = open(self.out_log_file, "w+")
-
         terminate = False
         total_ite = 0
 
@@ -429,6 +433,15 @@ class TrustRegion:
 
         self._init_amps()
         u_tilde = self.initial_amps.copy()
+
+        bin_result = time_evolution(self.H_d, self.H_c, self.n_ts, self.evo_time, u_tilde, self.X_0,
+                                    False, 1)
+        
+        print(compute_obj_fid(Qobj(self.X_targ), bin_result))
+        
+        print(self._compute_obj(u_tilde.reshape(-1)))
+
+        out_log = open(self.out_log_file, "w+")
 
         start = time.time()
         for n in range(self.max_iter):
@@ -515,6 +528,9 @@ class TrustRegion:
                     break
 
             total_ite += k
+
+            if n % 10 == 0:
+                print("**********" + str(n) + " iterations completed" + "**********")
 
             out_log = open(self.out_log_file, "a+")
             print(delta_list, file=out_log)

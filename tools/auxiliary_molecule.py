@@ -115,3 +115,7 @@ def generate_molecule_func(N, d, molecule):
     Hops_new = [Hops[idx] * maxA[idx] for idx in range(len(Hops))]
     U0 = np.identity(2**N)
     return Hops_new, H0, U0, U
+
+if __name__ == '__main__':
+    Hops, H0, U0, U = generate_molecule_func(4, 2, "LiH")
+    print(U.conj().T.dot(U))

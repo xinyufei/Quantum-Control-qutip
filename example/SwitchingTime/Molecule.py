@@ -35,8 +35,16 @@ parser.add_argument('--alpha', help='tv regularizer parameter', type=float, defa
 
 args = parser.parse_args()
 
+# args.molecule = "LiH"
+# args.qubit_num = 4
+
 d = 2
 Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule)
+
+# args.n_ts = 150
+# args.evo_time = 15
+# 
+# args.admm_control = "../control/ADMM/MoleculeADMM_LiH_evotime15.0_n_ts150_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.0001_ADMM_0.5_iter100.csv"
 
 # The control Hamiltonians (Qobj classes)
 H_c = [Qobj(hops) for hops in Hops]
@@ -56,7 +64,7 @@ warm_start_length, num_switch, ctrl_hamil_idx = obtain_switching_time(args.admm_
 print(num_switch)
 
 # sequence of control hamiltonians
-ctrl_hamil = [(H_d + H_c[j]).full() for j in range(args.qubit_num * 2)]
+ctrl_hamil = [(H_d + H_c[j]).full() for j in range(len(H_c))]
 
 # initial control
 if args.initial_type == "ave":

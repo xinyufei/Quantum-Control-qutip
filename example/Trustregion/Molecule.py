@@ -51,9 +51,20 @@ parser.add_argument('--max_switch', help='maximum number of switches', type=int,
 args = parser.parse_args()
 
 d = 2
+
+# args.molecule = "LiH"
+# args.qubit_num = 4
+
 Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule)
 
-# args.initial_file="../control/ADMM/HadamardADMM2_evotime8.0_n_ts80_ptypeWARM_offset0.5_sum_penalty0.01_penalty0.0001_ADMM_0.5_iter100.csv"
+# args.n_ts = 150
+# args.evo_time = 15
+# 
+# args.tr_type = "hard"
+# args.hard_type = "maxswitch"
+# args.max_switch = 30
+
+# args.initial_file="../control/Rounding/MoleculeADMM_LiH_evotime15.0_n_ts150_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.0001_ADMM_0.5_iter100_maxswitch30.csv"
 
 if not os.path.exists("../output/Trustregion/"):
     os.makedirs("../output/Trustregion/")
@@ -84,6 +95,7 @@ if args.tr_type in ['tv', 'tvc']:
         tr_optimizer.trust_region_method_tv(sos1=args.sos1, type='binary')
     if args.tr_type == 'tvc':
         # tr_optimizer.trust_region_method_tv(sos1=args.sos1, type='continuous')
+        print("call function with l2")
         tr_optimizer.trust_region_method_l2_tv(args.sum_penalty)
 
 if args.tr_type == 'hard':

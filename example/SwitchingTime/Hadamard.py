@@ -53,7 +53,7 @@ warm_start_length, num_switch, ctrl_hamil_idx = obtain_switching_time(args.admm_
 print(num_switch)
 
 # sequence of control hamiltonians
-ctrl_hamil = [(H_d + H_c[j]).full() for j in range(args.qubit_num * 2)]
+ctrl_hamil = [(H_d + H_c[j]).full() for j in range(len(H_c))]
 
 # initial control
 if args.initial_type == "ave":

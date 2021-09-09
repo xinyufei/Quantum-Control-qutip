@@ -47,6 +47,8 @@ parser.add_argument('--hard_type', help='type of hard constraints if use them', 
 parser.add_argument('--min_up', help='minimum up time steps', type=int, default=10)
 # maximum number of switches
 parser.add_argument('--max_switch', help='maximum number of switches', type=int, default=10)
+# file store the target circuit
+parser.add_argument('--target', help='unitary matrix of target circuit', type=str, default=None)
 
 args = parser.parse_args()
 
@@ -56,15 +58,19 @@ d = 2
 # args.qubit_num = 4
 
 Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule)
-
+if args.target is not None:
+    U = np.loadtxt(args.target, dtype=np.complex_, delimiter=',')
+else:
+    print("Please provide the target file!")
+    exit()
 # args.n_ts = 150
 # args.evo_time = 15
 # 
-# args.tr_type = "hard"
+# args.tr_type = "tvc"
 # args.hard_type = "maxswitch"
 # args.max_switch = 30
 
-# args.initial_file="../control/Rounding/MoleculeADMM_LiH_evotime15.0_n_ts150_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.0001_ADMM_0.5_iter100_maxswitch30.csv"
+# args.initial_file = "../control/Continuous/Molecule3_LiH_evotime15.0_n_ts150_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1.csv"
 
 if not os.path.exists("../output/Trustregion/"):
     os.makedirs("../output/Trustregion/")

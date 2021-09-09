@@ -52,14 +52,14 @@ cd ../Trustregion/
 #    --sos=1 --alpha=0.0001 --tr_type="tvc"
 
 cd ../SwitchingTime/
-#python Hadamard.py --qubit_num=3 --evo_time=12 --n_ts=120 --admm_control="../control/ADMM/HadamardADMM2_evotime12.0_n_ts120_ptypeWARM_offset0.5_sum_penalty0.01_penalty0.0001_ADMM_0.5_iter100.csv" \
-#    --min_up_time=0 --alpha=0.0001
-#python Hadamard.py --qubit_num=3 --evo_time=12 --n_ts=120 --admm_control="../control/ADMM/HadamardADMM2_evotime12.0_n_ts120_ptypeWARM_offset0.5_sum_penalty0.01_penalty0.0001_ADMM_0.5_iter100.csv" \
-#    --min_up_time=1 --alpha=0.0001
-#python Hadamard.py --qubit_num=3 --evo_time=12 --n_ts=120 --admm_control="../control/Trustregion/Hadamard3_evotime12.0_n_ts120_ptypeWARM_offset0.5_objUNIT_sum_penalty0.01_alpha0.0001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
-#    --min_up_time=0 --alpha=0.0001
-#python Hadamard.py --qubit_num=3 --evo_time=12 --n_ts=120 --admm_control="../control/Trustregion/Hadamard3_evotime12.0_n_ts120_ptypeWARM_offset0.5_objUNIT_sum_penalty0.01_alpha0.0001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
-#    --min_up_time=1 --alpha=0.0001
+python Hadamard.py --qubit_num=3 --evo_time=12 --n_ts=120 --admm_control="../control/ADMM/HadamardADMM3_evotime12.0_n_ts120_ptypeWARM_offset0.5_sum_penalty0.01_penalty0.0001_ADMM_0.5_iter100.csv" \
+    --min_up_time=0 --alpha=0.0001
+python Hadamard.py --qubit_num=3 --evo_time=12 --n_ts=120 --admm_control="../control/ADMM/HadamardADMM3_evotime12.0_n_ts120_ptypeWARM_offset0.5_sum_penalty0.01_penalty0.0001_ADMM_0.5_iter100.csv" \
+    --min_up_time=1 --alpha=0.0001
+python Hadamard.py --qubit_num=3 --evo_time=12 --n_ts=120 --admm_control="../control/Trustregion/Hadamard3_evotime12.0_n_ts120_ptypeWARM_offset0.5_objUNIT_sum_penalty0.01_alpha0.0001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
+    --min_up_time=0 --alpha=0.0001
+python Hadamard.py --qubit_num=3 --evo_time=12 --n_ts=120 --admm_control="../control/Trustregion/Hadamard3_evotime12.0_n_ts120_ptypeWARM_offset0.5_objUNIT_sum_penalty0.01_alpha0.0001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
+    --min_up_time=1 --alpha=0.0001
     
 cd ../Rounding
 #python Hadamard.py --qubit_num=3 --evo_time=12 --n_ts=120 \

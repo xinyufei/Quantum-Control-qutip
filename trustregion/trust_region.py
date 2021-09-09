@@ -150,7 +150,7 @@ class TrustRegion:
     def trust_region_method_l2_tv(self, rho):
         delta_0 = self.n_ts * self.n_ctrl
 
-        out_log = open(self.out_log_file, "w+")
+        # out_log = open(self.out_log_file, "w+")
 
         terminate = False
         total_ite = 0

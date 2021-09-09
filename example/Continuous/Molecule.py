@@ -37,11 +37,19 @@ parser.add_argument('--max_time', help='maximum allowed computational time (seco
 # Minimum gradient (sum of gradients squared)
 # as this tends to 0 -> local minimum has been found
 parser.add_argument('--min_grad', help='minimum gradient', type=float, default=1e-6)
+# file store the target circuit
+parser.add_argument('--target', help='unitary matrix of target circuit', type=str, default=None)
 
 args = parser.parse_args()
 
 d = 2
 Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule)
+
+if args.target is not None:
+    U = np.loadtxt(args.target, dtype=np.complex_, delimiter=',')
+else:
+    np.savetxt("../control/Continuous/" + "{}_evotime{}_n_ts{}".format(
+        args.name + "_" + args.molecule, args.evo_time, args.n_ts) + "_target.csv", U, delimiter=",")
 
 # The control Hamiltonians (Qobj classes)
 H_c = [Qobj(hops) for hops in Hops]
@@ -89,6 +97,7 @@ Hadamard_penalized.optimize_penalized()
 b_rel = np.loadtxt(output_control, delimiter=",")
 if len(b_rel.shape) == 1:
     b_rel = np.expand_dims(b_rel, axis=1)
+
 fig = plt.figure(dpi=300)
 # plt.title("Optimised Quantum Control Sequences")
 plt.xlabel("Time")

@@ -35,6 +35,9 @@ parser.add_argument('--min_up', help='minimum up time steps', type=int, default=
 parser.add_argument('--max_switch', help='maximum number of switches', type=int, default=10)
 # time limit for rounding by Gurobi
 parser.add_argument('--time_limit', help='time limit for rounding by Gurobi', type=int, default=60)
+# file store the target circuit
+parser.add_argument('--target', help='unitary matrix of target circuit', type=str, default=None)
+    
 args = parser.parse_args()
 
 # args.n_ts = int(args.qubit_num * 40)
@@ -42,6 +45,11 @@ args = parser.parse_args()
 
 d = 2
 Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule)
+if args.target is not None:
+    U = np.loadtxt(args.target, dtype=np.complex_, delimiter=',')
+else:
+    print("Please provide the target file!")
+    exit()
 
 # The control Hamiltonians (Qobj classes)
 H_c = [Qobj(hops) for hops in Hops]

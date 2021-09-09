@@ -99,21 +99,22 @@ def get_full_states_concerned_list(N, d):
 
 def generate_molecule_func(N, d, molecule):
     connected_qubit_pairs = get_nearest_neighbor_coupling_list(2, int(N / 2), directed=False)
-    H0 = get_H0(N, d)
+    print(connected_qubit_pairs)
+    H0 = get_H0(N, d).astype("complex128")
     Hops, Hnames = get_Hops_and_Hnames(N, d, connected_qubit_pairs)
     states_concerned_list = get_full_states_concerned_list(N, d)
     maxA = get_maxA(N, d, connected_qubit_pairs)
 
     circuit = get_uccsd_circuit(molecule)
-    U = get_unitary(circuit)
+    U = get_unitary(circuit).astype("complex128")
 
     # print(circuit)
     # print(H0.size)
     # print(len(Hops))
     # print(U.size)
     # print(connected_qubit_pairs)
-    Hops_new = [Hops[idx] * maxA[idx] for idx in range(len(Hops))]
-    U0 = np.identity(2**N)
+    Hops_new = [Hops[idx].astype("complex128") * maxA[idx] for idx in range(len(Hops))]
+    U0 = np.identity(2**N).astype("complex128")
     return Hops_new, H0, U0, U
 
 if __name__ == '__main__':

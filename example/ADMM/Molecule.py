@@ -49,12 +49,20 @@ parser.add_argument('--max_iter_admm', help='maximum iterations for ADMM', type=
 # maximum computational time
 parser.add_argument('--max_time_admm', help='maximum computational time for ADMM', type=float,
                     default=7200 * 200)
+# file store the target circuit
+parser.add_argument('--target', help='unitary matrix of target circuit', type=str, default=None)
 
 args = parser.parse_args()
 
 d = 2
 Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule)
 
+if args.target is not None:
+    U = np.loadtxt(args.target, dtype=np.complex_, delimiter=',')
+else:
+    print("Please provide the target file!")
+    exit()
+    
 # The control Hamiltonians (Qobj classes)
 H_c = [Qobj(hops) for hops in Hops]
 # Drift Hamiltonian

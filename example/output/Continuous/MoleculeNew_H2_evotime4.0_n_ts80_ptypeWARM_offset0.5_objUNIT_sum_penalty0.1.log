@@ -1,0 +1,21 @@
+Final evolution
+[[0.49650245-0.05964143j 0.30007933-0.81233036j 0.        +0.j
+  0.        +0.j        ]
+ [0.30176295-0.81170644j 0.3377307 +0.368795j   0.        +0.j
+  0.        +0.j        ]
+ [0.        +0.j         0.        +0.j         0.5000518 +0.00446948j
+  0.40169354-0.7671835j ]
+ [0.        +0.j         0.        +0.j         0.40328333-0.76634899j
+  0.28769121+0.40903001j]]
+
+********* Summary *****************
+Final fidelity error 0.13580297730860003
+Final objective value 0.17543199373868232
+Final penalized error 0.03962903548156124
+Final gradient 0.20884828825295546
+Number of iterations 60
+Terminated due to function converged
+Completed in 0:00:00.805718 HH:MM:SS.US
+Computational time 0.8057180420000005
+total tv norm 13.074976678101123
+total l2 norm 0.3962903548156124

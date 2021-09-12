@@ -32,6 +32,8 @@ parser.add_argument('--admm_control', help='file name of initial control', type=
 parser.add_argument('--min_up_time', help='minimum up time', type=float, default=1)
 # tv regularizer parameter
 parser.add_argument('--alpha', help='tv regularizer parameter', type=float, default=0.05)
+# file store the target circuit
+parser.add_argument('--target', help='unitary matrix of target circuit', type=str, default=None)
 
 args = parser.parse_args()
 
@@ -40,7 +42,12 @@ args = parser.parse_args()
 
 d = 2
 Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule)
-
+if args.target is not None:
+    U = np.loadtxt(args.target, dtype=np.complex_, delimiter=',')
+else:
+    print("Please provide the target file!")
+    exit()
+    
 # args.n_ts = 150
 # args.evo_time = 15
 # 

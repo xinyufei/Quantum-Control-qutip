@@ -37,19 +37,31 @@ parser.add_argument('--max_time', help='maximum allowed computational time (seco
 # Minimum gradient (sum of gradients squared)
 # as this tends to 0 -> local minimum has been found
 parser.add_argument('--min_grad', help='minimum gradient', type=float, default=1e-6)
+# indicator to generate target file
+parser.add_argument('--gen_target', help='indicator to generate target file', type=int, default=0)
 # file store the target circuit
 parser.add_argument('--target', help='unitary matrix of target circuit', type=str, default=None)
 
 args = parser.parse_args()
+
+# args.name="MoleculeNew2"
+# args.qubit_num=4
+# args.molecule="LiH"
+# args.evo_time=20
+# args.n_ts=200
+# args.target="../control/Continuous/MoleculeNew2_LiH_evotime20.0_n_ts200_target.csv"
 
 d = 2
 Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule)
 
 if args.target is not None:
     U = np.loadtxt(args.target, dtype=np.complex_, delimiter=',')
-else:
+elif args.gen_target == 1:
     np.savetxt("../control/Continuous/" + "{}_evotime{}_n_ts{}".format(
         args.name + "_" + args.molecule, args.evo_time, args.n_ts) + "_target.csv", U, delimiter=",")
+else:
+    print("Please provide the target file!")
+    exit()
 
 # The control Hamiltonians (Qobj classes)
 H_c = [Qobj(hops) for hops in Hops]
@@ -94,9 +106,14 @@ Hadamard_penalized.build_optimizer(H_d, H_c, X_0, X_targ, args.n_ts, args.evo_ti
                                    penalty=args.sum_penalty, max_controllers=max_controllers)
 Hadamard_penalized.optimize_penalized()
 
+# output_control = "../control/Continuous/MoleculeNew2_LiH_evotime20.0_n_ts200_ptypeCONSTANT_offset0.5_objUNIT_sum_penalty0.0.csv"
 b_rel = np.loadtxt(output_control, delimiter=",")
 if len(b_rel.shape) == 1:
     b_rel = np.expand_dims(b_rel, axis=1)
+
+# bin_result = time_evolution(H_d.full(), [hc.full() for hc in H_c], args.n_ts, args.evo_time, b_rel, X_0.full(), False,
+#                             1)
+# print(compute_obj_fid(X_targ, bin_result))
 
 fig = plt.figure(dpi=300)
 # plt.title("Optimised Quantum Control Sequences")

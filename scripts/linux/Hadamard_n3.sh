@@ -147,9 +147,9 @@ cd ../Trustregion/
 #python Hadamard.py --qubit_num=3 --evo_time=12 --n_ts=120 \
 #    --initial_file="../control/Rounding/Hadamard3_evotime12.0_n_ts120_ptypeWARM_offset0.5_objUNIT_sum_penalty0.01_maxswitch12.csv" \
 #    --sos1=1 --alpha=0.0001 --tr_type="hard" --hard_type="maxswitch" --max_switch=12
-#python Hadamard.py --qubit_num=3 --evo_time=12 --n_ts=120 \
-#    --initial_file="../control/Rounding/HadamardADMM2_evotime12.0_n_ts120_ptypeWARM_offset0.5_sum_penalty0.01_penalty0.0001_ADMM_0.5_iter100_maxswitch12.csv" \
-#    --sos1=1 --alpha=0.0001 --tr_type="hard" --hard_type="maxswitch" --max_switch=12
+python Hadamard.py --qubit_num=3 --evo_time=12 --n_ts=120 \
+    --initial_file="../control/Rounding/HadamardADMM3_evotime12.0_n_ts120_ptypeWARM_offset0.5_sum_penalty0.01_penalty0.0001_ADMM_0.5_iter100_maxswitch12.csv" \
+    --sos1=1 --alpha=0.0001 --tr_type="hard" --hard_type="maxswitch" --max_switch=12
 #python Hadamard.py --qubit_num=3 --evo_time=12 --n_ts=120 \
 #    --initial_file="../control/Rounding/Hadamard3_evotime12.0_n_ts120_ptypeWARM_offset0.5_objUNIT_sum_penalty0.01_alpha0.0001_sigma0.25_eta0.001_threshold30_iter100_typetvc_maxswitch12.csv" \
 #    --sos1=1 --alpha=0.0001 --tr_type="hard" --hard_type="maxswitch" --max_switch=12

@@ -17,3 +17,22 @@ computational time 0.16673212500000023
 alpha 0.0001
 tv norm 22.0
 objective with tv norm 0.9401480158104194
+total tv norm 22.0
+initial file ../control/ADMM/HadamardADMM3_evotime12.0_n_ts120_ptypeWARM_offset0.5_sum_penalty0.01_penalty0.0001_ADMM_0.5_iter100.csv
+     fun: 0.9379480158104194
+     jac: array([ 0.00785239, -0.1259198 ,  0.1669975 , -0.04536074, -1.0374641 ,
+        0.0539111 , -0.03457728, -0.07830057, -0.04384087,  0.59088048,
+        0.15926313,  0.22924382, -0.12687356,  0.43367877, -0.25017619,
+       -0.07216214])
+ message: 'Positive directional derivative for linesearch'
+    nfev: 34
+     nit: 6
+    njev: 2
+  status: 8
+ success: False
+       x: array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.])
+switching time points [ 1.  2.  3.  4.  5.  6.  7.  8.  9. 10. 11. 12. 13. 14. 15.]
+computational time 0.1801830419999999
+alpha 0.0001
+tv norm 22.0
+objective with tv norm 0.9401480158104194

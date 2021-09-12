@@ -1,0 +1,34 @@
+2[2400, 1200.0, 600.0, 300.0, 150.0]
+predictive decrease 2.655043181490066 actual decrease 0.039258625271923586
+objective value with out tv norm 0.933680678917906
+[2400, 1200.0, 600.0, 300.0, 150.0, 75.0]
+predictive decrease 2.5855668897676107 actual decrease 0.01028266589365634
+objective value with out tv norm 0.9233980130242496
+[2400, 1200.0, 600.0, 300.0]
+predictive decrease 4.191678759560182 actual decrease 0.12109641761067269
+objective value with out tv norm 0.8023015954135769
+[2400, 1200.0, 600.0, 300.0, 150.0, 75.0, 37.5, 30, 29]
+predictive decrease 1.0239246501994124 actual decrease 0.02427359257492423
+objective value with out tv norm 0.7780280028386527
+[2400, 1200.0, 600.0, 300.0, 150.0, 75.0, 37.5, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15]
+predictive decrease 0.158702746766269 actual decrease 0.0029047086173211722
+objective value with out tv norm 0.7751232942213315
+[2400, 1200.0, 600.0, 300.0, 150.0, 75.0, 37.5, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17]
+predictive decrease 0.1430284105738271 actual decrease 0.010242725811058229
+objective value with out tv norm 0.7648805684102733
+[2400, 1200.0, 600.0, 300.0, 150.0, 75.0, 37.5, 30]
+predictive decrease 0.945254077953932 actual decrease 0.04236005067925208
+objective value with out tv norm 0.7225205177310212
+[2400, 1200.0, 600.0, 300.0, 150.0, 75.0, 37.5, 30, 29]
+predictive decrease 1.155174759991619 actual decrease 0.027001472982248975
+objective value with out tv norm 0.6955190447487722
+[2400, 1200.0, 600.0, 300.0, 150.0, 75.0, 37.5]
+predictive decrease 0.40911188236459584 actual decrease 0.075101700785567
+objective value with out tv norm 0.6204173439632052
+[2400, 1200.0, 600.0, 300.0, 150.0, 75.0, 37.5, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+predictive decrease 0.0 actual decrease 0.0
+objective value with out tv norm 0.6204173439632052
+objective value without tv norm 0.6204173439632052
+norm 20.0
+computational time 60.180535707999994
+total iterations 137

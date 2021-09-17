@@ -8,8 +8,9 @@ def draw_stats():
                 30.14356912948749, 18.70981873414983, 0.3962903548156124, 5.55381795807922e-07,
                 8.428231286969557e-10]
 
-    print(1 / np.power(np.array(x), 2))
+    print([sum_norm[i] * x[i] * x[i] for i in range(len(x))])
 
+    exit()
     # plt.plot(np.array(x), np.array(sum_norm), '-o', label='squared_L2_norm')
     # plt.plot(np.array(x), 1e-9 / np.power(np.array(x), 2))
     # plt.show()
@@ -46,11 +47,12 @@ def draw_control(evo_time, n_ts, control, output_fig):
 
 
 if __name__ == '__main__':
-    evo_time = 4
-    n_ts = 80
-    control = np.loadtxt("../example/control/Rounding/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0_SUR.csv",
-                         delimiter=',')
-    output_fig = "../example/figure/Rounding/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0_binary_SUR.png"
-    draw_control(evo_time, n_ts, control, output_fig)
+    # evo_time = 4
+    # n_ts = 80
+    # control = np.loadtxt("../example/control/Rounding/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0_SUR.csv",
+    #                      delimiter=',')
+    # output_fig = "../example/figure/Rounding/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0_binary_SUR.png"
+    # draw_control(evo_time, n_ts, control, output_fig)
+    draw_stats()
 
 

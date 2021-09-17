@@ -2,11 +2,14 @@
 uccsdcircuit.py -  Functions for generating circuit for UCCSD for various molecules
 """
 import numpy as np
+from qiskit import Aer, BasicAer, QuantumCircuit, QuantumRegister, execute, assemble
 from qiskit import QuantumCircuit, QuantumRegister
 from qiskit.chemistry.drivers import PySCFDriver
 from qiskit.chemistry.components.variational_forms import UCCSD
 from qiskit.chemistry.components.initial_states import HartreeFock
 from qiskit.chemistry.core import Hamiltonian, QubitMappingType
+from qiskit.aqua.components.optimizers import COBYLA, SPSA, SLSQP
+from qiskit.aqua.algorithms import NumPyMinimumEigensolver, VQE
 
 from tools.circuitutil import get_unitary
 
@@ -40,7 +43,7 @@ MOLECULE_TO_INFO = {
     }
 
 
-def get_uccsd_circuit(molecule, theta_vector=None, use_basis_gates=False):
+def get_uccsd_circuit(molecule, theta_vector=None, use_basis_gates=False, optimize=False):
     """Produce the full UCCSD circuit.
     Args:
     molecule :: string - must be a key of MOLECULE_TO_INFO
@@ -73,19 +76,32 @@ def get_uccsd_circuit(molecule, theta_vector=None, use_basis_gates=False):
                      initial_state=HF_state, qubit_mapping=map_type,
                      two_qubit_reduction=qubit_reduction, num_time_slices=1)
 
+    print(var_form._num_parameters)
+
     if theta_vector is None:
         theta_vector = [np.random.rand() * 2 * np.pi for _ in range(var_form._num_parameters)]
 
-    # circuit = var_form.construct_circuit(theta_vector, use_basis_gates=use_basis_gates)
     circuit = var_form.construct_circuit(theta_vector)
+    # print(circuit_before)
+
+    if optimize and var_form._num_parameters > 0:
+        optimizer = SLSQP(maxiter=5)
+        vqe = VQE(qubit_op, var_form, optimizer)
+        print(np.real(vqe.run(BasicAer.get_backend("statevector_simulator"))['eigenvalue']))
+        circuit = vqe.get_optimal_circuit()
     
     return circuit
 
 
+def get_molecule_driver(molecule):
+    molecule_info = MOLECULE_TO_INFO[molecule]
+    driver = PySCFDriver(atom=molecule_info.atomic_string, basis='sto3g')
+    return driver
+
+
 def _tests():
     """A function to run tests on the module"""
-    theta = [np.random.random() for _ in range(8)]
-    circuit = get_uccsd_circuit('LiH', theta)
+    circuit = get_uccsd_circuit('LiH', optimize=True)
     print(circuit)
 
 if __name__ == "__main__":

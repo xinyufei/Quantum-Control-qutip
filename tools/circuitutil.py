@@ -4,7 +4,18 @@ circuitutil.py - A module for extending Qiskit circuit functionality.
 
 import numpy as np
 import pickle
-from qiskit import Aer, BasicAer, QuantumCircuit, QuantumRegister, execute
+from qiskit import Aer, BasicAer, QuantumCircuit, QuantumRegister, execute, assemble
+from qiskit.extensions import *
+from qiskit.compiler import transpile
+from qiskit.transpiler import PassManager
+from qiskit.transpiler.passes import BasicSwap, CXCancellation
+from qiskit.converters import circuit_to_dag, dag_to_circuit
+from qiskit.aqua.algorithms import NumPyMinimumEigensolver, VQE
+from qiskit.aqua import QuantumInstance
+from qiskit.chemistry.algorithms.ground_state_solvers.minimum_eigensolver_factories import VQEUCCSDFactory
+from qiskit.chemistry.algorithms.ground_state_solvers import GroundStateEigensolver
+from qiskit.chemistry.transformations import FermionicTransformation, FermionicQubitMappingType
+from qiskit.aqua.components.optimizers import COBYLA, SPSA, SLSQP
 
 ### CONSTANTS ###
 
@@ -14,10 +25,10 @@ from qiskit import Aer, BasicAer, QuantumCircuit, QuantumRegister, execute
 # See Gate_Times.ipynb or Realistic_Pulses.ipynb for determination of these pulse times
 GATE_TO_PULSE_TIME = {'h': 1.4, 'cx': 3.8, 'rz': 0.4, 'rx': 2.5, 'x': 2.5, 'swap': 7.4, 'id': 0.0}
 GATE_TO_PULSE_TIME_REALISTIC = {'h': 20, 'cx': 45, 'rz': 1, 'rx': 31, 'x': 31, 'swap': 59, 'id': 0.0}
-
+NUM_SHOTS = 1000
 
 unitary_backend = BasicAer.get_backend('unitary_simulator')
-state_backend = Aer.get_backend('statevector_simulator')
+state_backend = BasicAer.get_backend('statevector_simulator')
 
 ### FUNCTIONS ###
 
@@ -61,6 +72,7 @@ def get_nearest_neighbor_coupling_list(width, height, directed=True):
                 coupling_list.append((_qubit_number(row + 1, col), _qubit_number(row, col)))
 
     return coupling_list
+
 
 def _tests():
     """A function to run tests on the module"""

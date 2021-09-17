@@ -52,7 +52,7 @@ args = parser.parse_args()
 # args.target="../control/Continuous/MoleculeNew2_LiH_evotime20.0_n_ts200_target.csv"
 
 d = 2
-Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule)
+Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule, optimize=True)
 
 if args.target is not None:
     U = np.loadtxt(args.target, dtype=np.complex_, delimiter=',')

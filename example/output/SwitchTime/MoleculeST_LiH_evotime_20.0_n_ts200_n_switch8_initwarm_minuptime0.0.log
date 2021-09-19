@@ -18,3 +18,42 @@ computational time 1.2764707499999997
 alpha 0.001
 tv norm 12.0
 objective with tv norm 0.7344310897790067
+total tv norm 12.0
+initial file ../control/ADMM/MoleculeADMMNew3_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.001_ADMM_0.5_iter100.csv
+     fun: 0.7224310897790067
+     jac: array([-0.00742359, -0.00717348, -0.00729048, -0.00735046, -0.00400816,
+       -0.00735045, -0.0074236 , -0.00736827, -0.0067194 ])
+ message: 'Optimization terminated successfully'
+    nfev: 275
+     nit: 27
+    njev: 27
+  status: 0
+ success: True
+       x: array([2.00926557e+00, 1.33605457e+00, 4.64288854e+00, 4.64788846e+00,
+       2.74845251e-17, 6.72658304e-02, 3.56374326e-01, 4.93636027e+00,
+       2.00390244e+00])
+switching time points [ 2.00926557  3.34532014  7.98820868 12.63609714 12.63609714 12.70336297
+ 13.05973729 17.99609756]
+computational time 1.6418361670000001
+alpha 0.001
+tv norm 12.0
+objective with tv norm 0.7344310897790067
+total tv norm 12.0
+initial file ../control/ADMM/MoleculeADMMNew3_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.001_ADMM_0.5_iter100.csv
+     fun: 0.009580279170460448
+     jac: array([-0.02426431, -0.02462646, -0.02384489, -0.0232249 , -0.02396578,
+       -0.0232249 , -0.02426433, -0.02416246,  0.00100977])
+ message: 'Optimization terminated successfully'
+    nfev: 175
+     nit: 17
+    njev: 17
+  status: 0
+ success: True
+       x: array([1.68671706, 0.6655026 , 4.75750355, 4.76139182, 2.43894737,
+       0.        , 0.75145353, 4.93848407, 0.        ])
+switching time points [ 1.68671706  2.35221966  7.10972321 11.87111503 14.3100624  14.3100624
+ 15.06151593 20.        ]
+computational time 0.7364102919999995
+alpha 0.001
+tv norm 12.0
+objective with tv norm 0.02158027917046045

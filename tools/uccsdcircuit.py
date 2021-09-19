@@ -89,6 +89,8 @@ def get_uccsd_circuit(molecule, theta_vector=None, use_basis_gates=False, optimi
         vqe = VQE(qubit_op, var_form, optimizer)
         print(np.real(vqe.run(BasicAer.get_backend("statevector_simulator"))['eigenvalue']))
         circuit = vqe.get_optimal_circuit()
+
+        circuit.draw(output='mpl')
     
     return circuit
 

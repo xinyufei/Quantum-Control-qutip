@@ -56,6 +56,9 @@ d = 2
 
 # args.molecule = "LiH"
 # args.qubit_num = 4
+# args.target = "../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv"
+# args.alpha = 0.0001
+
 
 Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule)
 if args.target is not None:
@@ -63,14 +66,14 @@ if args.target is not None:
 else:
     print("Please provide the target file!")
     exit()
-# args.n_ts = 150
-# args.evo_time = 15
-# 
+# args.n_ts = 200
+# args.evo_time = 20
+
 # args.tr_type = "tvc"
 # args.hard_type = "maxswitch"
 # args.max_switch = 30
 
-# args.initial_file = "../control/Continuous/Molecule3_LiH_evotime15.0_n_ts150_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1.csv"
+# args.initial_file = "../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1.csv"
 
 if not os.path.exists("../output/Trustregion/"):
     os.makedirs("../output/Trustregion/")

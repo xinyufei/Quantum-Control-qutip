@@ -1,0 +1,14 @@
+[2400]
+predictive decrease 4.804754216998158 actual decrease 0.29688182575654676
+objective value without tv norm 0.9999104954213068
+objective value with tv norm 0.9999104954213068
+[2400, 1200.0, 600.0, 300.0]
+predictive decrease 0.0 actual decrease 0.0
+objective value without tv norm 0.9999104954213068
+objective value with tv norm 0.9999104954213068
+objective value without tv norm 0.9999104954213068
+alpha 0.001
+objective value with tv norm 0.9999104954213068
+norm 0.0
+computational time 1.6287509580000004
+total iterations 5

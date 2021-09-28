@@ -182,7 +182,7 @@ class TrustRegion:
                 # if type == 'binary':
                 #     u_var = tr.addVars(self.n_ts, self.n_ctrl, vtype=gb.GRB.BINARY)
                 # if type == 'continuous':
-                u_var = tr.addVars(self.n_ts, self.n_ctrl, vtype=gb.GRB.CONTINUOUS)
+                u_var = tr.addVars(self.n_ts, self.n_ctrl, vtype=gb.GRB.CONTINUOUS, lb=0, ub=1)
                 v_var = tr.addVars(self.n_ts - 1, self.n_ctrl, lb=0)
                 w_var = tr.addVars(self.n_ts, self.n_ctrl, lb=0)
                 # objective function
@@ -319,7 +319,7 @@ class TrustRegion:
                 if type == 'binary':
                     u_var = tr.addVars(self.n_ts, self.n_ctrl, vtype=gb.GRB.BINARY)
                 if type == 'continuous':
-                    u_var = tr.addVars(self.n_ts, self.n_ctrl, vtype=gb.GRB.CONTINUOUS)
+                    u_var = tr.addVars(self.n_ts, self.n_ctrl, vtype=gb.GRB.CONTINUOUS, lb=0, ub=1)
                 v_var = tr.addVars(self.n_ts - 1, self.n_ctrl, lb=0)
                 w_var = tr.addVars(self.n_ts, self.n_ctrl, lb=0)
                 # objective function

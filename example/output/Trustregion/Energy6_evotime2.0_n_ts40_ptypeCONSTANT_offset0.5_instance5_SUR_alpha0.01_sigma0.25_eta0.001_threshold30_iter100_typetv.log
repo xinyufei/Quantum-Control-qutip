@@ -1,0 +1,34 @@
+[40, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+predictive decrease 0.06551159223653924 actual decrease 0.004402409715070388
+objective value without tv norm -3.2379065726442717
+objective value with tv norm -2.897906572644272
+[40, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+predictive decrease 0.08851889414310621 actual decrease 0.04813898333152428
+objective value without tv norm -3.246045555975796
+objective value with tv norm -2.9460455559757963
+[40, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+predictive decrease 0.09015186132194841 actual decrease 0.04754953980518484
+objective value without tv norm -3.253595095780981
+objective value with tv norm -2.9935950957809814
+[40, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+predictive decrease 0.07892915593875963 actual decrease 0.023390494831159375
+objective value without tv norm -3.2369855906121408
+objective value with tv norm -3.0169855906121406
+[40, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+predictive decrease 0.054005557373231844 actual decrease 0.01093140761708497
+objective value without tv norm -3.2479169982292255
+objective value with tv norm -3.0279169982292253
+[40, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+predictive decrease 0.04815080055156842 actual decrease 0.0013171784327694336
+objective value without tv norm -3.2492341766619948
+objective value with tv norm -3.0292341766619946
+[40, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0.5]
+predictive decrease 0.0 actual decrease 1.942890293094024e-16
+objective value without tv norm -3.2492341766619948
+objective value with tv norm -3.0292341766619946
+objective value without tv norm -3.2492341766619948
+alpha 0.01
+objective value with tv norm -3.0292341766619946
+norm 22.0
+computational time 43.226556583000004
+total iterations 220

@@ -1,0 +1,32 @@
+total tv norm 6.0
+initial file ../control/ADMM/EnergyADMM6_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance1.csv
+     fun: -1.4275356151872283
+     jac: array([ 1.45704493, -3.00681682, -3.203771  ,  4.21611871])
+ message: 'Optimization terminated successfully'
+    nfev: 10
+     nit: 2
+    njev: 2
+  status: 0
+ success: True
+       x: array([0.5, 0.5, 0.5, 0.5])
+switching time points [0.5 1.  1.5]
+computational time 0.18851291699999972
+alpha 0.01
+tv norm 6.0
+objective with tv norm -1.3675356151872282
+total tv norm 6.0
+initial file ../control/Trustregion/Energy6_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance1_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv
+     fun: -1.4275356151872283
+     jac: array([ 1.45704493, -3.00681682, -3.203771  ,  4.21611871])
+ message: 'Optimization terminated successfully'
+    nfev: 10
+     nit: 2
+    njev: 2
+  status: 0
+ success: True
+       x: array([0.5, 0.5, 0.5, 0.5])
+switching time points [0.5 1.  1.5]
+computational time 0.1757883330000003
+alpha 0.01
+tv norm 6.0
+objective with tv norm -1.3675356151872282

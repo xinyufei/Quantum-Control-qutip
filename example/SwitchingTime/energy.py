@@ -18,6 +18,10 @@ parser.add_argument('--name', help='example name', type=str, default='EnergyST')
 parser.add_argument('--n', help='number of qubits', type=int, default=2)
 # number of edges for generating regular graph
 parser.add_argument('--num_edges', help='number of edges for generating regular graph', type=int, default=1)
+# if generate the graph randomly
+parser.add_argument('--rgraph', help='if generate the graph randomly', type=int, default=0)
+# number of instances
+parser.add_argument('--seed', help='random seed', type=int, default=0)
 # evolution time
 parser.add_argument('--evo_time', help='evolution time', type=float, default=2)
 # time steps
@@ -35,10 +39,18 @@ parser.add_argument('--alpha', help='tv regularizer parameter', type=float, defa
 
 args = parser.parse_args()
 
-Jij, edges = generate_Jij_MC(args.n, args.num_edges, 100)
+if args.rgraph == 0:
+    Jij, edges = generate_Jij_MC(args.n, args.num_edges, 100)
 
-C = get_ham(args.n, True, Jij)
-B = get_ham(args.n, False, Jij)
+    C = get_ham(args.n, True, Jij)
+    B = get_ham(args.n, False, Jij)
+
+    args.seed = 0
+    
+if args.rgraph == 1:
+    Jij = generate_Jij(args.n, args.seed)
+    C = get_ham(args.n, True, Jij)
+    B = get_ham(args.n, False, Jij)
 
 y0 = uniform(args.n)
 
@@ -79,18 +91,18 @@ if not os.path.exists("../figure/SwitchTime/"):
     os.makedirs("../figure/SwitchTime/")
 
 # output file
-output_name = "../output/SwitchTime/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}".format(
+output_name = "../output/SwitchTime/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}".format(
     args.name + str(args.n), str(args.evo_time), str(args.n_ts), str(num_switch), args.initial_type,
-    str(args.min_up_time)) + ".log"
+    str(args.min_up_time), args.seed) + ".log"
 output_file = open(output_name, "a+")
 print(res, file=output_file)
 print("switching time points", energy_opt.switch_time, file=output_file)
 print("computational time", end - start, file=output_file)
 
 # retrieve control
-control_name = "../control/SwitchTime/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}".format(
+control_name = "../control/SwitchTime/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}".format(
     args.name + str(args.n), str(args.evo_time), str(args.n_ts), str(num_switch), args.initial_type,
-    str(args.min_up_time)) + ".csv"
+    str(args.min_up_time), args.seed) + ".csv"
 control = energy_opt.retrieve_control(args.n_ts)
 np.savetxt(control_name, control, delimiter=",")
 
@@ -100,9 +112,9 @@ print("tv norm", tv_norm, file=output_file)
 print("objective with tv norm", energy_opt.obj + args.alpha * tv_norm, file=output_file)
 
 # figure file
-figure_name = "../figure/SwitchTime/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}".format(
+figure_name = "../figure/SwitchTime/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}".format(
     args.name + str(args.n), str(args.evo_time), str(args.n_ts), str(num_switch), args.initial_type,
-    str(args.min_up_time)) + ".png"
+    str(args.min_up_time), args.seed) + ".png"
 energy_opt.draw_control(figure_name)
 
 b_bin = np.loadtxt(control_name, delimiter=",")

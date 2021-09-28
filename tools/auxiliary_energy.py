@@ -63,14 +63,17 @@ def generate_Jij_MC(n, d, seed=None):
          
         return Jij, edges
          
-def generate_Jij(n):
+def generate_Jij(n, seed=None):
         '''Generates a randomized Jij matrix and stores it in a global variable'''
         global Jij
         
         Jij = np.zeros((n,n))
         for i in range(n):
                 for j in range(i+1,n):
-                        nrm.seed(i*n*10+j*10)
+                        if seed:
+                                nrm.seed((i*n*10+j*10)*seed*n*n*10+seed)
+                        else:
+                                nrm.seed(i*n*10+j*10)
                         Jij[i,j] = 2*nrm.rand() - 1
                         Jij[j,i] = Jij[i,j]
         return Jij

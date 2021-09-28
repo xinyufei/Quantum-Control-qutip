@@ -42,17 +42,18 @@ def draw_control(evo_time, n_ts, control, output_fig):
         plt.step(np.linspace(0, evo_time, n_ts + 1), np.hstack((control[:, j], control[-1, j])), marker_list[j],
                  where='post', linewidth=2, label='controller ' + str(j + 1), markevery=5,
                  markersize=marker_size_list[j])
-    plt.legend()
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.tight_layout()
     plt.savefig(output_fig)
 
 
 if __name__ == '__main__':
-    # evo_time = 4
-    # n_ts = 80
-    # control = np.loadtxt("../example/control/Rounding/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0_SUR.csv",
-    #                      delimiter=',')
-    # output_fig = "../example/figure/Rounding/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0_binary_SUR.png"
-    # draw_control(evo_time, n_ts, control, output_fig)
-    draw_stats()
+    evo_time = 4
+    n_ts = 80
+    control = np.loadtxt("../example/control/SwitchTime/MoleculeSTNew_H2_evotime_4.0_n_ts80_n_switch2_initwarm_minuptime0.0.csv",
+                         delimiter=',')
+    output_fig = "../example/figure/SwitchTime/MoleculeSTNew_H2_evotime_4.0_n_ts80_n_switch2_initwarm_minuptime0.0.png"
+    draw_control(evo_time, n_ts, control, output_fig)
+    # draw_stats()
 
 

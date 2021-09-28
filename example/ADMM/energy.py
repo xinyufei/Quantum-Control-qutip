@@ -14,6 +14,10 @@ parser.add_argument('--name', help='example name', type=str, default='EnergyADMM
 parser.add_argument('--n', help='number of qubits', type=int, default=2)
 # number of edges for generating regular graph
 parser.add_argument('--num_edges', help='number of edges for generating regular graph', type=int, default=1)
+# if generate the graph randomly
+parser.add_argument('--rgraph', help='if generate the graph randomly', type=int, default=0)
+# number of instances
+parser.add_argument('--seed', help='random seed', type=int, default=0)
 # evolution time
 parser.add_argument('--evo_time', help='evolution time', type=float, default=2)
 # time steps
@@ -43,10 +47,13 @@ parser.add_argument('--max_time_admm', help='maximum computational time for ADMM
 
 args = parser.parse_args()
 
-Jij, edges = generate_Jij_MC(args.n, args.num_edges, 100)
+if args.rgraph == 0:
+    Jij, edges = generate_Jij_MC(args.n, args.num_edges, 100)
 
-C = get_ham(args.n, True, Jij)
-B = get_ham(args.n, False, Jij)
+    C = get_ham(args.n, True, Jij)
+    B = get_ham(args.n, False, Jij)
+
+    args.seed = 0
 
 y0 = uniform(args.n)
 
@@ -57,17 +64,21 @@ if not os.path.exists("../control/ADMM/"):
 if not os.path.exists("../figure/ADMM/"):
     os.makedirs("../figure/ADMM/")
 
-output_num = "../output/ADMM/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}_penalty{}_ADMM_{}_iter{}".format(
+output_num = "../output/ADMM/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}_penalty{}_ADMM_{}_iter{}_instance{}".format(
     args.name + str(args.n), args.evo_time, args.n_ts, args.initial_type, args.offset, args.alpha, args.rho,
-    args.max_iter_admm) + ".log"
-output_fig = "../figure/ADMM/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}_penalty{}_ADMM_{}_iter{}".format(
+    args.max_iter_admm, args.seed) + ".log"
+output_fig = "../figure/ADMM/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}_penalty{}_ADMM_{}_iter{}_instance{}".format(
     args.name + str(args.n), args.evo_time, args.n_ts, args.initial_type, args.offset, args.alpha, args.rho,
-    args.max_iter_admm) + ".png"
-output_control = "../control/ADMM/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}_penalty{}_ADMM_{}_iter{}".format(
+    args.max_iter_admm, args.seed) + ".png"
+output_control = "../control/ADMM/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}_penalty{}_ADMM_{}_iter{}_instance{}".format(
     args.name + str(args.n), args.evo_time, args.n_ts, args.initial_type, args.offset, args.alpha, args.rho,
-    args.max_iter_admm) + ".csv"
+    args.max_iter_admm, args.seed) + ".csv"
 
-
+if args.rgraph == 1:
+    Jij = generate_Jij(args.n, args.seed)
+    C = get_ham(args.n, True, Jij)
+    B = get_ham(args.n, False, Jij)
+    
 opt = optcontrol_admm_energy()
 opt.build_optimizer(B, C, args.n, y0[0:2**args.n], args.n_ts, args.evo_time, initial_type=args.initial_type,
                     initial_control=args.initial_control,

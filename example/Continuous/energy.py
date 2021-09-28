@@ -17,6 +17,10 @@ parser.add_argument('--n', help='number of qubits', type=int, default=2)
 # number of edges for generating regular graph
 parser.add_argument('--num_edges', help='number of edges for generating regular graph', type=int,
                     default=1)
+# if generate the graph randomly
+parser.add_argument('--rgraph', help='if generate the graph randomly', type=int, default=0)
+# number of instances
+parser.add_argument('--seed', help='random seed', type=int, default=0)
 # evolution time
 parser.add_argument('--evo_time', help='evolution time', type=float, default=2)
 # time steps
@@ -37,11 +41,6 @@ parser.add_argument('--min_grad', help='minimum gradient', type=float, default=1
 
 args = parser.parse_args()
 
-Jij, edges = generate_Jij_MC(args.n, args.num_edges, 100)
-
-C = get_ham(args.n, True, Jij)
-B = get_ham(args.n, False, Jij)
-
 y0 = uniform(args.n)
 
 if not os.path.exists("../output/Continuous/"):
@@ -51,18 +50,32 @@ if not os.path.exists("../control/Continuous/"):
 if not os.path.exists("../figure/Continuous/"):
     os.makedirs("../figure/Continuous/")
 
-output_num = "../output/Continuous/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}".format(
-    args.name + str(args.n), args.evo_time, args.n_ts, args.initial_type, args.offset) + ".log"
-output_fig = "../figure/Continuous/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}".format(
-    args.name + str(args.n), args.evo_time, args.n_ts, args.initial_type, args.offset) + ".png"
-output_control = "../control/Continuous/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}".format(
-    args.name + str(args.n), args.evo_time, args.n_ts, args.initial_type, args.offset) + ".csv"
+if args.rgraph == 0:
+    Jij, edges = generate_Jij_MC(args.n, args.num_edges, 100)
 
+    C = get_ham(args.n, True, Jij)
+    B = get_ham(args.n, False, Jij)
+    
+    args.seed = 0
+    
 
+output_num = "../output/Continuous/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}_instance{}".format(
+    args.name + str(args.n), args.evo_time, args.n_ts, args.initial_type, args.offset, args.seed) + ".log"
+output_fig = "../figure/Continuous/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}_instance{}".format(
+    args.name + str(args.n), args.evo_time, args.n_ts, args.initial_type, args.offset, args.seed) + ".png"
+output_control = "../control/Continuous/" + "{}_evotime{}_n_ts{}_ptype{}_offset{}_instance{}".format(
+    args.name + str(args.n), args.evo_time, args.n_ts, args.initial_type, args.offset, args.seed) + ".csv"
+    
+if args.rgraph == 1:
+    Jij = generate_Jij(args.n, args.seed)
+    C = get_ham(args.n, True, Jij)
+    B = get_ham(args.n, False, Jij)
+    
 opt = optcontrol_energy()
 opt.build_optimizer(B, C, args.n, y0[0:2**args.n], args.n_ts, args.evo_time, args.initial_type,
                     output_fig=output_fig, output_num=output_num, output_control=output_control,
-                    max_iter=args.max_iter, max_wall_time=args.max_time, min_grad=args.min_grad, constant=args.offset)
+                    max_iter=args.max_iter, max_wall_time=args.max_time, min_grad=args.min_grad, 
+                    constant=args.offset)
 
 opt.optimize()
 
@@ -77,8 +90,6 @@ plt.ylim([0, 1])
 marker_list = ['-o', '--^', '-*', '--s']
 marker_size_list = [5, 5, 8, 5]
 for j in range(b_rel.shape[1]):
-    # plt.step(np.linspace(0, args.evo_time, args.n_ts + 1), np.hstack((b_rel[:, j], b_rel[-1, j])),
-    #          where='post', linewidth=2, label='controller ' + str(j + 1))
     plt.step(np.linspace(0, args.evo_time, args.n_ts + 1), np.hstack((b_rel[:, j], b_rel[-1, j])), marker_list[j],
              where='post', linewidth=2, label='controller ' + str(j + 1), markevery=(j, 4),
              markersize=marker_size_list[j])
@@ -87,3 +98,4 @@ plt.savefig(output_fig.split(".png")[0] + "_continuous.png")
 
 f = open(output_num, "a+")
 print("total tv norm", compute_TV_norm(b_rel), file=f)
+print("true energy", min(get_diag(Jij)), file=f)

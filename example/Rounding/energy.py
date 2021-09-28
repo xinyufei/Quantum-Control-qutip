@@ -16,6 +16,10 @@ parser.add_argument('--n', help='number of qubits', type=int, default=2)
 # number of edges for generating regular graph
 parser.add_argument('--num_edges', help='number of edges for generating regular graph', type=int,
                     default=1)
+# if generate the graph randomly
+parser.add_argument('--rgraph', help='if generate the graph randomly', type=int, default=0)
+# number of instances
+parser.add_argument('--seed', help='random seed', type=int, default=0)
 # evolution time
 parser.add_argument('--evo_time', help='evolution time', type=float, default=2)
 # time steps
@@ -36,11 +40,6 @@ parser.add_argument('--time_limit', help='time limit for rounding by Gurobi', ty
 
 args = parser.parse_args()
 
-Jij, edges = generate_Jij_MC(args.n, args.num_edges, 100)
-
-C = get_ham(args.n, True, Jij)
-B = get_ham(args.n, False, Jij)
-
 y0 = uniform(args.n)[0:2**args.n]
 
 if not os.path.exists("../output/Rounding/"):
@@ -50,6 +49,19 @@ if not os.path.exists("../control/Rounding/"):
 if not os.path.exists("../figure/Rounding/"):
     os.makedirs("../figure/Rounding/")
 
+if args.rgraph == 0:
+    Jij, edges = generate_Jij_MC(args.n, args.num_edges, 100)
+
+    C = get_ham(args.n, True, Jij)
+    B = get_ham(args.n, False, Jij)
+
+    args.seed = 0
+
+if args.rgraph == 1:
+    Jij = generate_Jij(args.n, args.seed)
+    C = get_ham(args.n, True, Jij)
+    B = get_ham(args.n, False, Jij)
+    
 output_fig = "../figure/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0]
 if args.type == "SUR":
     output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.log"

@@ -2,7 +2,7 @@
 
 conda activate qcopt
 cd ../../example/Continuous/
-#python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5
+python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5
 cd ../ADMM/
 #python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 --initial_type=WARM \
 #    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5.csv" \
@@ -103,15 +103,15 @@ cd ../Trustregion/
 #    --initial_file="../control/SwitchTime/EnergyST4_evotime_2.0_n_ts40_n_switch3_initwarm_minuptime0.0.csv" \
 #    --alpha=0.01 --tr_type="hard" --hard_type="maxswitch" --max_switch=5
 
-python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
-    --initial_file="../control/Rounding/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc_SUR.csv" \
-    --alpha=0.01 --tr_type="tv"
-python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
-    --initial_file="../control/Rounding/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc_minup10.csv" \
-    --alpha=0.01 --tr_type="hard" --hard_type="minup" --min_up=10
-python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
-    --initial_file="../control/Rounding/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc_maxswitch5.csv" \
-    --alpha=0.01 --tr_type="hard" --hard_type="maxswitch" --max_switch=5
+#python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
+#    --initial_file="../control/Rounding/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc_SUR.csv" \
+#    --alpha=0.01 --tr_type="tv"
+#python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
+#    --initial_file="../control/Rounding/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc_minup10.csv" \
+#    --alpha=0.01 --tr_type="hard" --hard_type="minup" --min_up=10
+#python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
+#    --initial_file="../control/Rounding/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc_maxswitch5.csv" \
+#    --alpha=0.01 --tr_type="hard" --hard_type="maxswitch" --max_switch=5
 
 #python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 \
 #    --initial_file="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5.csv" \

@@ -2,7 +2,7 @@
 
 conda activate qcopt
 cd ../../example/Continuous/
-python energy.py --n=6 --num_edges=3 --rgraph=1 --seed=1 --evo_time=7 --n_ts=140 --initial_type=CONSTANT --offset=0.5
+#python energy.py --n=6 --num_edges=3 --rgraph=1 --seed=1 --evo_time=7 --n_ts=140 --initial_type=CONSTANT --offset=0.5
 #python energy.py --n=6 --num_edges=3 --rgraph=1 --seed=5 --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5
 #python energy.py --n=6 --num_edges=3 --rgraph=1 --seed=5 --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5
 #python energy.py --n=6 --num_edges=3 --rgraph=1 --seed=5 --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5

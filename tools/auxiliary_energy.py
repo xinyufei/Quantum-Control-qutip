@@ -571,22 +571,14 @@ import sys
        
        
 if __name__=="__main__":
-        n = 4 # number of qubits
-        edges = generate_Jij_MC(n,3) # Generates the connectivity graph # sets a global variable
-        uN = 41 # number of discrete steps in u(t)
-        #generate_Jij_MC(n, 3) # generate the problem of MaxCut on a 3-regular graph
-        #generate_Jij_LR(n,1.0,0.5) # generate the long range Ising problem
-        tstep = 2.0 # The step in the tf, total time for the procedure
-        tsteps = 1 # how many tf steps to take
-        iterations = 200 # number of iterations of gradient descent
+        n = 6
+        num_edges = 2
+        seed = 2
+        # Jij, edges = generate_Jij_MC(n, num_edges, 100)
+        Jij = generate_Jij(n, seed)
 
-        display_ham(n,False)
-        display_ham(n,True)
-
-        C_mat = get_ham(n,True)
-        np.savetxt('C_mat_' + str(n) + '.csv', C_mat)
-        B_mat = get_ham(n,False)
-        np.savetxt('B_mat_' + str(n) + '.csv', B_mat)
+        C_mat = get_ham(n, True, Jij)
+        B_mat = get_ham(n, False, Jij)
 
         ######################################################
         # ... Sven's additions
@@ -611,15 +603,3 @@ if __name__=="__main__":
         for ii in range(len(Crows)):
                 print("let ImagC[",Crows[ii]+1,",",Ccols[ii]+1,"] := ",ImagC[Crows[ii],Ccols[ii]],";")
         ######################################################
-
-        #sys.exit('a')
-
-        for i in range(tsteps):
-                tf = (i+1)*tstep
-                tlist = [tf*i/float(uN-1) for i in range(uN)]
-
-                [ulist,Philist,Energy] = gradient_descent_opt(n, uN,tf,iterations)
-                print_to_file(n,tf,tlist,ulist,Philist,Energy,edges)
-                #  print_to_file(n, tf, tlist, ulist, Philist, Energy)
-        
-        

@@ -5,7 +5,7 @@ import sys
 sys.path.append("..")
 from tools.evolution import *
 
-initial_file_name = "Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_couenne.csv"
+initial_file_name = "Energy6_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_muscod.csv"
 
 initial_control = np.loadtxt("control/Continuous/" + initial_file_name)
 

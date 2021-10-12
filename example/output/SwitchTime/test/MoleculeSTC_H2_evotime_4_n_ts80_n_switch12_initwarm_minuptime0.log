@@ -1,0 +1,23 @@
+total tv norm 20.0
+initial file ../example/control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0.csv
+     fun: 5.788119475935716e-07
+     jac: array([ 4.24735248e-04,  0.00000000e+00,  1.75967813e-04,  4.24735248e-04,
+       -6.41345978e-04, -7.35662878e-04, -4.80405986e-04, -1.01808459e-03,
+       -6.34737313e-04,  8.90716910e-05,  4.24735248e-04, -1.75639987e-04,
+        4.24735248e-04])
+ message: 'Optimization terminated successfully'
+    nfev: 174
+     nit: 12
+    njev: 12
+  status: 0
+ success: True
+       x: array([2.36855457e-01, 0.00000000e+00, 7.28325219e-02, 9.29587588e-02,
+       1.17047678e+00, 7.14773643e-02, 7.11321909e-02, 5.95527353e-01,
+       1.27222772e+00, 9.02406899e-04, 5.20504583e-02, 7.87378772e-02,
+       2.84821112e-01])
+switching time points [0.23685546 0.23685546 0.30968798 0.40264674 1.57312352 1.64460088
+ 1.71573308 2.31126043 3.58348815 3.58439055 3.63644101 3.71517889]
+computational time 0.7159023749999998
+alpha 0.001
+tv norm 20.0
+objective with tv norm 0.020000578811947594

@@ -1,0 +1,42 @@
+total tv norm 22.0
+initial file ../example/control/Continuous/Energy6_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance2.csv
+     fun: -5.312544138386582
+     jac: array([-1.29921949, -1.29478258, -1.29934406, -1.29628509, -1.2970593 ,
+       -1.29819578, -1.2958979 , -1.29859585, -1.2954824 , -1.29876554,
+       -1.29581732, -1.29795998])
+ message: 'Optimization terminated successfully'
+    nfev: 354
+     nit: 26
+    njev: 26
+  status: 0
+ success: True
+       x: array([0.21230011, 0.31718063, 0.07115205, 0.16431628, 0.16019874,
+       0.11631576, 0.11674247, 0.14370234, 0.10524714, 0.10896199,
+       0.27057762, 0.21330485])
+switching time points [0.21230011 0.52948075 0.6006328  0.76494908 0.92514782 1.04146358
+ 1.15820605 1.30190839 1.40715553 1.51611752 1.78669515]
+computational time 16.443519249999998
+alpha 0.01
+tv norm 22.0
+objective with tv norm -5.092544138386582
+total tv norm 22.0
+initial file ../example/control/Continuous/Energy6_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance2.csv
+     fun: -5.312544138386582
+     jac: array([-1.29921949, -1.29478258, -1.29934406, -1.29628509, -1.2970593 ,
+       -1.29819578, -1.2958979 , -1.29859585, -1.2954824 , -1.29876554,
+       -1.29581732, -1.29795998])
+ message: 'Optimization terminated successfully'
+    nfev: 354
+     nit: 26
+    njev: 26
+  status: 0
+ success: True
+       x: array([0.21230011, 0.31718063, 0.07115205, 0.16431628, 0.16019874,
+       0.11631576, 0.11674247, 0.14370234, 0.10524714, 0.10896199,
+       0.27057762, 0.21330485])
+switching time points [0.21230011 0.52948075 0.6006328  0.76494908 0.92514782 1.04146358
+ 1.15820605 1.30190839 1.40715553 1.51611752 1.78669515]
+computational time 14.16616875
+alpha 0.01
+tv norm 22.0
+objective with tv norm -5.092544138386582

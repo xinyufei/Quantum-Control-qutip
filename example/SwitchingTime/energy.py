@@ -58,7 +58,7 @@ if args.admm_control is None:
     print("Must provide control results of ADMM!")
     exit()
 
-warm_start_length, num_switch, ctrl_hamil_idx = obtain_switching_time(args.admm_control, args.n_ts / args.evo_time)
+warm_start_length, num_switch, ctrl_hamil_idx = obtain_switching_time(args.admm_control, args.evo_time / args.n_ts)
 
 # sequence of control hamiltonians
 ctrl_hamil = [B, C]

@@ -1,0 +1,48 @@
+total tv norm 6.0
+initial file ../example/control/ADMM/EnergyADMM6_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance1.csv
+     fun: -1.4275356151872258
+     jac: array([ 1.4570449 , -3.00681685, -3.20377104,  4.21611868])
+ message: 'Optimization terminated successfully'
+    nfev: 10
+     nit: 2
+    njev: 2
+  status: 0
+ success: True
+       x: array([0.5, 0.5, 0.5, 0.5])
+switching time points [0.5 1.  1.5]
+computational time 0.20666208300001188
+alpha 0.01
+tv norm 6.0
+objective with tv norm -1.3675356151872258
+total tv norm 6.0
+initial file ../example/control/ADMM/EnergyADMM6_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance1.csv
+     fun: -2.2137819438252517
+     jac: array([2.50362507, 0.66540152, 0.15344435, 0.15079588])
+ message: 'Optimization terminated successfully'
+    nfev: 27
+     nit: 5
+    njev: 5
+  status: 0
+ success: True
+       x: array([0.5       , 0.5       , 0.70647387, 0.29352613])
+switching time points [0.5        1.         1.70647387]
+computational time 0.4402239579999998
+alpha 0.01
+tv norm 6.0
+objective with tv norm -2.1537819438252517
+total tv norm 6.0
+initial file ../example/control/ADMM/EnergyADMM6_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance1.csv
+     fun: -2.2137819438252517
+     jac: array([2.50362507, 0.66540152, 0.15344435, 0.15079588])
+ message: 'Optimization terminated successfully'
+    nfev: 27
+     nit: 5
+    njev: 5
+  status: 0
+ success: True
+       x: array([0.5       , 0.5       , 0.70647387, 0.29352613])
+switching time points [0.5        1.         1.70647387]
+computational time 0.42105970899999967
+alpha 0.01
+tv norm 6.0
+objective with tv norm -2.1537819438252517

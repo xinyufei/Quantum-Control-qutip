@@ -1,0 +1,18 @@
+total tv norm 10.0
+initial file ../example/control/Trustregion/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv
+     fun: 0.6182223056428456
+     jac: array([-1.0388005 , -1.03813245, -0.4661858 , -1.03917365, -0.1941417 ,
+       -1.03880049])
+ message: 'Optimization terminated successfully'
+    nfev: 38
+     nit: 5
+    njev: 5
+  status: 0
+ success: True
+       x: array([0.94444009, 0.55560596, 0.5       , 0.55551385, 0.5       ,
+       0.9444401 ])
+switching time points [0.94444009 1.50004605 2.00004605 2.5555599  3.0555599 ]
+computational time 0.09102466699999923
+alpha 0.001
+tv norm 10.0
+objective with tv norm 0.6282223056428456

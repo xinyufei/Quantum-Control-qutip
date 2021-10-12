@@ -1,0 +1,32 @@
+0total tv norm 6.0
+initial file ../example/control/Continuous/Energy6_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance2.csv
+     fun: -2.1003645790291143
+     jac: array([-3.57627869e-07,  8.04625618e+00,  3.73945367e+00,  2.98023224e-08])
+ message: 'Optimization terminated successfully'
+    nfev: 6
+     nit: 1
+    njev: 1
+  status: 0
+ success: True
+       x: array([0.55000019, 0.5       , 0.5       , 0.44999981])
+switching time points [0.55000019 1.05000019 1.55000019]
+computational time 0.11434254199999927
+alpha 0.01
+tv norm 6.0
+objective with tv norm -2.0403645790291143
+total tv norm 6.0
+initial file ../example/control/Continuous/Energy6_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance2.csv
+     fun: -2.1003645790291143
+     jac: array([-3.57627869e-07,  8.04625618e+00,  3.73945367e+00,  2.98023224e-08])
+ message: 'Optimization terminated successfully'
+    nfev: 6
+     nit: 1
+    njev: 1
+  status: 0
+ success: True
+       x: array([0.55000019, 0.5       , 0.5       , 0.44999981])
+switching time points [0.55000019 1.05000019 1.55000019]
+computational time 0.1038520420000002
+alpha 0.01
+tv norm 6.0
+objective with tv norm -2.0403645790291143

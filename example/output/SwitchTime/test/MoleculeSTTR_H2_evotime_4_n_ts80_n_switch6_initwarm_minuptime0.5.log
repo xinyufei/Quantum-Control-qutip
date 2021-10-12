@@ -1,0 +1,36 @@
+total tv norm 12.0
+initial file ../example/control/Trustregion/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv
+     fun: 0.28848752773857855
+     jac: array([-1.1175446 , -0.30194241, -1.1176153 , -0.36179885, -1.11780186,
+       -0.30194242, -1.1175446 ])
+ message: 'Optimization terminated successfully'
+    nfev: 50
+     nit: 6
+    njev: 6
+  status: 0
+ success: True
+       x: array([0.54350771, 0.5       , 1.2841449 , 0.5       , 0.61746053,
+       0.5       , 0.05488687])
+switching time points [0.54350771 1.04350771 2.32765261 2.82765261 3.44511313 3.94511313]
+computational time 0.12926570900000023
+alpha 0.001
+tv norm 12.0
+objective with tv norm 0.30048752773857856
+total tv norm 12.0
+initial file ../example/control/Trustregion/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv
+     fun: 0.6182223016909674
+     jac: array([-1.0381432 , -0.19405557, -1.03886048, -0.46627191, -1.03814321,
+       -1.03910288, -1.0381432 ])
+ message: 'Optimization terminated successfully'
+    nfev: 58
+     nit: 7
+    njev: 7
+  status: 0
+ success: True
+       x: array([0.55943102, 0.5       , 0.55554155, 0.5       , 0.55943102,
+       1.22218678, 0.10340963])
+switching time points [0.55943102 1.05943102 1.61497257 2.11497257 2.67440359 3.89659037]
+computational time 0.15551166699999985
+alpha 0.001
+tv norm 12.0
+objective with tv norm 0.6302223016909674

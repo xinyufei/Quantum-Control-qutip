@@ -47,13 +47,25 @@ def draw_control(evo_time, n_ts, control, output_fig):
     plt.savefig(output_fig)
 
 
+def draw_sos1(n_ts, control, output_fig):
+    plt.figure(dpi=300)
+    plt.xlabel("Time")
+    plt.ylabel("Absolute violation")
+    plt.plot(np.linspace(0, evo_time, n_ts), [abs(sum(control[k, :]) - 1) for k in range(n_ts)],
+             label='absolute violation')
+    plt.legend()
+    plt.savefig(output_fig)
+
+
 if __name__ == '__main__':
     evo_time = 4
     n_ts = 80
-    control = np.loadtxt("../example/control/SwitchTime/MoleculeSTNew_H2_evotime_4.0_n_ts80_n_switch2_initwarm_minuptime0.0.csv",
+    control = np.loadtxt("../example/control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_ptypeCONSTANT_offset0.5_objUNIT_sum_penalty0.0.csv",
                          delimiter=',')
-    output_fig = "../example/figure/SwitchTime/MoleculeSTNew_H2_evotime_4.0_n_ts80_n_switch2_initwarm_minuptime0.0.png"
-    draw_control(evo_time, n_ts, control, output_fig)
+    output_fig = "../example/figure/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_ptypeCONSTANT_offset0.5_objUNIT_sum_penalty0.0_sos1.png"
+    # draw_control(evo_time, n_ts, control, output_fig)
     # draw_stats()
+    draw_sos1(n_ts, control, output_fig)
+    print(max([abs(sum(control[k, :]) - 1) for k in range(n_ts)]))
 
 

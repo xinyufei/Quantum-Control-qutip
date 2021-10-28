@@ -118,5 +118,6 @@ def generate_molecule_func(N, d, molecule, optimize=True):
     return Hops_new, H0, U0, U
 
 if __name__ == '__main__':
-    Hops, H0, U0, U = generate_molecule_func(4, 2, "LiH")
+    Hops, H0, U0, U = generate_molecule_func(2, 2, "H2")
+    print(len(Hops))
     print(U.conj().T.dot(U))

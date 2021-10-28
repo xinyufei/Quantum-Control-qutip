@@ -20,20 +20,20 @@ cd ../Rounding/
 #python energy.py --n=2 --num_edges=1 --evo_time=1 --n_ts=20 \
 #    --initial_control="../control/Continuous/Energy2_evotime1.0_n_ts20_ptypeCONSTANT_offset0.5.csv" \
 #    --type=SUR
-#python energy.py --n=2 --num_edges=1 --evo_time=1 --n_ts=20 \
-#    --initial_control="../control/Continuous/Energy2_evotime1.0_n_ts20_ptypeCONSTANT_offset0.5.csv" \
-#    --type=minup --min_up=10
-#python energy.py --n=2 --num_edges=1 --evo_time=1 --n_ts=20 \
-#    --initial_control="../control/Continuous/Energy2_evotime1.0_n_ts20_ptypeCONSTANT_offset0.5.csv" \
+python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 \
+    --initial_control="../control/Continuous/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5.csv" \
+    --type=minup --min_up=10
+#python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 \
+#    --initial_control="../control/Continuous/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5.csv" \
 #    --type=maxswitch --max_switch=5
 #python energy.py --n=2 --num_edges=1 --evo_time=1 --n_ts=20 \
 #    --initial_control="../control/ADMM/EnergyADMM2_evotime1.0_n_ts20_ptypeWARM_offset0.5_penalty0.1_ADMM_10.0_iter100.csv" \
 #    --type=SUR
-#python energy.py --n=2 --num_edges=1 --evo_time=1 --n_ts=20 \
-#    --initial_control="../control/ADMM/EnergyADMM2_evotime1.0_n_ts20_ptypeWARM_offset0.5_penalty0.1_ADMM_10.0_iter100.csv" \
+#python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 \
+#    --initial_control="../control/ADMM/EnergyADMM2_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv" \
 #    --type=minup --min_up=10
-#python energy.py --n=2 --num_edges=1 --evo_time=1 --n_ts=20 \
-#    --initial_control="../control/ADMM/EnergyADMM2_evotime1.0_n_ts20_ptypeWARM_offset0.5_penalty0.1_ADMM_10.0_iter100.csv" \
+#python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 \
+#    --initial_control="../control/ADMM/EnergyADMM2_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv" \
 #    --type=maxswitch --max_switch=5
 #python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 \
 #    --initial_control="../control/Trustregion/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
@@ -44,6 +44,9 @@ cd ../Rounding/
 #python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 \
 #    --initial_control="../control/Trustregion/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
 #    --type=maxswitch --max_switch=5
+#python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 \
+#    --initial_control="../control/Continuous/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_muscod.csv" \
+#    --type=SUR
 
 cd ../SwitchingTime/
 #python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 --admm_control="../control/ADMM/EnergyADMM2_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv" \
@@ -87,9 +90,9 @@ cd ../Trustregion/
 #python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 \
 #    --initial_file="../control/Rounding/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_sigma0.25_eta0.001_threshold30_iter100_typetvc_SUR.csv" \
 #    --alpha=0.01 --tr_type="tv"
-python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 \
-    --initial_file="../control/Rounding/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_sigma0.25_eta0.001_threshold30_iter100_typetvc_minup10.csv" \
-    --alpha=0.01 --tr_type="hard" --hard_type="minup" --min_up=10
+#python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 \
+#    --initial_file="../control/Rounding/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_sigma0.25_eta0.001_threshold30_iter100_typetvc_minup10.csv" \
+#    --alpha=0.01 --tr_type="hard" --hard_type="minup" --min_up=10
 #python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 \
 #    --initial_file="../control/Rounding/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_sigma0.25_eta0.001_threshold30_iter100_typetvc_maxswitch5.csv" \
 #    --alpha=0.01 --tr_type="hard" --hard_type="maxswitch" --max_switch=5

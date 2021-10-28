@@ -64,18 +64,18 @@ if args.rgraph == 1:
     
 output_fig = "../figure/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0]
 if args.type == "SUR":
-    output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.log"
-    output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.csv"
+    output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_" + str(args.sos1) + "_SUR.log"
+    output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_" + str(args.sos1) + "_SUR.csv"
 if args.type == "minup":
     output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
-                 + "_minup" + str(args.min_up) + ".log"
+                 + "_minup" + str(args.min_up) + "_" + str(args.sos1) + ".log"
     output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
-                     + "_minup" + str(args.min_up) + ".csv"
+                     + "_minup" + str(args.min_up) + "_" + str(args.sos1) + ".csv"
 if args.type == "maxswitch":
     output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
-                 + "_maxswitch" + str(args.max_switch) + ".log"
+                 + "_maxswitch" + str(args.max_switch) + "_" + str(args.sos1) + ".log"
     output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
-                     + "_maxswitch" + str(args.max_switch) + ".csv"
+                     + "_maxswitch" + str(args.max_switch) + "_" + str(args.sos1) + ".csv"
 
 # round the solution
 b_rel = np.loadtxt(args.initial_control, delimiter=',')
@@ -85,7 +85,7 @@ round.build_rounding_optimizer(b_rel, args.evo_time, args.n_ts, args.type, args.
 if args.sos1:
     b_bin, c_time = round.rounding_with_sos1()
 else:
-    b_bin, c_time = round.rounding_without_sos1()
+    b_bin, c_time = round.rounding_without_sos1(sos1=True)
 # b_bin, c_time = rounding(b_rel, args.evo_time, args.n_ts,
 #                          args.type, args.min_up, args.max_switch, out_fig=output_fig)
 

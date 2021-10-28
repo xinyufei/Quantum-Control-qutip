@@ -58,18 +58,18 @@ if not os.path.exists("../figure/Rounding/"):
 
 output_fig = "../figure/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0]
 if args.type == "SUR":
-    output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.log"
-    output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_SUR.csv"
+    output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_" + str(args.sos1) + "_SUR.log"
+    output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] + "_" + str(args.sos1) + "_SUR.csv"
 if args.type == "minup":
     output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
-                 + "_minup" + str(args.min_up) + ".log"
+                 + "_minup" + str(args.min_up) + "_" + str(args.sos1) + ".log"
     output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
-                     + "_minup" + str(args.min_up) + ".csv"
+                     + "_minup" + str(args.min_up) + "_" + str(args.sos1) + ".csv"
 if args.type == "maxswitch":
     output_num = "../output/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
-                 + "_maxswitch" + str(args.max_switch) + ".log"
+                 + "_maxswitch" + str(args.max_switch) + "_" + str(args.sos1) + ".log"
     output_control = "../control/Rounding/" + args.initial_control.split('/')[-1].split('.csv')[0] \
-                     + "_maxswitch" + str(args.max_switch) + ".csv"
+                     + "_maxswitch" + str(args.max_switch) + "_" + str(args.sos1) + ".csv"
 
 # round the solution
 b_rel = np.loadtxt(args.initial_control, delimiter=',')

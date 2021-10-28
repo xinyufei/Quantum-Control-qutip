@@ -30,5 +30,5 @@ objective value without tv norm 0.0006132198746476858
 alpha 0.0001
 objective value with tv norm 0.04771321987464769
 norm 471.0
-computational time 26.220694065093994
+computational time 27.788879958000003
 total iterations 251

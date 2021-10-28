@@ -33,7 +33,7 @@ cd ../Trustregion/
 cd ../Rounding
 #python CNOT.py --evo_time=20 --n_ts=400 \
 #    --initial_control="../control/Continuous/CNOT_evotime20.0_n_ts400_ptypeCONSTANT_offset0.5_objUNIT.csv" \
-#    --sos1=0 --type=SUR
+##    --sos1=0 --type=SUR
 #python CNOT.py --evo_time=20 --n_ts=400 \
 #    --initial_control="../control/Continuous/CNOT_evotime20.0_n_ts400_ptypeCONSTANT_offset0.5_objUNIT.csv" \
 #    --sos1=0 --type="minup" --min_up=10
@@ -48,7 +48,7 @@ cd ../Rounding
 #    --initial_control="../control/ADMM/CNOTADMM_evotime20.0_n_ts400_ptypeWARM_offset0.5_objUNIT_penalty1e-05_ADMM_0.25_iter100.csv" \
 #    --sos1=0 --type="minup" --min_up=10
 #python CNOT.py --evo_time=20 --n_ts=400 \
-#    --initial_control="../control/ADMM/CNOTADMM_evotime20.0_n_ts400_ptypeWARM_offset0.5_objUNIT_penalty0.001_ADMM_0.25_iter100.csv" \
+#    --initial_control="../control/ADMM/CNOTADMM_evotime20.0_n_ts400_ptypeWARM_offset0.5_objUNIT_penalty0.0001_ADMM_0.25_iter100.csv" \
 #    --sos1=0 --type="minup" --min_up=10
 #    python CNOT.py --evo_time=20 --n_ts=400 \
 #    --initial_control="../control/ADMM/CNOTADMM_evotime20.0_n_ts400_ptypeWARM_offset0.5_objUNIT_penalty0.01_ADMM_0.25_iter100.csv" \
@@ -89,12 +89,12 @@ cd ../Trustregion/
 python CNOT.py --evo_time=20 --n_ts=400 \
     --initial_file="../control/Rounding/CNOT_evotime20.0_n_ts400_ptypeCONSTANT_offset0.5_objUNIT_alpha0.0001_sigma0.25_eta0.001_threshold30_iter100_typetvc_SUR.csv" \
     --alpha=0.0001 --tr_type="tv"
-python CNOT.py --evo_time=20 --n_ts=400 \
-    --initial_file="../control/Rounding/CNOT_evotime20.0_n_ts400_ptypeCONSTANT_offset0.5_objUNIT_alpha0.0001_sigma0.25_eta0.001_threshold30_iter100_typetvc_minup10.csv" \
-    --alpha=0.0001 --tr_type="hard" --hard_type="minup" --min_up=10
-python CNOT.py --evo_time=20 --n_ts=400 \
-    --initial_file="../control/Rounding/CNOT_evotime20.0_n_ts400_ptypeCONSTANT_offset0.5_objUNIT_alpha0.0001_sigma0.25_eta0.001_threshold30_iter100_typetvc_maxswitch20.csv" \
-    --alpha=0.0001 --tr_type="hard" --hard_type="maxswitch" --max_switch=20
+#python CNOT.py --evo_time=20 --n_ts=400 \
+#    --initial_file="../control/Rounding/CNOT_evotime20.0_n_ts400_ptypeCONSTANT_offset0.5_objUNIT_alpha0.0001_sigma0.25_eta0.001_threshold30_iter100_typetvc_minup10.csv" \
+#    --alpha=0.0001 --tr_type="hard" --hard_type="minup" --min_up=10
+#python CNOT.py --evo_time=20 --n_ts=400 \
+#    --initial_file="../control/Rounding/CNOT_evotime20.0_n_ts400_ptypeCONSTANT_offset0.5_objUNIT_alpha0.0001_sigma0.25_eta0.001_threshold30_iter100_typetvc_maxswitch20.csv" \
+#    --alpha=0.0001 --tr_type="hard" --hard_type="maxswitch" --max_switch=20
 
 
 cd ../../scripts/linux

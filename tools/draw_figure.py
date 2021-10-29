@@ -241,6 +241,267 @@ def draw_obj_energy_r():
     plt.savefig("../figure_paper/Energy_binary.png")
 
 
+def draw_sur_improve():
+    plt.figure(figsize=(15, 6), dpi=300)
+    instance = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    instance_st = np.array([1, 2, 3, 8, 9])
+    instance_l2 = np.array([8, 9])
+    instance_name = ["Energy2", "Energy4", "Energy6", "CNOT5", "CNOT10", "CNOT15", "CNOT20", "CircuitH2", "CircuitLiH"]
+    grape_sur_tv = [0.897, 0.785204688, 0.720764602, 0.734, 0.969, 0.973, 0.952, 0.977, 0.545]
+    pgrape_sur_tv = [0.973, 0.553]
+    tr_sur_tv = [0.915, 0.797010362, 0.705988294, 0.724, 0.964, 0.970, 0.952, 0.955, 0.539]
+    admm_sur_tv = [0.957, 0.790725327, 0.683639638, 0.734, 0.979, 0.973, 0.955, 0.918, 0.715]
+    tr_st_tv = [0, 0.830134194, 0.669190782, 0.987, 0.951]
+    admm_st_tv = [0, 0.622728045, 0.669190782, 0.865, 0.001]
+
+    width = 0.15
+    # plt.bar(np.array([1 - width * 2, 2 - width * 2, 3 - width * 2, 4 - width, 5 - width, 6 - width, 7 - width,
+    #                   8 - width / 2 * 5, 9 - width / 2 * 5]), grape_sur_tv, alpha=0.9, width=width,
+    #         hatch='/', edgecolor='black', label='GRAPE+SUR+ALB')
+    # plt.bar(np.array([1 - width, 2 - width, 3 - width, 4, 5, 6, 7,
+    #                   8 - width / 2 * 3, 9 - width / 2 * 3]), tr_sur_tv, alpha=0.9, width=width,
+    #         hatch='\\', edgecolor='black', label='TR+SUR+ALB')
+    # plt.bar(np.array([1, 2, 3, 4 + width, 5 + width, 6 + width, 7 + width,
+    #                   8 - width / 2, 9 - width / 2]), admm_sur_tv, alpha=0.9, width=width,
+    #         hatch='+', edgecolor='black', label='ADMM+SUR+ALB')
+    # plt.bar(np.array([8 + width / 2, 9 + width / 2]), pgrape_sur_tv, alpha=0.9, width=width,
+    #         hatch='o', edgecolor='black', label='p-GRAPE+SUR+ALB')
+    # plt.bar(np.array([1 + width, 2 + width, 3 + width, 8 + width / 2 * 3, 9 + width / 2 * 3]), tr_st_tv, alpha=0.9,
+    #         width=width, hatch='.', edgecolor='black', label='TR+ST')
+    # plt.bar(np.array([1 + width * 2, 2 + width * 2, 3 + width * 2, 8 + width / 2 * 5, 9 + width / 2 * 5]), admm_st_tv,
+    #         alpha=0.9, width=width, hatch='*', edgecolor='black', label='ADMM+ST')
+
+    plt.bar(np.array([1 - width, 2 - width, 3 - width, 4 - width, 5 - width, 6 - width, 7 - width,
+                      8 - width / 2 * 3, 9 - width / 2 * 3]), grape_sur_tv, alpha=0.9, width=width,
+            hatch='/', edgecolor='black', label='GRAPE+SUR')
+    plt.bar(np.array([1, 2, 3, 4, 5, 6, 7, 8 - width / 2, 9 - width / 2]), tr_sur_tv, alpha=0.9, width=width,
+            hatch='\\', edgecolor='black', label='TR+SUR')
+    plt.bar(np.array([1 + width, 2 + width, 3 + width, 4 + width, 5 + width, 6 + width, 7 + width,
+                      8 + width / 2, 9 + width / 2]), admm_sur_tv, alpha=0.9, width=width,
+            hatch='+', edgecolor='black', label='ADMM+SUR')
+    plt.bar(np.array([8 + width / 2 * 3, 9 + width / 2 * 3]), pgrape_sur_tv, alpha=0.9, width=width,
+            hatch='o', edgecolor='black', label='p-GRAPE+SUR')
+
+    x_loc = plt.MultipleLocator(1)
+    ax = plt.gca()
+    ax.xaxis.set_major_locator(x_loc)
+    plt.xticks(instance, instance_name)
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.tight_layout()
+    # plt.show()
+    plt.savefig("../figure_paper/Rounding_improve_all_instances_new.png")
+
+
+def draw_mt_improve():
+    plt.figure(figsize=(15, 6), dpi=300)
+    instance = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    instance_name = ["Energy2", "Energy4", "Energy6", "CNOT5", "CNOT10", "CNOT15", "CNOT20", "CircuitH2", "CircuitLiH"]
+    grape_mt = [0.997, 0.834465772, 0.554418567, 0.805, 0.996, 0.994, 0.999, 0.992, 0.96]
+    pgrape_mt = [0.755, 0.998]
+    tr_mt = [0.997, 0.834465772, 0.554418567, 0.804, 0.991, 0.994, 0.999, 0.993, 0.504]
+    admm_mt = [0.959, 0.81654493, 0.535016987, 0.805, 0.994, 0.999, 0.999, 0.946, 0.645]
+    tr_st_mt = [0, 0.837013759, 0.621341738, 0.995, 0.593]
+    admm_st_mt = [0, 0.635722779, 0.621341738, 0.869, 0.001]
+
+    width = 0.15
+    # plt.bar(np.array([1 - width * 2, 2 - width * 2, 3 - width * 2, 4 - width, 5 - width, 6 - width, 7 - width,
+    #                   8 - width / 2 * 5, 9 - width / 2 * 5]), grape_mt, alpha=0.9, width=width,
+    #         hatch='/', edgecolor='black', label='GRAPE+MT+ALB')
+    # plt.bar(np.array([1 - width, 2 - width, 3 - width, 4, 5, 6, 7,
+    #                   8 - width / 2 * 3, 9 - width / 2 * 3]), tr_mt, alpha=0.9, width=width,
+    #         hatch='\\', edgecolor='black', label='TR+MT+ALB')
+    # plt.bar(np.array([1, 2, 3, 4 + width, 5 + width, 6 + width, 7 + width,
+    #                   8 - width / 2, 9 - width / 2]), admm_mt, alpha=0.9, width=width,
+    #         hatch='+', edgecolor='black', label='ADMM+MT+ALB')
+    # plt.bar(np.array([8 + width / 2, 9 + width / 2]), pgrape_mt, alpha=0.9, width=width,
+    #         hatch='o', edgecolor='black', label='p-GRAPE+MT+ALB')
+    # plt.bar(np.array([1 + width, 2 + width, 3 + width, 8 + width / 2 * 3, 9 + width / 2 * 3]), tr_st_mt, alpha=0.9,
+    #         width=width, hatch='.', edgecolor='black', label='TR+STMT')
+    # plt.bar(np.array([1 + width * 2, 2 + width * 2, 3 + width * 2, 8 + width / 2 * 5, 9 + width / 2 * 5]), admm_st_mt,
+    #         alpha=0.9, width=width, hatch='*', edgecolor='black', label='ADMM+STMT')
+    plt.bar(np.array([1 - width, 2 - width, 3 - width, 4 - width, 5 - width, 6 - width, 7 - width,
+                      8 - width / 2 * 3, 9 - width / 2 * 3]), grape_mt, alpha=0.9, width=width,
+            hatch='/', edgecolor='black', label='GRAPE+MT')
+    plt.bar(np.array([1, 2, 3, 4, 5, 6, 7, 8 - width / 2, 9 - width / 2]), tr_mt, alpha=0.9, width=width,
+            hatch='\\', edgecolor='black', label='TR+MT')
+    plt.bar(np.array([1 + width, 2 + width, 3 + width, 4 + width, 5 + width, 6 + width, 7 + width,
+                      8 + width / 2, 9 + width / 2]), admm_mt, alpha=0.9, width=width,
+            hatch='+', edgecolor='black', label='ADMM+MT')
+    plt.bar(np.array([8 + width / 2 * 3, 9 + width / 2 * 3]), pgrape_mt, alpha=0.9, width=width,
+            hatch='o', edgecolor='black', label='p-GRAPE+MT')
+
+    x_loc = plt.MultipleLocator(1)
+    ax = plt.gca()
+    ax.xaxis.set_major_locator(x_loc)
+    plt.xticks(instance, instance_name)
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.tight_layout()
+    # plt.show()
+    plt.savefig("../figure_paper/Minup_time_improve_all_instances_new.png")
+
+
+def draw_ms_improve():
+    plt.figure(figsize=(15, 6), dpi=300)
+    instance = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    instance_name = ["Energy2", "Energy4", "Energy6", "CNOT5", "CNOT10", "CNOT15", "CNOT20", "CircuitH2", "CircuitLiH"]
+    grape_ms = [0.999, 0.857057924, 0.775408293, 0.83, 0.999, 0.999, 0.9990531, 0.997, 0.994]
+    pgrape_ms = [0.986, 0.835]
+    tr_ms = [0.998, 0.857482589, 0.773893823, 0.827, 0.999, 0.997, 0.997, 0.997, 0.88]
+    admm_ms = [0.997, 0.840496008, 0.767835946, 0.828, 0.999, 0.998, 0.9992551, 0.992, 0.979]
+
+    width = 0.15
+    plt.bar(np.array([1 - width, 2 - width, 3 - width, 4 - width, 5 - width, 6 - width, 7 - width,
+                      8 - width / 2 * 3, 9 - width / 2 * 3]), grape_ms, alpha=0.9, width=width,
+            hatch='/', edgecolor='black', label='GRAPE+MS+ALB')
+    plt.bar(np.array([1, 2, 3, 4, 5, 6, 7, 8 - width / 2, 9 - width / 2]), tr_ms, alpha=0.9, width=width,
+            hatch='\\', edgecolor='black', label='TR+MS+ALB')
+    plt.bar(np.array([1 + width, 2 + width, 3 + width, 4 + width, 5 + width, 6 + width, 7 + width,
+                      8 + width / 2, 9 + width / 2]), admm_ms, alpha=0.9, width=width,
+            hatch='+', edgecolor='black', label='ADMM+MS+ALB')
+    plt.bar(np.array([8 + width / 2 * 3, 9 + width / 2 * 3]), pgrape_ms, alpha=0.9, width=width,
+            hatch='o', edgecolor='black', label='p-GRAPE+MS+ALB')
+
+    x_loc = plt.MultipleLocator(1)
+    ax = plt.gca()
+    ax.xaxis.set_major_locator(x_loc)
+    plt.xticks(instance, instance_name)
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.tight_layout()
+    # plt.show()
+    plt.savefig("../figure_paper/Max_switching_improve_all_instances.png")
+
+
+def draw_sur():
+    plt.figure(figsize=(15, 6), dpi=300)
+    instance = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    instance_name = ["Energy2", "Energy4", "Energy6", "CNOT5", "CNOT10", "CNOT15", "CNOT20", "CircuitH2", "CircuitLiH"]
+    grape_sur_tv = [0.459, 0.745625955, 0.709303753, 0.670, 0.883, 0.972, 0.950, -0.062, -0.171]
+    pgrape_sur_tv = [0.941, 0.452]
+    tr_sur_tv = [0.455, 0.722694072, 0.6995211, 0.428, 0.883, 0.970, 0.951, 0.937, 0.438]
+    admm_sur_tv = [0.519, 0.662051979, 0.676312881, 0.400, 0.913, 0.969, 0.952, 0.918, 0.715]
+
+    tr_st_tv = [0, 0.830134194, 0.669190782, 0.987, 0.951]
+    admm_st_tv = [0, 0.622728045, 0.669190782, 0.865, 0.001]
+
+    width = 0.15
+    # plt.bar(np.array([1 - width, 2 - width, 3 - width, 4 - width, 5 - width, 6 - width, 7 - width,
+    #                   8 - width / 2 * 3, 9 - width / 2 * 3]), grape_sur_tv, alpha=0.9, width=width,
+    #         hatch='/', edgecolor='black', label='GRAPE+SUR')
+    # plt.bar(np.array([1, 2, 3, 4, 5, 6, 7, 8 - width / 2, 9 - width / 2]), tr_sur_tv, alpha=0.9, width=width,
+    #         hatch='\\', edgecolor='black', label='TR+SUR')
+    # plt.bar(np.array([1 + width, 2 + width, 3 + width, 4 + width, 5 + width, 6 + width, 7 + width,
+    #                   8 + width / 2, 9 + width / 2]), admm_sur_tv, alpha=0.9, width=width,
+    #         hatch='+', edgecolor='black', label='ADMM+SUR')
+    # plt.bar(np.array([8 + width / 2 * 3, 9 + width / 2 * 3]), pgrape_sur_tv, alpha=0.9, width=width,
+    #         hatch='o', edgecolor='black', label='p-GRAPE+SUR')
+
+    plt.bar(np.array([1 - width * 2, 2 - width * 2, 3 - width * 2, 4 - width, 5 - width, 6 - width, 7 - width,
+                      8 - width / 2 * 5, 9 - width / 2 * 5]), grape_sur_tv, alpha=0.9, width=width,
+            hatch='/', edgecolor='black', label='GRAPE+SUR+ALB')
+    plt.bar(np.array([1 - width, 2 - width, 3 - width, 4, 5, 6, 7,
+                      8 - width / 2 * 3, 9 - width / 2 * 3]), tr_sur_tv, alpha=0.9, width=width,
+            hatch='\\', edgecolor='black', label='TR+SUR+ALB')
+    plt.bar(np.array([1, 2, 3, 4 + width, 5 + width, 6 + width, 7 + width,
+                      8 - width / 2, 9 - width / 2]), admm_sur_tv, alpha=0.9, width=width,
+            hatch='+', edgecolor='black', label='ADMM+SUR+ALB')
+    plt.bar(np.array([8 + width / 2, 9 + width / 2]), pgrape_sur_tv, alpha=0.9, width=width,
+            hatch='o', edgecolor='black', label='p-GRAPE+SUR+ALB')
+    plt.bar(np.array([1 + width, 2 + width, 3 + width, 8 + width / 2 * 3, 9 + width / 2 * 3]), tr_st_tv, alpha=0.9,
+            width=width, hatch='.', edgecolor='black', label='TR+ST')
+    plt.bar(np.array([1 + width * 2, 2 + width * 2, 3 + width * 2, 8 + width / 2 * 5, 9 + width / 2 * 5]), admm_st_tv,
+            alpha=0.9, width=width, hatch='*', edgecolor='black', label='ADMM+ST')
+
+    x_loc = plt.MultipleLocator(1)
+    ax = plt.gca()
+    ax.xaxis.set_major_locator(x_loc)
+    plt.xticks(instance, instance_name)
+    ax.xaxis.set_ticks_position('bottom')
+    ax.spines['bottom'].set_position(('data', 0))
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.tight_layout()
+    # plt.show()
+    plt.savefig("../figure_paper/Rounding_all_instances_new.png")
+
+
+def draw_mt():
+    plt.figure(figsize=(15, 6), dpi=300)
+    instance = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    instance_name = ["Energy2", "Energy4", "Energy6", "CNOT5", "CNOT10", "CNOT15", "CNOT20", "CircuitH2", "CircuitLiH"]
+    grape_mt = [0.841, 0.653728554, 0.316892473, 0.757, 0.842, 0.461, 0.218, 0.291, 0.003]
+    pgrape_mt = [0.400, 0.037]
+    tr_mt = [0.841, 0.699677255, 0.382219312, 0.715, 0.677, 0.710, 0.686, 0.409, 0.034]
+    admm_mt = [0.846, 0.649312043, 0.390978675, 0.475, 0.916, 0.824, 0.483, 0.937, 0.342]
+    tr_st_mt = [0, 0.837013759, 0.621341738, 0.995, 0.593]
+    admm_st_mt = [0, 0.635722779, 0.621341738, 0.869, 0.001]
+
+    width = 0.15
+    # plt.bar(np.array([1 - width, 2 - width, 3 - width, 4 - width, 5 - width, 6 - width, 7 - width,
+    #                   8 - width / 2 * 3, 9 - width / 2 * 3]), grape_mt, alpha=0.9, width=width,
+    #         hatch='/', edgecolor='black', label='GRAPE+MT')
+    # plt.bar(np.array([1, 2, 3, 4, 5, 6, 7, 8 - width / 2, 9 - width / 2]), tr_mt, alpha=0.9, width=width,
+    #         hatch='\\', edgecolor='black', label='TR+MT')
+    # plt.bar(np.array([1 + width, 2 + width, 3 + width, 4 + width, 5 + width, 6 + width, 7 + width,
+    #                   8 + width / 2, 9 + width / 2]), admm_mt, alpha=0.9, width=width,
+    #         hatch='+', edgecolor='black', label='ADMM+MT')
+    # plt.bar(np.array([8 + width / 2 * 3, 9 + width / 2 * 3]), pgrape_mt, alpha=0.9, width=width,
+    #         hatch='o', edgecolor='black', label='p-GRAPE+MT')
+    plt.bar(np.array([1 - width * 2, 2 - width * 2, 3 - width * 2, 4 - width, 5 - width, 6 - width, 7 - width,
+                      8 - width / 2 * 5, 9 - width / 2 * 5]), grape_mt, alpha=0.9, width=width,
+            hatch='/', edgecolor='black', label='GRAPE+MT+ALB')
+    plt.bar(np.array([1 - width, 2 - width, 3 - width, 4, 5, 6, 7,
+                      8 - width / 2 * 3, 9 - width / 2 * 3]), tr_mt, alpha=0.9, width=width,
+            hatch='\\', edgecolor='black', label='TR+MT+ALB')
+    plt.bar(np.array([1, 2, 3, 4 + width, 5 + width, 6 + width, 7 + width,
+                      8 - width / 2, 9 - width / 2]), admm_mt, alpha=0.9, width=width,
+            hatch='+', edgecolor='black', label='ADMM+MT+ALB')
+    plt.bar(np.array([8 + width / 2, 9 + width / 2]), pgrape_mt, alpha=0.9, width=width,
+            hatch='o', edgecolor='black', label='p-GRAPE+MT+ALB')
+    plt.bar(np.array([1 + width, 2 + width, 3 + width, 8 + width / 2 * 3, 9 + width / 2 * 3]), tr_st_mt, alpha=0.9,
+            width=width, hatch='.', edgecolor='black', label='TR+STMT')
+    plt.bar(np.array([1 + width * 2, 2 + width * 2, 3 + width * 2, 8 + width / 2 * 5, 9 + width / 2 * 5]), admm_st_mt,
+            alpha=0.9, width=width, hatch='*', edgecolor='black', label='ADMM+STMT')
+
+    x_loc = plt.MultipleLocator(1)
+    ax = plt.gca()
+    ax.xaxis.set_major_locator(x_loc)
+    plt.xticks(instance, instance_name)
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.tight_layout()
+    # plt.show()
+    plt.savefig("../figure_paper/Minup_time_instances_new.png")
+
+
+def draw_ms():
+    plt.figure(figsize=(15, 6), dpi=300)
+    instance = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    instance_name = ["Energy2", "Energy4", "Energy6", "CNOT5", "CNOT10", "CNOT15", "CNOT20", "CircuitH2", "CircuitLiH"]
+    grape_ms = [0.971, 0.854509937, 0.758544472, 0.830, 0.989, 0.675, 0.346, 0.230, 0.004]
+    pgrape_ms = [0.974, 0.713]
+    tr_ms = [0.96, 0.855868864, 0.747288281, 0.407, 0.981, 0.716, 0.303, 0.962, 0.776]
+    admm_ms = [0.972, 0.829879395, 0.763374401, 0.809, 0.994, 0.786, 0.381, 0.992, 0.443]
+
+    width = 0.15
+    plt.bar(np.array([1 - width, 2 - width, 3 - width, 4 - width, 5 - width, 6 - width, 7 - width,
+                      8 - width / 2 * 3, 9 - width / 2 * 3]), grape_ms, alpha=0.9, width=width,
+            hatch='/', edgecolor='black', label='GRAPE+MS')
+    plt.bar(np.array([1, 2, 3, 4, 5, 6, 7, 8 - width / 2, 9 - width / 2]), tr_ms, alpha=0.9, width=width,
+            hatch='\\', edgecolor='black', label='TR+MS')
+    plt.bar(np.array([1 + width, 2 + width, 3 + width, 4 + width, 5 + width, 6 + width, 7 + width,
+                      8 + width / 2, 9 + width / 2]), admm_ms, alpha=0.9, width=width,
+            hatch='+', edgecolor='black', label='ADMM+MS')
+    plt.bar(np.array([8 + width / 2 * 3, 9 + width / 2 * 3]), pgrape_ms, alpha=0.9, width=width,
+            hatch='o', edgecolor='black', label='p-GRAPE+MS')
+
+    x_loc = plt.MultipleLocator(1)
+    ax = plt.gca()
+    ax.xaxis.set_major_locator(x_loc)
+    plt.xticks(instance, instance_name)
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.tight_layout()
+    # plt.show()
+    plt.savefig("../figure_paper/Max_switching_all_instances.png")
+
+
 if __name__ == '__main__':
     # evo_time = 4
     # n_ts = 80
@@ -251,6 +512,12 @@ if __name__ == '__main__':
     # draw_stats()
     # draw_sos1(n_ts, control, output_fig)
     # print(max([abs(sum(control[k, :]) - 1) for k in range(n_ts)]))
-    draw_integral_error("H2", ub=True)
+    # draw_integral_error("H2", ub=True)
     # draw_stats()
     # draw_obj_energy_r()
+    draw_sur()
+    draw_mt()
+    draw_ms()
+    draw_sur_improve()
+    draw_mt_improve()
+    draw_ms_improve()

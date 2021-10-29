@@ -71,21 +71,21 @@ cd ../Rounding/
 #python energy.py --n=4 --rgraph=1 --seed=5 --num_edges=2 --evo_time=2 --n_ts=40 \
 #    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance5.csv" \
 #    --type=SUR
-#python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=40 \
-#    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance1.csv" \
-#    --type=minup --min_up=10
-#python energy.py --n=4 --rgraph=1 --seed=2 --num_edges=2 --evo_time=2 --n_ts=40 \
-#    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance2.csv" \
-#    --type=minup --min_up=10
-#python energy.py --n=4 --rgraph=1 --seed=3 --num_edges=2 --evo_time=2 --n_ts=40 \
-#    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance3.csv" \
-#    --type=minup --min_up=10
-#python energy.py --n=4 --rgraph=1 --seed=4 --num_edges=2 --evo_time=2 --n_ts=40 \
-#    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance4.csv" \
-#    --type=minup --min_up=10
-#python energy.py --n=4 --rgraph=1 --seed=5 --num_edges=2 --evo_time=2 --n_ts=40 \
-#    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance5.csv" \
-#    --type=minup --min_up=10
+python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=40 \
+    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance1.csv" \
+    --type=minup --min_up=10
+python energy.py --n=4 --rgraph=1 --seed=2 --num_edges=2 --evo_time=2 --n_ts=40 \
+    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance2.csv" \
+    --type=minup --min_up=10
+python energy.py --n=4 --rgraph=1 --seed=3 --num_edges=2 --evo_time=2 --n_ts=40 \
+    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance3.csv" \
+    --type=minup --min_up=10
+python energy.py --n=4 --rgraph=1 --seed=4 --num_edges=2 --evo_time=2 --n_ts=40 \
+    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance4.csv" \
+    --type=minup --min_up=10
+python energy.py --n=4 --rgraph=1 --seed=5 --num_edges=2 --evo_time=2 --n_ts=40 \
+    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance5.csv" \
+    --type=minup --min_up=10
 #python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=40 \
 #    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance1.csv" \
 #    --type=maxswitch --max_switch=5

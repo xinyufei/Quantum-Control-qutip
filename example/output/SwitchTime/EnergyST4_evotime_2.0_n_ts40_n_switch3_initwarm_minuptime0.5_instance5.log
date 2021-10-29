@@ -14,3 +14,35 @@ computational time 0.04791450000000008
 alpha 0.01
 tv norm 6.0
 objective with tv norm -1.6701696167281956
+total tv norm 6.0
+initial file ../control/Trustregion/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance5_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv
+     fun: -1.7301696167281957
+     jac: array([ 0.15827388,  0.03591956, -0.30904996, -0.30587807])
+ message: 'Optimization terminated successfully'
+    nfev: 21
+     nit: 4
+    njev: 4
+  status: 0
+ success: True
+       x: array([0.5       , 0.5       , 0.82554261, 0.17445739])
+switching time points [0.5        1.         1.82554261]
+computational time 0.049376333000000105
+alpha 0.01
+tv norm 6.0
+objective with tv norm -1.6701696167281956
+total tv norm 6.0
+initial file ../control/Trustregion/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance5_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv
+     fun: -1.7301696167281957
+     jac: array([ 0.15827388,  0.03591956, -0.30904996, -0.30587807])
+ message: 'Optimization terminated successfully'
+    nfev: 21
+     nit: 4
+    njev: 4
+  status: 0
+ success: True
+       x: array([0.5       , 0.5       , 0.82554261, 0.17445739])
+switching time points [0.5        1.         1.82554261]
+computational time 0.05581087500000015
+alpha 0.01
+tv norm 6.0
+objective with tv norm -1.6701696167281956

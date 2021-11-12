@@ -1,0 +1,19 @@
+total tv norm 6.0
+initial file ../example/control/Continuous/MoleculeNEW_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0.csv
+     fun: 1.0
+     jac: array([0., 0., 0., 0.])
+ message: 'Optimization terminated successfully'
+    nfev: 5
+     nit: 1
+    njev: 1
+  status: 0
+ success: True
+       x: array([1., 1., 1., 1.])
+switching time points [1. 2. 3.]
+computational time of retrieving switches 0.02909929199999972
+computational time of optimization 0.013794583000001026
+total computational time 0.043783499999999975
+thresholds 0.1 0.65
+alpha 0.001
+tv norm 6.0
+objective with tv norm 1.006

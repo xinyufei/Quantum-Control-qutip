@@ -535,12 +535,12 @@ def draw_grape_obj():
 
 def draw_grape_obj_instance():
     grape = [0.999, 0.863597758, 0.791535344, 0.831, 1.000, 1.000, 1.000, 1.000, 1.000]
-    grape_sur = [0.999, 0.859436046, 0.788711064, 0.830, 0.999, 0.999, 0.999, 0.050, 0.209]
-    grape_mt = [0.841, 0.653728554, 0.316892473, 0.757, 0.842, 0.461, 0.218, 0.291, 0.003]
-    grape_ms = [0.971, 0.854509937, 0.758544472, 0.830, 0.989, 0.675, 0.346, 0.230, 0.004]
-    grape_sur_improve = [0.997, 0.858246985, 0.7870738, 0.824, 0.999, 0.999, 0.999544, 0.993, 0.551]
-    grape_mt_improve = [0.997, 0.834465772, 0.554418567, 0.805, 0.996, 0.994, 0.999, 0.992, 0.96]
-    grape_ms_improve = [0.999, 0.857057924, 0.775408293, 0.83, 0.999, 0.999, 0.9990531, 0.997, 0.994]
+    grape_sur = [0.999, 0.841476808, 0.7836432, 0.830, 0.999, 0.999, 0.999, 0.050, 0.209]
+    grape_mt = [0.841, 0.632912135, 0.3161038, 0.757, 0.842, 0.461, 0.218, 0.291, 0.003]
+    grape_ms = [0.971, 0.836338827, 0.7525139, 0.830, 0.989, 0.675, 0.346, 0.230, 0.004]
+    grape_sur_improve = [0.997, 0.840329552, 0.7816671, 0.824, 0.999, 0.999, 0.999544, 0.993, 0.551]
+    grape_mt_improve = [0.997, 0.801350332, 0.5713352, 0.805, 0.996, 0.994, 0.999, 0.992, 0.96]
+    grape_ms_improve = [0.999, 0.839518644, 0.7711258, 0.83, 0.999, 0.999, 0.9990531, 0.997, 0.994]
 
     all_methods = [grape, grape_sur, grape_mt, grape_ms, grape_sur_improve, grape_mt_improve, grape_ms_improve]
     plt.figure(figsize=(8, 6), dpi=300)
@@ -763,19 +763,111 @@ def draw_pgrape_tv_instance():
     plt.savefig("../figure_paper/pgrape_tv_per_instance_log10.png")
 
 
+def draw_pgrape_obj_tv_instance_split():
+    pgrape = [0.999, 0.863597758, 0.791535344, 0.831, 1.000, 1.000, 1.000, 1.000, 0.999]
+    pgrape_sur = [0.999, 0.841476808, 0.7836432, 0.830, 0.999, 0.999, 0.999, 0.973, 0.832]
+    pgrape_mt = [0.841, 0.632912135, 0.3161038, 0.757, 0.842, 0.461, 0.218, 0.400, 0.037]
+    pgrape_ms = [0.971, 0.836338827, 0.7525139, 0.830, 0.989, 0.675, 0.346, 0.974, 0.713]
+    pgrape_sur_improve = [0.997, 0.840329552, 0.7816671, 0.824, 0.999, 0.999, 0.999544, 0.997, 0.931]
+    pgrape_mt_improve = [0.997, 0.801350332, 0.5713352, 0.805, 0.996, 0.994, 0.999, 0.755, 0.998]
+    pgrape_ms_improve = [0.999, 0.839518644, 0.7711258, 0.83, 0.999, 0.999, 0.9990531, 0.986, 0.835]
+
+    pgrape_tv = [0.999, 2.752, 3.237, 6.094, 11.056, 16.795, 15.099, 18.720, 53.976]
+    pgrape_sur_tv = [54, 26.8, 38.8, 16, 116, 266, 491, 32, 380]
+    pgrape_mt_tv = [4, 6, 6, 10, 22, 37, 53, 8, 68]
+    pgrape_ms_tv = []
+    pgrape_sur_improve_tv = []
+    pgrape_mt_improve_tv = []
+    pgrape_ms_improve_tv = []
+    pgrape_ms_tv = [10, 10, 10, 16, 39, 38, 39, 22, 290]
+    pgrape_sur_improve_tv = [10, 17.2, 32.4, 9, 30, 262, 479, 24, 378]
+    pgrape_mt_improve_tv = [4, 6, 6, 9, 23, 33, 28, 12, 6]
+    pgrape_ms_improve_tv = [10, 9.2, 10, 16, 39, 39, 40, 18, 286]
+
+    fig = plt.figure(figsize=(9, 8), dpi=300)
+    fig.subplots_adjust(hspace=0.3, wspace=0.3, left=0.05, right=0.95, top=0.95, bottom=0.08)
+    instance_name = ["Energy2", "Energy4", "Energy6", "CNOT5", "CNOT10", "CNOT15", "CNOT20", "CircuitH2", "CircuitLiH"]
+    models = np.array([1, 2, 3])
+    model_name = ["Continuous", "Rounding", "Improvement"]
+    methods_sur = [pgrape, pgrape_sur, pgrape_sur_improve]
+    methods_mt = [pgrape, pgrape_mt, pgrape_mt_improve]
+    methods_ms = [pgrape, pgrape_ms, pgrape_ms_improve]
+
+    methods_sur_tv = [pgrape_tv, pgrape_sur_tv, pgrape_sur_improve_tv]
+    methods_mt_tv = [pgrape_tv, pgrape_mt_tv, pgrape_mt_improve_tv]
+    methods_ms_tv = [pgrape_tv, pgrape_ms_tv, pgrape_ms_improve_tv]
+    # all_methods = [pgrape, pgrape_sur, pgrape_mt, pgrape_ms, pgrape_sur_improve, pgrape_mt_improve, pgrape_ms_improve,
+    #                pgrape_st, pgrape_stmt]
+    for i in range(9):
+        ax = fig.add_subplot(3, 3, i + 1)
+        # ax.text(0.5, 0.5, str((2, 3, i)), fontsize=18, ha='center')
+        if i < 9:
+            ax.set_title(instance_name[i])
+
+        if i == 0:
+            plt.plot(models, [1 - method[i] for method in methods_sur], marker='o', label='SUR')
+            plt.plot(models, [1 - method[i] for method in methods_mt], marker='^', label='MT')
+            plt.plot(models, [1 - method[i] for method in methods_ms], marker='+', markersize=10, label='MS')
+        else:
+            plt.plot(models, [1 - method[i] for method in methods_sur], marker='o')
+            plt.plot(models, [1 - method[i] for method in methods_mt], marker='^')
+            plt.plot(models, [1 - method[i] for method in methods_ms], marker='+', markersize=10)
+
+        x_loc = plt.MultipleLocator(1)
+        ax.xaxis.set_major_locator(x_loc)
+        plt.xticks(models, model_name, rotation=-5)
+        # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    fig.legend(lines, labels, bbox_to_anchor=(0.35, 0, 0.3, 0.2), loc='lower center', mode='expand', borderaxespad=0,
+               ncol=3)
+
+    plt.savefig("../figure_paper/pgrape_obj_split.png")
+
+    fig = plt.figure(figsize=(9, 8), dpi=300)
+    fig.subplots_adjust(hspace=0.3, wspace=0.3, left=0.05, right=0.95, top=0.95, bottom=0.08)
+
+    for i in range(9):
+        ax = fig.add_subplot(3, 3, i + 1)
+        # ax.text(0.5, 0.5, str((2, 3, i)), fontsize=18, ha='center')
+        if i < 9:
+            ax.set_title(instance_name[i])
+
+        if i == 0:
+            plt.plot(models, [method[i] for method in methods_sur_tv], marker='o', label='SUR')
+            plt.plot(models, [method[i] for method in methods_mt_tv], marker='^', label='MT')
+            plt.plot(models, [method[i] for method in methods_ms_tv], marker='+', markersize=10, label='MS')
+        else:
+            plt.plot(models, [method[i] for method in methods_sur_tv], marker='o')
+            plt.plot(models, [method[i] for method in methods_mt_tv], marker='^')
+            plt.plot(models, [method[i] for method in methods_ms_tv], marker='+', markersize=10)
+        x_loc = plt.MultipleLocator(1)
+        ax.xaxis.set_major_locator(x_loc)
+        plt.xticks(models, model_name, rotation=-5)
+        # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    fig.legend(lines, labels, bbox_to_anchor=(0.35, 0, 0.3, 0.2), loc='lower center', mode='expand', borderaxespad=0,
+               ncol=3)
+
+    plt.savefig("../figure_paper/pgrape_tv_split.png")
+
+
 def draw_admm_obj():
     plt.figure(figsize=(8, 6), dpi=300)
     instance = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
     instance_name = ["Energy2", "Energy4", "Energy6", "CNOT5", "CNOT10", "CNOT15", "CNOT20", "CircuitH2", "CircuitLiH"]
 
-    admm_sur = [0.999, 0.852301682, 0.784372314, 0.810, 0.999, 0.997, 0.999, 0.994, 0.967]
-    admm_mt = [0.846, 0.649312043, 0.390978675, 0.475, 0.916, 0.824, 0.483, 0.937, 0.342]
-    admm_ms = [0.972, 0.829879395, 0.763374401, 0.809, 0.994, 0.786, 0.381, 0.992, 0.443]
-    admm_sur_improve = [0.997, 0.851877017, 0.785968646, 0.824, 0.999, 0.999, 0.999, 0.994, 0.967]
-    admm_mt_improve = [0.959, 0.81654493, 0.535016987, 0.805, 0.994, 0.999, 0.999, 0.946, 0.645]
-    admm_ms_improve = [0.997, 0.840496008, 0.767835946, 0.828, 0.999, 0.998, 0.9992551, 0.992, 0.979]
-    admm_st = [0, 0.639714625, 0.681470263, 0.869, 0.001]
-    admm_stmt = [0, 0.635722779, 0.621341738, 0.869, 0.001]
+    admm_sur = [0.999, 0.829315975, 0.7788632, 0.810, 0.999, 0.997, 0.999, 0.994, 0.967]
+    admm_mt = [0.846, 0.636487265, 0.3936237, 0.475, 0.916, 0.824, 0.483, 0.937, 0.342]
+    admm_ms = [0.972, 0.805007335, 0.7596211, 0.809, 0.994, 0.786, 0.381, 0.992, 0.443]
+    admm_sur_improve = [0.997, 0.833747845, 0.7808066, 0.824, 0.999, 0.999, 0.999, 0.994, 0.967]
+    admm_mt_improve = [0.959, 0.781849407, 0.5482583, 0.805, 0.994, 0.999, 0.999, 0.946, 0.645]
+    admm_ms_improve = [0.997, 0.815520921, 0.7639767, 0.828, 0.999, 0.998, 0.9992551, 0.992, 0.979]
+    admm_st = [0, 0.525196884, 0.6789286, 0.869, 0.001]
+    admm_stmt = [0, 0.521655792, 0.6242092, 0.869, 0.001]
 
     plt.plot(instance, admm_sur, marker='o', linestyle='-', label='ADMM+SUR')
     plt.plot(instance, admm_mt, marker='^', linestyle='-', label='ADMM+MT')
@@ -802,14 +894,14 @@ def draw_admm_obj():
 
 def draw_admm_obj_instance():
     admm = [0.999, 0.853660608, 0.785477467, 0.809, 1.000, 1.000, 1.000, 1.000, 0.999]
-    admm_sur = [0.999, 0.852301682, 0.784372314, 0.810, 0.999, 0.997, 0.999, 0.994, 0.967]
-    admm_mt = [0.846, 0.649312043, 0.390978675, 0.475, 0.916, 0.824, 0.483, 0.937, 0.342]
-    admm_ms = [0.972, 0.829879395, 0.763374401, 0.809, 0.994, 0.786, 0.381, 0.992, 0.443]
-    admm_sur_improve = [0.997, 0.851877017, 0.785968646, 0.824, 0.999, 0.999, 0.999, 0.994, 0.967]
-    admm_mt_improve = [0.959, 0.81654493, 0.535016987, 0.805, 0.994, 0.999, 0.999, 0.946, 0.645]
-    admm_ms_improve = [0.997, 0.840496008, 0.767835946, 0.828, 0.999, 0.998, 0.9992551, 0.992, 0.979]
-    admm_st = [0, 0.639714625, 0.681470263, None, None, None, None, 0.869, 0.001]
-    admm_stmt = [0, 0.635722779, 0.621341738, None, None, None, None, 0.869, 0.001]
+    admm_sur = [0.999, 0.829315975, 0.7788632, 0.810, 0.999, 0.997, 0.999, 0.994, 0.967]
+    admm_mt = [0.846, 0.636487265, 0.3936237, 0.475, 0.916, 0.824, 0.483, 0.937, 0.342]
+    admm_ms = [0.972, 0.805007335, 0.7596211, 0.809, 0.994, 0.786, 0.381, 0.992, 0.443]
+    admm_sur_improve = [0.997, 0.833747845, 0.7808066, 0.824, 0.999, 0.999, 0.999, 0.994, 0.967]
+    admm_mt_improve = [0.959, 0.781849407, 0.5482583, 0.805, 0.994, 0.999, 0.999, 0.946, 0.645]
+    admm_ms_improve = [0.997, 0.815520921, 0.7639767, 0.828, 0.999, 0.998, 0.9992551, 0.992, 0.979]
+    admm_st = [0, 0.525196884, 0.6789286, None, None, None, None, 0.869, 0.001]
+    admm_stmt = [0, 0.521655792, 0.6242092, None, None, None, None, 0.869, 0.001]
 
     all_methods = [admm, admm_sur, admm_mt, admm_ms, admm_sur_improve, admm_mt_improve, admm_ms_improve, admm_st,
                    admm_stmt]
@@ -840,6 +932,198 @@ def draw_admm_obj_instance():
     # plt.show()
 
     plt.savefig("../figure_paper/admm_obj_per_instance_min.png")
+
+
+def draw_admm_instance_split():
+    admm = [0.999, 0.853660608, 0.785477467, 0.809, 1.000, 1.000, 1.000, 1.000, 0.999]
+    admm_sur = [0.999, 0.829315975, 0.7788632, 0.810, 0.999, 0.997, 0.999, 0.994, 0.967]
+    admm_mt = [0.846, 0.636487265, 0.3936237, 0.475, 0.916, 0.824, 0.483, 0.937, 0.342]
+    admm_ms = [0.972, 0.805007335, 0.7596211, 0.809, 0.994, 0.786, 0.381, 0.992, 0.443]
+    admm_sur_improve = [0.997, 0.833747845, 0.7808066, 0.824, 0.999, 0.999, 0.999, 0.994, 0.967]
+    admm_mt_improve = [0.959, 0.781849407, 0.5482583, 0.805, 0.994, 0.999, 0.999, 0.946, 0.645]
+    admm_ms_improve = [0.997, 0.815520921, 0.7639767, 0.828, 0.999, 0.998, 0.9992551, 0.992, 0.979]
+    admm_st = [0, 0.525196884, 0.6789286, None, None, None, None, 0.869, 0.001]
+    admm_stmt = [0, 0.521655792, 0.6242092, None, None, None, None, 0.869, 0.001]
+
+    admm_tv = [0.567, 4.114, 4.508, 9.419, 15.194, 24.348, 23.481, 8.421, 48.720]
+    admm_sur_tv = [48, 44.8, 52.8, 41, 86, 279, 467, 76, 252]
+    admm_mt_tv = [6, 6, 6, 7, 15, 27, 47, 8, 48]
+    admm_ms_tv = [10, 10, 10, 32, 32, 39, 39, 22, 148]
+    admm_sur_improve_tv = [4, 14.4, 50.0, 9, 20, 263, 441, 76, 252]
+    admm_mt_improve_tv = [6, 5.6, 6, 9, 15, 30, 48, 10, 48]
+    admm_ms_improve_tv = [8, 8.4, 10, 16, 36, 40, 40, 22, 158]
+    admm_st_tv = [0, 4, 6, None, None, None, None, 4, 0]
+    admm_stmt_tv = [0, 4, 6, None, None, None, None, 4, 0]
+
+    fig = plt.figure(figsize=(11, 16), dpi=300)
+    fig.subplots_adjust(hspace=0.35, wspace=0.35, left=0.05, right=0.95, top=0.98, bottom=0.04)
+    instance_name = ["Energy2", "Energy4", "Energy6", "CNOT5", "CNOT10", "CNOT15", "CNOT20", "CircuitH2", "CircuitLiH"]
+    models = np.array([1, 2, 3])
+    model_name = ["Continuous", "Rounding", "Improvement"]
+    methods_sur = [admm, admm_sur, admm_sur_improve]
+    methods_mt = [admm, admm_mt, admm_mt_improve]
+    methods_ms = [admm, admm_ms, admm_ms_improve]
+    methods_st = [admm, admm_st]
+    methods_stmt = [admm, admm_stmt]
+
+    methods_sur_tv = [admm_tv, admm_sur_tv, admm_sur_improve_tv]
+    methods_mt_tv = [admm_tv, admm_mt_tv, admm_mt_improve_tv]
+    methods_ms_tv = [admm_tv, admm_ms_tv, admm_ms_improve_tv]
+    methods_st_tv = [admm_tv, admm_st_tv]
+    methods_stmt_tv = [admm_tv, admm_stmt_tv]
+    # all_methods = [admm, admm_sur, admm_mt, admm_ms, admm_sur_improve, admm_mt_improve, admm_ms_improve, admm_st,
+    #                admm_stmt]
+    for i in range(18):
+        ax = fig.add_subplot(6, 3, i + 1)
+        # ax.text(0.5, 0.5, str((2, 3, i)), fontsize=18, ha='center')
+        if i < 9:
+            ax.set_title(instance_name[i])
+        else:
+            ax.set_title(instance_name[i - 9])
+
+        if i == 0:
+            plt.plot(models, [1 - method[i] for method in methods_sur], marker='o', label='SUR')
+            plt.plot(models, [1 - method[i] for method in methods_mt], marker='^', label='MT')
+            plt.plot(models, [1 - method[i] for method in methods_ms], marker='+', markersize=10, label='MS')
+            plt.plot(models[0:2], [1 - method[i] for method in methods_st], marker='o', linestyle='--', label='ST')
+            plt.plot(models[0:2], [1 - method[i] for method in methods_stmt], marker='^', linestyle='--', label='STMT')
+        if 1 <= i <= 8:
+            plt.plot(models, [1 - method[i] for method in methods_sur], marker='o')
+            plt.plot(models, [1 - method[i] for method in methods_mt], marker='^')
+            plt.plot(models, [1 - method[i] for method in methods_ms], marker='+', markersize=10)
+            if i in [0, 1, 2, 7, 8]:
+                plt.plot(models[0:2], [1 - method[i] for method in methods_st], marker='o', linestyle='--')
+                plt.plot(models[0:2], [1 - method[i] for method in methods_stmt], marker='^', linestyle='--')
+
+        if i > 8:
+            plt.plot(models, [method[i - 9] for method in methods_sur_tv], marker='o')
+            plt.plot(models, [method[i - 9] for method in methods_mt_tv], marker='^')
+            plt.plot(models, [method[i - 9] for method in methods_ms_tv], marker='+', markersize=10)
+            if i in [9, 10, 11, 16, 17]:
+                plt.plot(models[0:2], [method[i - 9] for method in methods_st_tv], marker='o', linestyle='--')
+                plt.plot(models[0:2], [method[i - 9] for method in methods_stmt_tv], marker='^', linestyle='--')
+
+        x_loc = plt.MultipleLocator(1)
+        ax.xaxis.set_major_locator(x_loc)
+        plt.xticks(models, model_name, rotation=0)
+        # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    fig.legend(lines, labels, bbox_to_anchor=(0.25, 0, 0.5, 0.2), loc='lower center', mode='expand', borderaxespad=0, ncol=5)
+        # , bbox_to_anchor=(0, 1.02, 1, 0.2), mode='expand', borderaxespad=0, ncol=5)
+
+    # fig.legend(loc='upper right', bbox_to_anchor=(1, 0.5))
+    # fig.tight_layout()
+    # plt.show()
+
+    plt.savefig("../figure_paper/admm_split.png")
+
+
+def draw_admm_obj_tv_instance_split():
+    admm = [0.999, 0.853660608, 0.785477467, 0.809, 1.000, 1.000, 1.000, 1.000, 0.999]
+    admm_sur = [0.999, 0.829315975, 0.7788632, 0.810, 0.999, 0.997, 0.999, 0.994, 0.967]
+    admm_mt = [0.846, 0.636487265, 0.3936237, 0.475, 0.916, 0.824, 0.483, 0.937, 0.342]
+    admm_ms = [0.972, 0.805007335, 0.7596211, 0.809, 0.994, 0.786, 0.381, 0.992, 0.443]
+    admm_sur_improve = [0.997, 0.833747845, 0.7808066, 0.824, 0.999, 0.999, 0.999, 0.994, 0.967]
+    admm_mt_improve = [0.959, 0.781849407, 0.5482583, 0.805, 0.994, 0.999, 0.999, 0.946, 0.645]
+    admm_ms_improve = [0.997, 0.815520921, 0.7639767, 0.828, 0.999, 0.998, 0.9992551, 0.992, 0.979]
+    admm_st = [0, 0.525196884, 0.6789286, None, None, None, None, 0.869, 0.001]
+    admm_stmt = [0, 0.521655792, 0.6242092, None, None, None, None, 0.869, 0.001]
+
+    admm_tv = [0.567, 4.114, 4.508, 9.419, 15.194, 24.348, 23.481, 8.421, 48.720]
+    admm_sur_tv = [48, 44.8, 52.8, 41, 86, 279, 467, 76, 252]
+    admm_mt_tv = [6, 6, 6, 7, 15, 27, 47, 8, 48]
+    admm_ms_tv = [10, 10, 10, 32, 32, 39, 39, 22, 148]
+    admm_sur_improve_tv = [4, 14.4, 50.0, 9, 20, 263, 441, 76, 252]
+    admm_mt_improve_tv = [6, 5.6, 6, 9, 15, 30, 48, 10, 48]
+    admm_ms_improve_tv = [8, 8.4, 10, 16, 36, 40, 40, 22, 158]
+    admm_st_tv = [0, 4, 6, None, None, None, None, 4, 0]
+    admm_stmt_tv = [0, 4, 6, None, None, None, None, 4, 0]
+
+    fig = plt.figure(figsize=(9, 8), dpi=300)
+    fig.subplots_adjust(hspace=0.3, wspace=0.3, left=0.05, right=0.95, top=0.95, bottom=0.08)
+    instance_name = ["Energy2", "Energy4", "Energy6", "CNOT5", "CNOT10", "CNOT15", "CNOT20", "CircuitH2", "CircuitLiH"]
+    models = np.array([1, 2, 3])
+    model_name = ["Continuous", "Rounding", "Improvement"]
+    methods_sur = [admm, admm_sur, admm_sur_improve]
+    methods_mt = [admm, admm_mt, admm_mt_improve]
+    methods_ms = [admm, admm_ms, admm_ms_improve]
+    methods_st = [admm, admm_st]
+    methods_stmt = [admm, admm_stmt]
+
+    methods_sur_tv = [admm_tv, admm_sur_tv, admm_sur_improve_tv]
+    methods_mt_tv = [admm_tv, admm_mt_tv, admm_mt_improve_tv]
+    methods_ms_tv = [admm_tv, admm_ms_tv, admm_ms_improve_tv]
+    methods_st_tv = [admm_tv, admm_st_tv]
+    methods_stmt_tv = [admm_tv, admm_stmt_tv]
+    # all_methods = [admm, admm_sur, admm_mt, admm_ms, admm_sur_improve, admm_mt_improve, admm_ms_improve, admm_st,
+    #                admm_stmt]
+    for i in range(9):
+        ax = fig.add_subplot(3, 3, i + 1)
+        # ax.text(0.5, 0.5, str((2, 3, i)), fontsize=18, ha='center')
+        if i < 9:
+            ax.set_title(instance_name[i])
+
+        if i == 0:
+            plt.plot(models, [1 - method[i] for method in methods_sur], marker='o', label='SUR')
+            plt.plot(models, [1 - method[i] for method in methods_mt], marker='^', label='MT')
+            plt.plot(models, [1 - method[i] for method in methods_ms], marker='+', markersize=10, label='MS')
+            plt.plot(models[0:2], [1 - method[i] for method in methods_st], marker='o', linestyle='--', label='ST')
+            plt.plot(models[0:2], [1 - method[i] for method in methods_stmt], marker='^', linestyle='--', label='STMT')
+        else:
+            plt.plot(models, [1 - method[i] for method in methods_sur], marker='o')
+            plt.plot(models, [1 - method[i] for method in methods_mt], marker='^')
+            plt.plot(models, [1 - method[i] for method in methods_ms], marker='+', markersize=10)
+            if i in [0, 1, 2, 7, 8]:
+                plt.plot(models[0:2], [1 - method[i] for method in methods_st], marker='o', linestyle='--')
+                plt.plot(models[0:2], [1 - method[i] for method in methods_stmt], marker='^', linestyle='--')
+
+        x_loc = plt.MultipleLocator(1)
+        ax.xaxis.set_major_locator(x_loc)
+        plt.xticks(models, model_name, rotation=-5)
+        # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    fig.legend(lines, labels, bbox_to_anchor=(0.25, 0, 0.5, 0.2), loc='lower center', mode='expand', borderaxespad=0,
+               ncol=5)
+
+    plt.savefig("../figure_paper/admm_obj_split.png")
+
+    fig = plt.figure(figsize=(9, 8), dpi=300)
+    fig.subplots_adjust(hspace=0.3, wspace=0.3, left=0.05, right=0.95, top=0.95, bottom=0.08)
+
+    for i in range(9):
+        ax = fig.add_subplot(3, 3, i + 1)
+        # ax.text(0.5, 0.5, str((2, 3, i)), fontsize=18, ha='center')
+        if i < 9:
+            ax.set_title(instance_name[i])
+
+        if i == 0:
+            plt.plot(models, [method[i] for method in methods_sur_tv], marker='o', label='SUR')
+            plt.plot(models, [method[i] for method in methods_mt_tv], marker='^', label='MT')
+            plt.plot(models, [method[i] for method in methods_ms_tv], marker='+', markersize=10, label='MS')
+            plt.plot(models[0:2], [method[i] for method in methods_st_tv], marker='o', linestyle='--', label='ST')
+            plt.plot(models[0:2], [method[i] for method in methods_stmt_tv], marker='^', linestyle='--', label='STMT')
+        else:
+            plt.plot(models, [method[i] for method in methods_sur_tv], marker='o')
+            plt.plot(models, [method[i] for method in methods_mt_tv], marker='^')
+            plt.plot(models, [method[i] for method in methods_ms_tv], marker='+', markersize=10)
+            if i in [0, 1, 2, 7, 8]:
+                plt.plot(models[0:2], [method[i] for method in methods_st_tv], marker='o', linestyle='--')
+                plt.plot(models[0:2], [method[i] for method in methods_stmt_tv], marker='^', linestyle='--')
+        x_loc = plt.MultipleLocator(1)
+        ax.xaxis.set_major_locator(x_loc)
+        plt.xticks(models, model_name, rotation=-5)
+        # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    fig.legend(lines, labels, bbox_to_anchor=(0.25, 0, 0.5, 0.2), loc='lower center', mode='expand', borderaxespad=0,
+               ncol=5)
+
+    plt.savefig("../figure_paper/admm_tv_split.png")
 
 
 def draw_admm_tv():
@@ -960,14 +1244,14 @@ def draw_tr_obj():
 
 def draw_tr_obj_instance():
     tr = [0.999, 0.862748429, 0.791003234, 0.876, 1.000, 1.000, 1.000, 1.000, 0.999]
-    tr_sur = [0.995, 0.860285375, 0.788751995, 0.668, 0.998, 0.998, 0.999, 0.973, 0.818]
-    tr_mt = [0.841, 0.699677255, 0.382219312, 0.715, 0.677, 0.710, 0.686, 0.409, 0.034]
-    tr_ms = [0.96, 0.855868864, 0.747288281, 0.407, 0.981, 0.716, 0.303, 0.962, 0.776]
-    tr_sur_improve = [0.995, 0.856463394, 0.788670132, 0.794, 0.998, 1.000, 0.999, 0.987, 0.917]
-    tr_mt_improve = [0.997, 0.834465772, 0.554418567, 0.804, 0.991, 0.994, 0.999, 0.993, 0.504]
-    tr_ms_improve = [0.998, 0.857482589, 0.773893823, 0.827, 0.999, 0.997, 0.997, 0.997, 0.88]
-    tr_st = [0, 0.855614065, 0.681470263, None, None, None, None, 0.995, 0.999]
-    tr_stmt = [0, 0.837013759, 0.621341738, None, None, None, None, 0.995, 0.593]
+    tr_sur = [0.995, 0.841779059, 0.7838377, 0.668, 0.998, 0.998, 0.999, 0.973, 0.818]
+    tr_mt = [0.841, 0.682912135, 0.3832050, 0.715, 0.677, 0.710, 0.686, 0.409, 0.034]
+    tr_ms = [0.96, 0.83739821, 0.7419845, 0.407, 0.981, 0.716, 0.303, 0.962, 0.776]
+    tr_sur_improve = [0.995, 0.838262615, 0.7837403, 0.794, 0.998, 1.000, 0.999, 0.987, 0.917]
+    tr_mt_improve = [0.997, 0.801350332, 0.5713352, 0.804, 0.991, 0.994, 0.999, 0.993, 0.504]
+    tr_ms_improve = [0.998, 0.840041622, 0.7699510, 0.827, 0.999, 0.997, 0.997, 0.997, 0.88]
+    tr_st = [0, 0.838716809, 0.6789286, None, None, None, None, 0.995, 0.999]
+    tr_stmt = [0, 0.803798946, 0.6242092, None, None, None, None, 0.995, 0.593]
 
     all_methods = [tr, tr_sur, tr_mt, tr_ms, tr_sur_improve, tr_mt_improve, tr_ms_improve, tr_st, tr_stmt]
     plt.figure(figsize=(8, 6), dpi=300)
@@ -996,6 +1280,199 @@ def draw_tr_obj_instance():
     # plt.show()
 
     plt.savefig("../figure_paper/tr_obj_per_instance_min.png")
+
+
+def draw_tr_instance_split():
+    tr = [0.999, 0.862748429, 0.791003234, 0.876, 1.000, 1.000, 1.000, 1.000, 0.999]
+    tr_sur = [0.995, 0.841779059, 0.7838377, 0.668, 0.998, 0.998, 0.999, 0.973, 0.818]
+    tr_mt = [0.841, 0.682912135, 0.3832050, 0.715, 0.677, 0.710, 0.686, 0.409, 0.034]
+    tr_ms = [0.96, 0.83739821, 0.7419845, 0.407, 0.981, 0.716, 0.303, 0.962, 0.776]
+    tr_sur_improve = [0.995, 0.838262615, 0.7837403, 0.794, 0.998, 1.000, 0.999, 0.987, 0.917]
+    tr_mt_improve = [0.997, 0.801350332, 0.5713352, 0.804, 0.991, 0.994, 0.999, 0.993, 0.504]
+    tr_ms_improve = [0.998, 0.840041622, 0.7699510, 0.827, 0.999, 0.997, 0.997, 0.997, 0.88]
+    tr_st = [0, 0.838716809, 0.6789286, None, None, None, None, 0.995, 0.999]
+    tr_stmt = [0, 0.803798946, 0.6242092, None, None, None, None, 0.995, 0.593]
+
+    tr_tv = [0.523, 2.752, 3.237, 6.094, 11.056, 16.795, 15.099, 2.744, 0.677]
+    tr_sur_tv = [54, 32.4, 43.6, 24, 116, 276, 480, 36, 280]
+    tr_mt_tv = [6, 6, 6, 6, 21, 36, 51, 8, 72]
+    tr_ms_tv = [10, 10, 10, 15, 38, 40, 39, 24, 288]
+    tr_sur_improve_tv = [8, 14, 40.4, 7, 24, 256, 471, 32, 378]
+    tr_mt_improve_tv = [4, 6, 6, 10, 16, 34, 49, 2, 70]
+    tr_ms_improve_tv = [10, 10, 10, 20, 38, 39, 40, 22, 290]
+    tr_st_tv = [2, 6, 6, None, None, None, None, 8, 48]
+    tr_stmt_tv = [2, 6, 6, None, None, None, None, 8, 64]
+
+    fig = plt.figure(figsize=(11, 16), dpi=300)
+    fig.subplots_adjust(hspace=0.35, wspace=0.35, left=0.05, right=0.95, top=0.98, bottom=0.04)
+    instance_name = ["Energy2", "Energy4", "Energy6", "CNOT5", "CNOT10", "CNOT15", "CNOT20", "CircuitH2", "CircuitLiH"]
+    models = np.array([1, 2, 3])
+    model_name = ["Continuous", "Rounding", "Improvement"]
+    methods_sur = [tr, tr_sur, tr_sur_improve]
+    methods_mt = [tr, tr_mt, tr_mt_improve]
+    methods_ms = [tr, tr_ms, tr_ms_improve]
+    methods_st = [tr, tr_st]
+    methods_stmt = [tr, tr_stmt]
+
+    methods_sur_tv = [tr_tv, tr_sur_tv, tr_sur_improve_tv]
+    methods_mt_tv = [tr_tv, tr_mt_tv, tr_mt_improve_tv]
+    methods_ms_tv = [tr_tv, tr_ms_tv, tr_ms_improve_tv]
+    methods_st_tv = [tr_tv, tr_st_tv]
+    methods_stmt_tv = [tr_tv, tr_stmt_tv]
+    # all_methods = [tr, tr_sur, tr_mt, tr_ms, tr_sur_improve, tr_mt_improve, tr_ms_improve, tr_st,
+    #                tr_stmt]
+    for i in range(18):
+        ax = fig.add_subplot(6, 3, i + 1)
+        # ax.text(0.5, 0.5, str((2, 3, i)), fontsize=18, ha='center')
+        if i < 9:
+            ax.set_title(instance_name[i])
+        else:
+            ax.set_title(instance_name[i - 9])
+
+        if i == 0:
+            plt.plot(models, [1 - method[i] for method in methods_sur], marker='o', label='SUR')
+            plt.plot(models, [1 - method[i] for method in methods_mt], marker='^', label='MT')
+            plt.plot(models, [1 - method[i] for method in methods_ms], marker='+', markersize=10, label='MS')
+            plt.plot(models[0:2], [1 - method[i] for method in methods_st], marker='o', linestyle='--', label='ST')
+            plt.plot(models[0:2], [1 - method[i] for method in methods_stmt], marker='^', linestyle='--', label='STMT')
+        if 1 <= i <= 8:
+            plt.plot(models, [1 - method[i] for method in methods_sur], marker='o')
+            plt.plot(models, [1 - method[i] for method in methods_mt], marker='^')
+            plt.plot(models, [1 - method[i] for method in methods_ms], marker='+', markersize=10)
+            if i in [0, 1, 2, 7, 8]:
+                plt.plot(models[0:2], [1 - method[i] for method in methods_st], marker='o', linestyle='--')
+                plt.plot(models[0:2], [1 - method[i] for method in methods_stmt], marker='^', linestyle='--')
+
+        if i > 8:
+            plt.plot(models, [method[i - 9] for method in methods_sur_tv], marker='o')
+            plt.plot(models, [method[i - 9] for method in methods_mt_tv], marker='^')
+            plt.plot(models, [method[i - 9] for method in methods_ms_tv], marker='+', markersize=10)
+            if i in [9, 10, 11, 16, 17]:
+                plt.plot(models[0:2], [method[i - 9] for method in methods_st_tv], marker='o', linestyle='--')
+                plt.plot(models[0:2], [method[i - 9] for method in methods_stmt_tv], marker='^', linestyle='--')
+
+        x_loc = plt.MultipleLocator(1)
+        ax.xaxis.set_major_locator(x_loc)
+        plt.xticks(models, model_name, rotation=0)
+        # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    fig.legend(lines, labels, bbox_to_anchor=(0.25, 0, 0.5, 0.2), loc='lower center', mode='expand', borderaxespad=0,
+               ncol=5)
+        # , bbox_to_anchor=(0, 1.02, 1, 0.2), mode='expand', borderaxespad=0, ncol=5)
+
+    # fig.legend(loc='upper right', bbox_to_anchor=(1, 0.5))
+    # fig.tight_layout()
+    # plt.show()
+
+    plt.savefig("../figure_paper/tr_split.png")
+
+
+def draw_tr_obj_tv_instance_split():
+    tr = [0.999, 0.862748429, 0.791003234, 0.876, 1.000, 1.000, 1.000, 1.000, 0.999]
+    tr_sur = [0.995, 0.841779059, 0.7838377, 0.668, 0.998, 0.998, 0.999, 0.973, 0.818]
+    tr_mt = [0.841, 0.682912135, 0.3832050, 0.715, 0.677, 0.710, 0.686, 0.409, 0.034]
+    tr_ms = [0.96, 0.83739821, 0.7419845, 0.407, 0.981, 0.716, 0.303, 0.962, 0.776]
+    tr_sur_improve = [0.995, 0.838262615, 0.7837403, 0.794, 0.998, 1.000, 0.999, 0.987, 0.917]
+    tr_mt_improve = [0.997, 0.801350332, 0.5713352, 0.804, 0.991, 0.994, 0.999, 0.993, 0.504]
+    tr_ms_improve = [0.998, 0.840041622, 0.7699510, 0.827, 0.999, 0.997, 0.997, 0.997, 0.88]
+    tr_st = [0, 0.838716809, 0.6789286, None, None, None, None, 0.995, 0.999]
+    tr_stmt = [0, 0.803798946, 0.6242092, None, None, None, None, 0.995, 0.593]
+
+    tr_tv = [0.523, 2.752, 3.237, 6.094, 11.056, 16.795, 15.099, 2.744, 0.677]
+    tr_sur_tv = [54, 32.4, 43.6, 24, 116, 276, 480, 36, 380]
+    tr_mt_tv = [6, 6, 6, 6, 21, 36, 51, 8, 72]
+    tr_ms_tv = [10, 10, 10, 15, 38, 40, 39, 24, 288]
+    tr_sur_improve_tv = [8, 14, 40.4, 7, 24, 256, 471, 32, 378]
+    tr_mt_improve_tv = [4, 6, 6, 10, 16, 34, 49, 2, 70]
+    tr_ms_improve_tv = [10, 10, 10, 20, 38, 39, 40, 22, 290]
+    tr_st_tv = [2, 6, 6, None, None, None, None, 8, 48]
+    tr_stmt_tv = [2, 6, 6, None, None, None, None, 8, 64]
+
+    fig = plt.figure(figsize=(9, 8), dpi=300)
+    fig.subplots_adjust(hspace=0.3, wspace=0.3, left=0.05, right=0.95, top=0.95, bottom=0.08)
+    instance_name = ["Energy2", "Energy4", "Energy6", "CNOT5", "CNOT10", "CNOT15", "CNOT20", "CircuitH2", "CircuitLiH"]
+    models = np.array([1, 2, 3])
+    model_name = ["Continuous", "Rounding", "Improvement"]
+    methods_sur = [tr, tr_sur, tr_sur_improve]
+    methods_mt = [tr, tr_mt, tr_mt_improve]
+    methods_ms = [tr, tr_ms, tr_ms_improve]
+    methods_st = [tr, tr_st]
+    methods_stmt = [tr, tr_stmt]
+
+    methods_sur_tv = [tr_tv, tr_sur_tv, tr_sur_improve_tv]
+    methods_mt_tv = [tr_tv, tr_mt_tv, tr_mt_improve_tv]
+    methods_ms_tv = [tr_tv, tr_ms_tv, tr_ms_improve_tv]
+    methods_st_tv = [tr_tv, tr_st_tv]
+    methods_stmt_tv = [tr_tv, tr_stmt_tv]
+    # all_methods = [tr, tr_sur, tr_mt, tr_ms, tr_sur_improve, tr_mt_improve, tr_ms_improve, tr_st,
+    #                tr_stmt]
+    for i in range(9):
+        ax = fig.add_subplot(3, 3, i + 1)
+        # ax.text(0.5, 0.5, str((2, 3, i)), fontsize=18, ha='center')
+        if i < 9:
+            ax.set_title(instance_name[i])
+
+        if i == 0:
+            plt.plot(models, [1 - method[i] for method in methods_sur], marker='o', label='SUR')
+            plt.plot(models, [1 - method[i] for method in methods_mt], marker='^', label='MT')
+            plt.plot(models, [1 - method[i] for method in methods_ms], marker='+', markersize=10, label='MS')
+            plt.plot(models[0:2], [1 - method[i] for method in methods_st], marker='o', linestyle='--', label='ST')
+            plt.plot(models[0:2], [1 - method[i] for method in methods_stmt], marker='^', linestyle='--', label='STMT')
+        else:
+            plt.plot(models, [1 - method[i] for method in methods_sur], marker='o')
+            plt.plot(models, [1 - method[i] for method in methods_mt], marker='^')
+            plt.plot(models, [1 - method[i] for method in methods_ms], marker='+', markersize=10)
+            if i in [0, 1, 2, 7, 8]:
+                plt.plot(models[0:2], [1 - method[i] for method in methods_st], marker='o', linestyle='--')
+                plt.plot(models[0:2], [1 - method[i] for method in methods_stmt], marker='^', linestyle='--')
+
+        x_loc = plt.MultipleLocator(1)
+        ax.xaxis.set_major_locator(x_loc)
+        plt.xticks(models, model_name, rotation=-5)
+        # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    fig.legend(lines, labels, bbox_to_anchor=(0.25, 0, 0.5, 0.2), loc='lower center', mode='expand', borderaxespad=0,
+               ncol=5)
+
+    plt.savefig("../figure_paper/tr_obj_split.png")
+
+    fig = plt.figure(figsize=(9, 8), dpi=300)
+    fig.subplots_adjust(hspace=0.3, wspace=0.3, left=0.05, right=0.95, top=0.95, bottom=0.08)
+
+    for i in range(9):
+        ax = fig.add_subplot(3, 3, i + 1)
+        # ax.text(0.5, 0.5, str((2, 3, i)), fontsize=18, ha='center')
+        if i < 9:
+            ax.set_title(instance_name[i])
+
+        if i == 0:
+            plt.plot(models, [method[i] for method in methods_sur_tv], marker='o', label='SUR')
+            plt.plot(models, [method[i] for method in methods_mt_tv], marker='^', label='MT')
+            plt.plot(models, [method[i] for method in methods_ms_tv], marker='+', markersize=10, label='MS')
+            plt.plot(models[0:2], [method[i] for method in methods_st_tv], marker='o', linestyle='--', label='ST')
+            plt.plot(models[0:2], [method[i] for method in methods_stmt_tv], marker='^', linestyle='--', label='STMT')
+        else:
+            plt.plot(models, [method[i] for method in methods_sur_tv], marker='o')
+            plt.plot(models, [method[i] for method in methods_mt_tv], marker='^')
+            plt.plot(models, [method[i] for method in methods_ms_tv], marker='+', markersize=10)
+            if i in [0, 1, 2, 7, 8]:
+                plt.plot(models[0:2], [method[i] for method in methods_st_tv], marker='o', linestyle='--')
+                plt.plot(models[0:2], [method[i] for method in methods_stmt_tv], marker='^', linestyle='--')
+        x_loc = plt.MultipleLocator(1)
+        ax.xaxis.set_major_locator(x_loc)
+        plt.xticks(models, model_name, rotation=-5)
+        # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    fig.legend(lines, labels, bbox_to_anchor=(0.25, 0, 0.5, 0.2), loc='lower center', mode='expand', borderaxespad=0,
+               ncol=5)
+
+    plt.savefig("../figure_paper/tr_tv_split.png")
 
 
 def draw_tr_tv():
@@ -1104,10 +1581,14 @@ if __name__ == '__main__':
     # draw_admm_tv()
     # draw_tr_tv()
     # draw_grape_obj_instance()
-    draw_grape_tv_instance()
+    # draw_grape_tv_instance()
     # draw_pgrape_obj_instance()
-    draw_pgrape_tv_instance()
+    # draw_pgrape_tv_instance()
+    draw_pgrape_obj_tv_instance_split()
     # draw_admm_obj_instance()
-    draw_admm_tv_instance()
+    # draw_admm_tv_instance()
+    # draw_admm_instance_split()
+    # draw_admm_obj_tv_instance_split()
     # draw_tr_obj_instance()
-    draw_tr_tv_instance()
+    # draw_tr_tv_instance()
+    # draw_tr_obj_tv_instance_split()

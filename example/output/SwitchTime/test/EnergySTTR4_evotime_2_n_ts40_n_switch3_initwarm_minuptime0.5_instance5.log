@@ -1,0 +1,17 @@
+total tv norm 6.0
+initial file ../example/control/Trustregion/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance5_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv
+     fun: -1.7301697974001187
+     jac: array([ 0.1570444 ,  0.03654735, -0.30838297, -0.30825751])
+ message: 'Optimization terminated successfully'
+    nfev: 26
+     nit: 5
+    njev: 5
+  status: 0
+ success: True
+       x: array([0.5       , 0.5       , 0.82565221, 0.17434779])
+switching time points [0.5        1.         1.82565221]
+computational time 0.07803820799999972
+thresholds 0.1 0.65
+alpha 0.01
+tv norm 6.0
+objective with tv norm -1.6701697974001186

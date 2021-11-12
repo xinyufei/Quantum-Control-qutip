@@ -570,7 +570,13 @@ def print_to_file(n,tf,tlist,ulist,Philist,Energy,edges):
 import sys
        
        
-if __name__=="__main__":
+if __name__ == "__main__":
+        # n = 2
+        # num_edges = 1
+        # seed = 1
+        # Jij = generate_Jij_MC(n, seed)
+        # print(Jij)
+        # print(min(get_diag(Jij)))
         n = 6
         num_edges = 2
         seed = 5

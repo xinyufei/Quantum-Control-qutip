@@ -1,0 +1,17 @@
+total tv norm 6.0
+initial file ../example/control/ADMM/EnergyADMM4_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance4.csv
+     fun: -3.089445695568938
+     jac: array([-0.22296184, -0.22232145, -0.22373715, -0.22199535])
+ message: 'Optimization terminated successfully'
+    nfev: 74
+     nit: 13
+    njev: 13
+  status: 0
+ success: True
+       x: array([0.49122102, 0.56298968, 0.64043574, 0.30535356])
+switching time points [0.49122102 1.0542107  1.69464644]
+computational time 0.22530495799999883
+thresholds 0.1 0.65
+alpha 0.01
+tv norm 6.0
+objective with tv norm -3.029445695568938

@@ -1,0 +1,18 @@
+total tv norm 10.0
+initial file ../example/control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance3.csv
+     fun: -2.3218848409369
+     jac: array([-0.62877345, -0.62668228, -0.62460625, -0.62828475, -0.62372741,
+       -0.6281091 ])
+ message: 'Optimization terminated successfully'
+    nfev: 97
+     nit: 13
+    njev: 13
+  status: 0
+ success: True
+       x: array([0.38113304, 0.35364313, 0.15381252, 0.19083236, 0.6405981 ,
+       0.27998084])
+switching time points [0.38113304 0.73477617 0.8885887  1.07942106 1.72001916]
+computational time 0.4638793329999995
+alpha 0.01
+tv norm 10.0
+objective with tv norm -2.2218848409369

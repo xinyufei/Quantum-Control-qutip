@@ -13,6 +13,7 @@ sys.path.append("..")
 from tools.auxiliary_energy import *
 from tools.evolution import compute_TV_norm
 from tools.auxiliary_molecule import generate_molecule_func
+from switchingtime.obtain_switches import Switches
 
 
 class SwitchTimeOpt:
@@ -109,6 +110,39 @@ class SwitchTimeOpt:
         bounds = Bounds([self.time_lb] * self.num_switch + [0], [self.time_ub] * (self.num_switch + 1))
         # minimize the objective function
         res = minimize(self.objective, x0, method='SLSQP', constraints=eq_cons, bounds=bounds, options={'ftol': 1e-06})
+        self.tau = res.x
+        # retrieve the switching time points
+        self.retrieve_switching_points()
+        # compute the final state and optimal value
+        self.final_state = self.obtain_state(self.tau)
+        self.obj = res.fun
+
+        return res
+
+    def optimize_minup(self):
+        # predefine equality constraints for parameters
+        num_var = int(len(self.tau0))
+        eq_cons = {'type': 'eq',
+                   'fun': lambda x: sum(x[0:num_var]) - self.evotime}
+        cons = [eq_cons]
+        cons.append({'type': 'eq',
+                     'fun': lambda x: sum((x[num_var:] - 1/2)**2) - (num_var - 1)/4})
+        cons.append({'type': 'ineq', 'fun': lambda x: x[0:num_var - 1] - self.time_lb * x[num_var:]})
+        cons.append({'type': 'ineq', 'fun': lambda x: self.time_ub * x[num_var:] - x[0:num_var - 1]})
+        # initialize the solution
+        x0 = self.tau0.copy()
+        # set the bounds of variables
+        bounds = Bounds([0] * (2 * num_var - 1), [self.time_ub] * num_var + [1] * (num_var - 1))
+        # minimize the objective function
+        # res = minimize(self.objective, np.array(list(x0) + [0] * (num_var - 1)), method='SLSQP', constraints=cons,
+        #                bounds=bounds, options={'ftol': 1e-06})
+        # res = minimize(self.objective, np.array(list(x0) + list(np.random.rand(num_var - 1))), method='SLSQP', constraints=cons,
+        #                bounds=bounds, options={'ftol': 1e-06})
+        # init_aux = list(np.random.randint(2, size=num_var - 1))
+        # print(init_aux)
+        res = minimize(self.objective, np.array(list(x0) + init_aux), method='SLSQP',
+                       constraints=cons,
+                       bounds=bounds, options={'ftol': 1e-06})
         self.tau = res.x
         # retrieve the switching time points
         self.retrieve_switching_points()
@@ -508,16 +542,19 @@ def test_optimize_sur():
 
 
 def test_optimize_sample():
-    n = 6
-    num_edges = 3
-    seed = 2
+    n = 4
+    num_edges = 2
+    seed = 5
     n_ts = 40
     evo_time = 2
-    initial_type = "ave"
+    initial_type = "warm"
     alpha = 0.01
-    min_up_time = 0.5
-    name = "EnergySTC"
+    min_up_time = 0
+    name = "EnergySTTR"
     step = 1
+
+    lb_threshold = 0.1
+    ub_threshold = 0.65
 
     if seed == 0:
         Jij, edges = generate_Jij_MC(n, num_edges, 100)
@@ -530,11 +567,11 @@ def test_optimize_sample():
 
     y0 = uniform(n)
 
-    # initial_control = "../example/control/ADMM/EnergyADMM2_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv"
-    # initial_control = "../example/control/Trustregion/Energy6_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance1_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv"
-    initial_control = "../example/control/Continuous/Energy6_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance2.csv"
+    # initial_control = "../example/control/ADMM/EnergyADMM4_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance1.csv"
+    initial_control = "../example/control/Trustregion/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance5_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv"
+    # initial_control = "../example/control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance1.csv"
     warm_start_length, num_switch, ctrl_hamil_idx = obtain_switching_time_uncertain(
-        initial_control, evo_time / n_ts, step, 0.65, 0.1)
+        initial_control, evo_time / n_ts, step, ub_threshold, lb_threshold)
     if min_up_time > 0:
         warm_start_length, num_switch, ctrl_hamil_idx = reduce_switch(
             evo_time / min_up_time - 1, warm_start_length, ctrl_hamil_idx)
@@ -577,6 +614,7 @@ def test_optimize_sample():
     print(res, file=output_file)
     print("switching time points", energy_opt.switch_time, file=output_file)
     print("computational time", end - start, file=output_file)
+    print("thresholds", lb_threshold, ub_threshold, file=output_file)
 
     # retrieve control
     control_name = "../example/control/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}".format(
@@ -645,8 +683,11 @@ def test_optimize_sample_compile():
         print("Must provide control results of ADMM!")
         exit()
 
+    lb_threshold = 0.1
+    ub_threshold = 0.65
+
     warm_start_length, num_switch, ctrl_hamil_idx = obtain_switching_time_uncertain(
-        initial_control, evo_time / n_ts, step, thre_max=0.5, thre_min=0.1)
+        initial_control, evo_time / n_ts, step, thre_max=ub_threshold, thre_min=lb_threshold)
 
     if min_up_time > 0:
         warm_start_length, num_switch, ctrl_hamil_idx = reduce_switch(
@@ -691,6 +732,295 @@ def test_optimize_sample_compile():
     print(res, file=output_file)
     print("switching time points", spin_opt.switch_time, file=output_file)
     print("computational time", end - start, file=output_file)
+    print("thresholds", lb_threshold, ub_threshold, file=output_file)
+
+    # retrieve control
+    control_name = "../example/control/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}".format(
+        name + "_" + molecule, str(evo_time), str(n_ts), str(num_switch), initial_type,
+        str(min_up_time)) + ".csv"
+    control = spin_opt.retrieve_control(n_ts)
+    np.savetxt(control_name, control, delimiter=",")
+
+    print("alpha", alpha, file=output_file)
+    tv_norm = spin_opt.tv_norm()
+    print("tv norm", tv_norm, file=output_file)
+    print("objective with tv norm", spin_opt.obj + alpha * tv_norm, file=output_file)
+
+    # figure file
+    figure_name = "../example/figure/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}".format(
+        name + "_" + molecule, str(evo_time), str(n_ts), str(num_switch), initial_type,
+        str(min_up_time)) + ".png"
+    spin_opt.draw_control(figure_name)
+
+    b_bin = np.loadtxt(control_name, delimiter=",")
+    f = open(output_name, "a+")
+    print("total tv norm", compute_TV_norm(b_bin), file=f)
+    print("initial file", initial_control, file=f)
+    f.close()
+
+
+def test_optimize_minup():
+    n = 4
+    num_edges = 2
+    seed = 5
+    n_ts = 40
+    evo_time = 2
+    initial_type = "warm"
+    alpha = 0.01
+    min_up_time = 0.5
+    name = "EnergySTTR"
+    step = 1
+
+    lb_threshold = 0.1
+    ub_threshold = 0.65
+
+    if seed == 0:
+        Jij, edges = generate_Jij_MC(n, num_edges, 100)
+
+    else:
+        Jij = generate_Jij(n, seed)
+
+    C = get_ham(n, True, Jij)
+    B = get_ham(n, False, Jij)
+
+    y0 = uniform(n)
+
+    # initial_control = "../example/control/ADMM/EnergyADMM4_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance1.csv"
+    initial_control = "../example/control/Trustregion/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance5_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv"
+    # initial_control = "../example/control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance1.csv"
+    warm_start_length, num_switch, ctrl_hamil_idx = obtain_switching_time_uncertain(
+        initial_control, evo_time / n_ts, step, ub_threshold, lb_threshold)
+    # if min_up_time > 0:
+    #     warm_start_length, num_switch, ctrl_hamil_idx = reduce_switch(
+    #         evo_time / min_up_time - 1, warm_start_length, ctrl_hamil_idx)
+
+    # sequence of control hamiltonians
+    ctrl_hamil = [B, C]
+
+    # X_0 = np.expand_dims(y0[0:2**n], 1)
+    X_0 = y0[0:2 ** n]
+
+    if initial_type == "ave":
+        initial = np.ones(num_switch + 1) * evo_time / (num_switch + 1)
+    if initial_type == "rnd":
+        initial_pre = np.random.random(num_switch + 1)
+        initial = initial_pre.copy() / sum(initial_pre) * evo_time
+    if initial_type == "warm":
+        initial = warm_start_length
+
+    # build optimizer
+    energy_opt = SwitchTimeOpt()
+    energy_opt.build_optimizer(
+        ctrl_hamil, ctrl_hamil_idx, initial, X_0, None, evo_time, num_switch, min_up_time, None,
+        obj_type='energy')
+    start = time.time()
+    res = energy_opt.optimize_minup()
+    end = time.time()
+    print(res)
+    print(end - start)
+
+
+def test_optimize_gradient():
+    n = 6
+    num_edges = 3
+    seed = 3
+    n_ts = 40
+    evo_time = 2
+    initial_type = "warm"
+    alpha = 0.01
+    min_up_time = 0
+    name = "EnergySTADMMG"
+
+    lb_threshold = 0.1
+    ub_threshold = 0.65
+
+    if seed == 0:
+        Jij, edges = generate_Jij_MC(n, num_edges, 100)
+
+    else:
+        Jij = generate_Jij(n, seed)
+
+    C = get_ham(n, True, Jij)
+    B = get_ham(n, False, Jij)
+
+    y0 = uniform(n)
+
+    initial_control = "../example/control/ADMM/EnergyADMM6_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance3.csv"
+    # initial_control = "../example/control/Trustregion/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv"
+    # initial_control = "../example/control/Continuous/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5.csv"
+    switches = Switches(initial_control, delta_t=evo_time / n_ts)
+    start1 = time.time()
+    switches.init_gradient_computer(None, [B, C], y0[0:2 ** n], None, n_ts, evo_time, 'energy')
+    warm_start_length, num_switch, ctrl_hamil_idx = switches.obtain_switches('gradient')
+    end1 = time.time()
+    print(ctrl_hamil_idx)
+    if min_up_time > 0:
+        warm_start_length, num_switch, ctrl_hamil_idx = reduce_switch(
+            evo_time / min_up_time - 1, warm_start_length, ctrl_hamil_idx)
+
+    # sequence of control hamiltonians
+    ctrl_hamil = [B, C]
+
+    # X_0 = np.expand_dims(y0[0:2**n], 1)
+    X_0 = y0[0:2 ** n]
+
+    if initial_type == "ave":
+        initial = np.ones(num_switch + 1) * evo_time / (num_switch + 1)
+    if initial_type == "rnd":
+        initial_pre = np.random.random(num_switch + 1)
+        initial = initial_pre.copy() / sum(initial_pre) * evo_time
+    if initial_type == "warm":
+        initial = warm_start_length
+
+    # build optimizer
+    energy_opt = SwitchTimeOpt()
+    start2 = time.time()
+    energy_opt.build_optimizer(
+        ctrl_hamil, ctrl_hamil_idx, initial, X_0, None, evo_time, num_switch, min_up_time, None,
+        obj_type='energy')
+    res = energy_opt.optimize()
+    end2 = time.time()
+
+    if not os.path.exists("../example/output/SwitchTime/test/"):
+        os.makedirs("../example/output/SwitchTime/test/")
+    if not os.path.exists("../example/control/SwitchTime/test/"):
+        os.makedirs("../example/control/SwitchTime/test/")
+    if not os.path.exists("../example/figure/SwitchTime/test/"):
+        os.makedirs("../example/figure/SwitchTime/test/")
+
+    # output file
+    output_name = "../example/output/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}".format(
+        name + str(n), str(evo_time), str(n_ts), str(num_switch), initial_type, str(min_up_time), seed) + ".log"
+    output_file = open(output_name, "a+")
+    print(res, file=output_file)
+    print("switching time points", energy_opt.switch_time, file=output_file)
+    print("computational time of retrieving switches", end1 - start1, file=output_file)
+    print("computational time of optimization", end2 - start2, file=output_file)
+    print("total computational time", end2 - start1, file=output_file)
+    print("thresholds", lb_threshold, ub_threshold, file=output_file)
+
+    # retrieve control
+    control_name = "../example/control/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}".format(
+        name + str(n), str(evo_time), str(n_ts), str(num_switch), initial_type, str(min_up_time), seed) + ".csv"
+    control = energy_opt.retrieve_control(n_ts)
+    np.savetxt(control_name, control, delimiter=",")
+
+    print("alpha", alpha, file=output_file)
+    tv_norm = energy_opt.tv_norm()
+    print("tv norm", tv_norm, file=output_file)
+    print("objective with tv norm", energy_opt.obj + alpha * tv_norm, file=output_file)
+
+    # figure file
+    figure_name = "../example/figure/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}".format(
+        name + str(n), str(evo_time), str(n_ts), str(num_switch), initial_type, str(min_up_time), seed) + ".png"
+    energy_opt.draw_control(figure_name)
+
+    b_bin = np.loadtxt(control_name, delimiter=",")
+    f = open(output_name, "a+")
+    print("total tv norm", compute_TV_norm(b_bin), file=f)
+    print("initial file", initial_control, file=f)
+    f.close()
+
+
+def test_optimize_gradient_compile():
+    d = 2
+    qubit_num = 4
+    molecule = "LiH"
+    target = "../example/control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv"
+    # target = "../example/control/Continuous/MoleculeNEW_H2_evotime4.0_n_ts80_target.csv"
+    initial_type = "warm"
+    Hops, H0, U0, U = generate_molecule_func(qubit_num, d, molecule)
+
+    if target is not None:
+        U = np.loadtxt(target, dtype=np.complex_, delimiter=',')
+    else:
+        print("Please provide the target file!")
+        exit()
+
+    n_ts = 200
+    evo_time = 20
+
+    step = 1
+    alpha = 0.001
+    min_up_time = 0
+
+    name = "MoleculeSTCG"
+
+    # The control Hamiltonians (Qobj classes)
+    H_c = [Qobj(hops) for hops in Hops]
+    # Drift Hamiltonian
+    H_d = Qobj(H0)
+    # start point for the gate evolution
+    X_0 = Qobj(U0)
+    # Target for the gate evolution
+    X_targ = Qobj(U)
+
+    # initial_control = "../example/control/Continuous/MoleculeNEW_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0.csv"
+    initial_control = "../example/control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1.csv"
+    # initial_control = "../example/control/ADMM/MoleculeADMMNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_sum_penalty1.0_penalty0.001_ADMM_0.5_iter100.csv"
+    # initial_control = "../example/control/ADMM/MoleculeVQEADMM_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.001_ADMM_3.0_iter100.csv"
+    # initial_control = "../example/control/Trustregion/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv"
+    # initial_control = "../example/control/Trustregion/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv"
+
+    if initial_control is None:
+        print("Must provide control results of ADMM!")
+        exit()
+
+    lb_threshold = 0.1
+    ub_threshold = 0.65
+
+    switches = Switches(initial_control, delta_t=evo_time / n_ts)
+    start1 = time.time()
+    switches.init_gradient_computer(H0, Hops, U0, U, n_ts, evo_time, 'fid')
+    warm_start_length, num_switch, ctrl_hamil_idx = switches.obtain_switches('gradient')
+    end1 = time.time()
+    print(ctrl_hamil_idx)
+    if min_up_time > 0:
+        warm_start_length, num_switch, ctrl_hamil_idx = reduce_switch(
+            evo_time / min_up_time - 1, warm_start_length, ctrl_hamil_idx)
+
+    print(num_switch)
+
+    # sequence of control hamiltonians
+    ctrl_hamil = [(H_d + H_c[j]).full() for j in range(len(H_c))]
+
+    # initial control
+    if initial_type == "ave":
+        initial = np.ones(num_switch + 1) * evo_time / (num_switch + 1)
+    if initial_type == "rnd":
+        initial_pre = np.random.random(num_switch + 1)
+        initial = initial_pre.copy() / sum(initial_pre) * evo_time
+    if initial_type == "warm":
+        initial = warm_start_length
+
+    # build optimizer
+    spin_opt = SwitchTimeOpt()
+    min_time = 1
+    spin_opt.build_optimizer(
+        ctrl_hamil, ctrl_hamil_idx, initial, X_0.full(), X_targ.full(), evo_time, num_switch, min_up_time,
+        None)
+    start2 = time.time()
+    res = spin_opt.optimize()
+    end2 = time.time()
+
+    if not os.path.exists("../example/output/SwitchTime/test/"):
+        os.makedirs("../example/output/SwitchTime/test/")
+    if not os.path.exists("../example/control/SwitchTime/test/"):
+        os.makedirs("../example/control/SwitchTime/test/")
+    if not os.path.exists("../example/figure/SwitchTime/test/"):
+        os.makedirs("../example/figure/SwitchTime/test/")
+
+    # output file
+    output_name = "../example/output/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}".format(
+        name + "_" + molecule, str(evo_time), str(n_ts), str(num_switch), initial_type,
+        str(min_up_time)) + ".log"
+    output_file = open(output_name, "a+")
+    print(res, file=output_file)
+    print("switching time points", spin_opt.switch_time, file=output_file)
+    print("computational time of retrieving switches", end1 - start1, file=output_file)
+    print("computational time of optimization", end2 - start2, file=output_file)
+    print("total computational time", end2 - start1, file=output_file)
+    print("thresholds", lb_threshold, ub_threshold, file=output_file)
 
     # retrieve control
     control_name = "../example/control/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}".format(
@@ -718,4 +1048,4 @@ def test_optimize_sample_compile():
 
 
 if __name__ == '__main__':
-    test_optimize_sample()
+    test_optimize_gradient_compile()

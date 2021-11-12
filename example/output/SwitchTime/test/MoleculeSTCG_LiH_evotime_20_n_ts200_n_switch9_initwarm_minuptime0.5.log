@@ -1,0 +1,22 @@
+total tv norm 18.0
+initial file ../example/control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1.csv
+     fun: 0.9978887908657055
+     jac: array([0.00069532, 0.00096193, 0.00078017, 0.00069532, 0.00078017,
+       0.00074305, 0.00088661, 0.00078017, 0.00096193, 0.00088661])
+ message: 'Optimization terminated successfully'
+    nfev: 132
+     nit: 12
+    njev: 12
+  status: 0
+ success: True
+       x: array([3.80924168, 0.58755943, 0.51610236, 3.00924168, 0.51610236,
+       0.94226109, 1.35003099, 1.64920175, 1.77022766, 5.85003099])
+switching time points [ 3.80924168  4.39680111  4.91290347  7.92214515  8.43824752  9.3805086
+ 10.73053959 12.37974135 14.14996901]
+computational time of retrieving switches 0.2175431250000024
+computational time of optimization 1.2112834580000005
+total computational time 1.4311275420000023
+thresholds 0.1 0.65
+alpha 0.001
+tv norm 18.0
+objective with tv norm 1.0158887908657055

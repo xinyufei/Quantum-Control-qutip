@@ -1,0 +1,19 @@
+total tv norm 2.0
+initial file ../example/control/Trustregion/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv
+     fun: 0.9986876341487512
+     jac: array([0.00531828, 0.00533569])
+ message: 'Optimization terminated successfully'
+    nfev: 15
+     nit: 5
+    njev: 5
+  status: 0
+ success: True
+       x: array([ 1.16653888, 18.83346112])
+switching time points [1.16653888]
+computational time of retrieving switches 0.21689283399999937
+computational time of optimization 0.04187012499999909
+total computational time 0.2610301669999977
+thresholds 0.1 0.65
+alpha 0.001
+tv norm 2.0
+objective with tv norm 1.0006876341487512

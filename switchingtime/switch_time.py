@@ -35,6 +35,9 @@ class SwitchTimeOpt:
         self.evotime = None  # total evolution time
         self.num_switch = None  # number of switches
 
+        self.forward = None
+        self.backward = None
+        self.hamil_expm = None
         self.final_state = None  # final state
         self.obj = None  # optimal value
 
@@ -72,11 +75,13 @@ class SwitchTimeOpt:
             :return: final state
             """
         # conduct time evolution
-        state = [self.x0]
+        self.forward = [self.x0]
+        self.hamil_expm = []
         for k in range(self.num_switch + 1):
-            cur_state = expm(-1j * self.hlist[self.ctrl_hamil_idx[k]].copy() * x[k]).dot(state[k])
-            state.append(cur_state)
-        final_state = state[-1]
+            self.hamil_expm.append(expm(-1j * self.hlist[self.ctrl_hamil_idx[k]].copy() * x[k]))
+            cur_state = self.hamil_expm[k].dot(self.forward[k])
+            self.forward.append(cur_state)
+        final_state = self.forward[-1]
         return final_state
 
     def objective(self, x):
@@ -95,6 +100,29 @@ class SwitchTimeOpt:
             obj = np.real(final_state.conj().T.dot(self.hlist[1].dot(final_state)))
             return obj
 
+    def gradient(self, x):
+        if self.obj_type == 'energy':
+            self.backward = [self.forward[-1].conj().T.dot(self.hlist[1].conj().T)]
+        if self.obj_type == 'fid':
+            self.backward = [self.xtarg.conj().T]
+        for k in range(self.num_switch + 1):
+            bwd = self.backward[k].dot(self.hamil_expm[self.num_switch - k])
+            self.backward.append(bwd)
+        grad = []
+        if self.obj_type == 'energy':
+            for k in range(self.num_switch + 1):
+                grad += [np.imag(self.backward[self.num_switch - k].dot(
+                    self.hlist[self.ctrl_hamil_idx[k]].copy().dot(self.forward[k + 1])))]
+        if self.obj_type == 'fid':
+            pre_grad = np.zeros(self.num_switch + 1, dtype=complex)
+            for k in range(self.num_switch + 1):
+                # grad_temp = expm_frechet(-1j * H[t] * delta_t, -1j * self.H_c[j] * delta_t, compute_expm=False)
+                grad_temp = -1j * self.hlist[self.ctrl_hamil_idx[k]].copy()
+                pre_grad[k] = np.trace(self.backward[self.num_switch - k].dot(grad_temp).dot(self.forward[k + 1]))
+            fid_pre = np.trace(self.xtarg.conj().T.dot(self.forward[-1]))
+            grad = - np.real(pre_grad * np.exp(-1j * np.angle(fid_pre)) / self.xtarg.shape[0])
+        return grad
+
     def optimize(self):
         """
         optimize the length of each control interval
@@ -109,7 +137,9 @@ class SwitchTimeOpt:
         # set the bounds of variables
         bounds = Bounds([self.time_lb] * self.num_switch + [0], [self.time_ub] * (self.num_switch + 1))
         # minimize the objective function
-        res = minimize(self.objective, x0, method='SLSQP', constraints=eq_cons, bounds=bounds, options={'ftol': 1e-06})
+        # res = minimize(self.objective, x0, method='SLSQP', constraints=eq_cons, bounds=bounds, options={'ftol': 1e-06})
+        res = minimize(self.objective, x0, method='SLSQP', constraints=eq_cons, bounds=bounds,
+                       jac=self.gradient, options={'ftol': 1e-06})
         self.tau = res.x
         # retrieve the switching time points
         self.retrieve_switching_points()
@@ -898,6 +928,8 @@ def test_optimize_gradient():
     print("computational time of optimization", end2 - start2, file=output_file)
     print("total computational time", end2 - start1, file=output_file)
     print("thresholds", lb_threshold, ub_threshold, file=output_file)
+
+    exit()
 
     # retrieve control
     control_name = "../example/control/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}".format(

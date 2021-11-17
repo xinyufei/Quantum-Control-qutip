@@ -20,3 +20,38 @@ thresholds 0.1 0.65
 alpha 0.001
 tv norm 18.0
 objective with tv norm 1.0158858988690218
+     fun: 0.9987915731584348
+     jac: array([ 1.52339140e-04, -4.65433542e-03,  5.20802566e-03,  1.87777018e-03,
+        5.94254991e-04,  3.47317100e-05, -1.13011562e-04,  3.47317100e-05,
+       -1.51676902e-03,  2.35992386e-02])
+ message: 'Optimization terminated successfully'
+    nfev: 12
+     nit: 1
+    njev: 1
+  status: 0
+ success: True
+       x: array([3.90000045, 0.50000136, 0.09999949, 3.10000012, 0.20000036,
+       1.10000047, 1.5000005 , 1.80000047, 1.80000076, 5.99999601])
+switching time points [ 3.90000045  4.40000181  4.5000013   7.60000142  7.80000179  8.90000226
+ 10.40000276 12.20000323 14.00000399]
+computational time of retrieving switches 0.21619020799999866
+computational time of optimization 0.13438574999999986
+total computational time 0.3527273329999989
+thresholds 0.1 0.65
+     fun: 0.997885898838037
+     jac: array([0.0007054 , 0.00073945, 0.00072432, 0.0007054 , 0.00072432,
+       0.00075157, 0.00071656, 0.00072432, 0.00073945, 0.00071656])
+ message: 'Optimization terminated successfully'
+    nfev: 21
+     nit: 21
+    njev: 21
+  status: 0
+ success: True
+       x: array([3.81948386, 0.52560074, 0.07169862, 3.01948386, 0.17169862,
+       0.9508452 , 1.67194486, 1.77169862, 1.82560074, 6.17194486])
+switching time points [ 3.81948386  4.34508461  4.41678323  7.43626709  7.60796572  8.55881092
+ 10.23075578 12.0024544  13.82805514]
+computational time of retrieving switches 0.21461720799999995
+computational time of optimization 0.2104106669999979
+total computational time 0.4271635829999987
+thresholds 0.1 0.65

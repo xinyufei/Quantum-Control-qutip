@@ -38,7 +38,7 @@ def draw_stats():
              label=r'$-$' + str(round(-np.log10(sum_norm[constant_idx] * x[constant_idx]), 2)) + r'$-\log_{10} \rho$')
     plt.xlabel("Common logarithm of penalty parameter")
     plt.ylabel("Common logarithm of squared penalized Term")
-    plt.legend()
+    plt.legend(loc="lower left")
     plt.savefig("../figure_paper/MoleculeNew_H2_evotime4.0_n_ts80_log10_wb.png")
     # plt.savefig("../figure_paper/MoleculeVQE_LiH_evotime20.0_n_ts200_log10_wb.png")
 
@@ -1853,7 +1853,7 @@ if __name__ == '__main__':
     # draw_sos1(n_ts, control, output_fig)
     # print(max([abs(sum(control[k, :]) - 1) for k in range(n_ts)]))
     # draw_integral_error("H2", ub=True)
-    # draw_stats()
+    draw_stats()
     # draw_obj_energy_r()
     # draw_sur()
     # draw_mt()
@@ -1883,4 +1883,4 @@ if __name__ == '__main__':
     # draw_tr_obj_instance()
     # draw_tr_tv_instance()
     # draw_tr_obj_tv_instance_split()
-    draw_tr_selected()
+    # draw_tr_selected()

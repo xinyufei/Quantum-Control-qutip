@@ -83,6 +83,33 @@ class Switches:
             return self._obtain_switches_linear_approximation_noupdate()
         if mode == 'la':
             return self._obtain_switches_linear_approximation()
+        if mode == 'multi':
+            return self._obtain_switches_without_sos1(thre_min)
+
+    def _obtain_switches_without_sos1(self, thre_min):
+        initial_control = np.loadtxt(self.initial_control_file, delimiter=",")
+        num_controllers = initial_control.shape[1]
+        self.tau0 = []
+        self.num_switches = [0] * num_controllers
+        self.hstart = [0] * num_controllers
+        cur_state = [0] * num_controllers
+        for j in range(num_controllers):
+            # self.tau0[j] = []
+            prev_switch = 0
+            if initial_control[0, j] >= thre_min:
+                cur_state[j] = 1
+                self.hstart[j] = 1
+            for k in range(1, initial_control.shape[0]):
+                if initial_control[k, j] >= thre_min:
+                    state = 1
+                else:
+                    state = 0
+                if state != cur_state[j]:
+                    self.tau0.append(k * self.delta_t - prev_switch)
+                    prev_switch = k * self.delta_t
+                    self.num_switches[j] += 1
+            self.tau0.append(initial_control.shape[0] * self.delta_t - prev_switch)
+        return self.tau0, self.num_switches, self.hstart
 
     def _obtain_switches_naive(self):
         initial_control = np.loadtxt(self.initial_control_file, delimiter=",")

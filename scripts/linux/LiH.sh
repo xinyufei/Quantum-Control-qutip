@@ -93,14 +93,14 @@ cd ../Trustregion/
 #    --target="../control/Continuous/MoleculeNew_LiH_evotime15.0_n_ts150_target.csv" --sos=1 --alpha=0.0001 --tr_type="tvc"
 
 cd ../SwitchingTime/
-python Molecule.py --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --admm_control="../control/ADMM/MoleculeADMMNew3_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.001_ADMM_0.5_iter100.csv" \
-    --target="../control/Continuous/MoleculeNew3_LiH_evotime20.0_n_ts200_target.csv" --min_up_time=0 --alpha=0.001
-python Molecule.py --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --admm_control="../control/ADMM/MoleculeADMMNew3_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.001_ADMM_0.5_iter100.csv" \
-    --target="../control/Continuous/MoleculeNew3_LiH_evotime20.0_n_ts200_target.csv" --min_up_time=0.5 --alpha=0.001
-python Molecule.py --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --admm_control="../control/Trustregion/MoleculeNew3_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
-    --target="../control/Continuous/MoleculeNew3_LiH_evotime20.0_n_ts200_target.csv" --min_up_time=0 --alpha=0.001
-python Molecule.py --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --admm_control="../control/Trustregion/MoleculeNew3_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
-    --target="../control/Continuous/MoleculeNew3_LiH_evotime20.0_n_ts200_target.csv" --min_up_time=0.5 --alpha=0.001
+#python Molecule.py --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --admm_control="../control/ADMM/MoleculeADMMNew3_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.001_ADMM_0.5_iter100.csv" \
+#    --target="../control/Continuous/MoleculeNew3_LiH_evotime20.0_n_ts200_target.csv" --min_up_time=0 --alpha=0.001
+#python Molecule.py --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --admm_control="../control/ADMM/MoleculeADMMNew3_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.001_ADMM_0.5_iter100.csv" \
+#    --target="../control/Continuous/MoleculeNew3_LiH_evotime20.0_n_ts200_target.csv" --min_up_time=0.5 --alpha=0.001
+#python Molecule.py --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --admm_control="../control/Trustregion/MoleculeNew3_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
+#    --target="../control/Continuous/MoleculeNew3_LiH_evotime20.0_n_ts200_target.csv" --min_up_time=0 --alpha=0.001
+#python Molecule.py --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --admm_control="../control/Trustregion/MoleculeNew3_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
+#    --target="../control/Continuous/MoleculeNew3_LiH_evotime20.0_n_ts200_target.csv" --min_up_time=0.5 --alpha=0.001
     
 cd ../Rounding
 #python Molecule.py --molecule=LiH -qubit_num=4 --evo_time=20 --n_ts=200 \

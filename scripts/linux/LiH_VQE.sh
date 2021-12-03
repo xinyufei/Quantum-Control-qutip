@@ -14,17 +14,17 @@ cd ../../example/Continuous/
 #    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --max_iter=10000
 #python Molecule.py --name=MoleculeVQE2 --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --initial_type=CONSTANT --offset=0.5 --sum_penalty=0.1 --max_iter=10000
 #    --target="../control/Continuous/MoleculeVQE2_LiH_evotime20.0_n_ts200_target.csv"
-#python Molecule.py --gen_target=0 --name=MoleculeVQE2 --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --initial_type=CONSTANT --offset=0.5 --sum_penalty=1.0 --max_iter=10000\
-#    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv"
+python Molecule.py --gen_target=0 --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=2000 --initial_type=CONSTANT --offset=0.5 --sum_penalty=0.1 --max_iter=10000\
+    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv"
 #python Molecule.py --name=MoleculeVQE --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --initial_type=WARM \
 #    --initial_control="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeCONSTANT_offset0.5_objUNIT_sum_penalty0.0.csv" \
 #    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --sum_penalty=1e-5 --max_iter=10000
 #python Molecule.py --name=MoleculeVQE --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --initial_type=WARM \
 #    --initial_control="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeCONSTANT_offset0.5_objUNIT_sum_penalty0.0.csv" \
 #    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --sum_penalty=1e-6 --max_iter=10000
-python Molecule.py --name=MoleculeVQE2 --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --initial_type=WARM \
-    --initial_control="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.01.csv" \
-    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --sum_penalty=0.1 --max_iter=10000
+#python Molecule.py --name=MoleculeVQE2 --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --initial_type=WARM \
+#    --initial_control="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.01.csv" \
+#    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --sum_penalty=0.1 --max_iter=10000
 #python Molecule.py --name=MoleculeVQE --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=100 --initial_type=WARM \
 #    --initial_control="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts100_ptypeCONSTANT_offset0.5_objUNIT_sum_penalty0.0.csv" \
 #    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --sum_penalty=0.1 --max_iter=5000

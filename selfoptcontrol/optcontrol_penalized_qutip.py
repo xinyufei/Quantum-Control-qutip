@@ -241,6 +241,7 @@ class Optcontrol_Penalized_Qutip():
         dyn = optim.dynamics
         dyn.initialize_controls(self.init_amps)
         result = optim.run_optimization_sum_penalty()
+        # print(dyn._fwd_evo[-1])
         self.u = result.final_amps
         self.cur_obj = result.fid_err + self.compute_penalty(self.u)
         self.cur_grad = result.grad_norm_final

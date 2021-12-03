@@ -56,9 +56,17 @@ class SwitchTimeOptController:
         self.time_ub = self.evotime
 
         self.obj_type = None
+        self.penalty_para = 0.1
+        self.penalty_para_initial = 0.1
+        self.penalty = None
+        self.obj_with_penalty = None
+        self.penalty_max_ite = None
+        self.penalty_threshold = None
+        self.penalty_ite = None
 
     def build_optimizer(self, hlist, h0, control_start, init, x0, xtarg, evotime, num_switch,
-                        time_lb=None, time_ub=None, obj_type='fid'):
+                        time_lb=None, time_ub=None, obj_type='fid', penalty_para=0.1, max_ite=10,
+                        threshold=1e-3):
         self.hlist = hlist
         self.num_controller = len(hlist)
         self.h0 = h0
@@ -78,6 +86,10 @@ class SwitchTimeOptController:
             self.time_ub = self.evotime
 
         self.obj_type = obj_type
+        self.penalty_para = penalty_para
+        self.penalty_para_initial = penalty_para
+        self.penalty_max_ite = max_ite
+        self.penalty_threshold = threshold
 
     def hamiltonian_ctrl_val(self, j, t):
         cur_switch_time = self.switch_time[j]
@@ -178,6 +190,55 @@ class SwitchTimeOptController:
         if self.obj_type == "energy":
             obj = np.real(final_state.conj().T.dot(self.hlist[1].dot(final_state)))
             return obj
+
+    def objective_penalty(self, x):
+        # conduct time evolution
+        final_state = self.obtain_state(x)
+        # penalty function
+        self.penalty = 0
+        cur_switch = 0
+        for j in range(self.num_controller):
+            # print(sum(x[cur_switch:self.num_switch[j] + 1 + cur_switch]))
+            self.penalty += np.square(sum(x[cur_switch:self.num_switch[j] + 1 + cur_switch]) - self.evotime)
+            cur_switch += self.num_switch[j] + 1
+
+        if self.obj_type == 'fid':
+            fid = np.abs(np.trace(self.xtarg.conj().T.dot(final_state))) / self.xtarg.shape[0]
+            self.obj = 1 - fid
+            return self.obj + self.penalty_para * self.penalty
+        if self.obj_type == "energy":
+            obj = np.real(final_state.conj().T.dot(self.hlist[1].dot(final_state)))
+            self.obj = obj
+            return obj + self.penalty_para * self.penalty
+
+    def optimize_with_penalty(self):
+        # initialize the solution
+        x0 = self.tau0.copy()
+        # set the bounds of variables
+        bounds = Bounds([self.time_lb] * len(x0), [self.time_ub] * len(x0))
+        # minimize the objective function
+        res = minimize(self.objective_penalty, x0, bounds=bounds, options={'ftol': 1e-08, 'maxiter': 200})
+        self.tau = res.x
+        # retrieve the switching time points
+        self.retrieve_switching_points()
+        # compute the final state and optimal value
+        self.final_state = self.obtain_state(self.tau)
+        self.obj_with_penalty = res.fun
+
+        return res
+
+    def optimize_iterate(self):
+        self.penalty_para = self.penalty_para_initial
+        res = None
+        for ite in range(self.penalty_max_ite):
+            res = self.optimize_with_penalty()
+            print(res)
+            if self.penalty <= self.penalty_threshold:
+                break
+            self.penalty_para *= 10
+            self.tau0 = res.x.copy()
+        self.penalty_ite = ite + 1
+        return res
 
     def optimize(self):
         """
@@ -283,6 +344,15 @@ class SwitchTimeOptController:
                        for tstep in range(self.control.shape[0] - 1))
                    for j in range(self.control.shape[1]))
 
+    def recompute_objective(self):
+        x = self.tau.copy()
+        cur_switch = 0
+        for j in range(self.num_controller):
+            x[self.num_switch[j] + cur_switch] = self.evotime - sum(
+                self.tau[cur_switch:self.num_switch[j] + cur_switch])
+            cur_switch += self.num_switch[j] + 1
+        return self.objective(x)
+
 
 def reduce_switch(max_switch, interval_len, c_sequence, epsilon=1e-5):
     num_switch = len(c_sequence) - 1
@@ -344,6 +414,8 @@ def test_optimize_cnot():
     alpha = 0.01
     min_up_time = 0
     name = "CNOTST"
+    penalty_para = 100
+    error_threshold = 1e-4
 
     H_c = [tensor(sigmax(), identity(2)).full(), tensor(sigmay(), identity(2)).full()]
     # Drift Hamiltonian
@@ -353,11 +425,19 @@ def test_optimize_cnot():
     # Target for the gate evolution
     X_targ = cnot().full()
 
-    lb_threshold = 0.1
+    lb_threshold = 0.5
     ub_threshold = 0.65
 
-    num_switch = [10, 9]
-    control_start = [0, 1]
+    initial_control = "../example/control/ADMM/CNOTADMM_evotime5.0_n_ts100_ptypeWARM_offset0.5_objUNIT_penalty0.01_ADMM_0.25_iter100.csv"
+    # initial_control = "../example/control/Trustregion/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv"
+    # initial_control = "../example/control/Continuous/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5.csv"
+    switches = Switches(initial_control, delta_t=evo_time / n_ts)
+    start1 = time.time()
+    switches.init_gradient_computer(H_d, H_c, X_0, X_targ, n_ts, evo_time, 'fid')
+    initial, num_switch, control_start = switches.obtain_switches('multi', thre_min=lb_threshold)
+    end1 = time.time()
+
+    num_switch = [9, 9]
     initial = np.array([evo_time / (num_switch[0] + 1)] * (num_switch[0] + 1) +
                        [evo_time / (num_switch[1] + 1)] * (num_switch[1] + 1))
 
@@ -365,9 +445,10 @@ def test_optimize_cnot():
     cnot_opt = SwitchTimeOptController()
     start2 = time.time()
     cnot_opt.build_optimizer(
-        H_c, H_d, control_start, initial, X_0, X_targ, evo_time, num_switch, min_up_time, None,
-        obj_type='fid')
-    res = cnot_opt.optimize()
+        H_c, H_d, control_start, np.array(initial), X_0, X_targ, evo_time, num_switch, min_up_time, None,
+        obj_type='fid', penalty_para=penalty_para, threshold=error_threshold)
+    res = cnot_opt.optimize_with_penalty()
+    # res = cnot_opt.optimize_iterate()
     end2 = time.time()
 
     if not os.path.exists("../example/output/SwitchTime/test/"):
@@ -382,13 +463,18 @@ def test_optimize_cnot():
         name, str(evo_time), str(n_ts), initial_type, str(min_up_time)) + ".log"
     output_file = open(output_name, "w+")
     print(res, file=output_file)
+    print("original objective function", cnot_opt.obj, file=output_file)
+    print("penalty parameter", cnot_opt.penalty_para, file=output_file)
+    print("error threshold", cnot_opt.penalty_threshold, file=output_file)
+    print("penalty", cnot_opt.penalty, file=output_file)
     print("number of switches", num_switch, file=output_file)
     print("start control", control_start, file=output_file)
     print("switching time points", cnot_opt.switch_time, file=output_file)
-    # print("computational time of retrieving switches", end1 - start1, file=output_file)
+    print("computational time of retrieving switches", end1 - start1, file=output_file)
     print("computational time of optimization", end2 - start2, file=output_file)
-    # print("total computational time", end2 - start1, file=output_file)
-    # print("thresholds", lb_threshold, ub_threshold, file=output_file)
+    print("objective value with equality constraint", cnot_opt.recompute_objective(), file=output_file)
+    print("total computational time", end2 - start1, file=output_file)
+    print("threshold", lb_threshold, file=output_file)
 
     # retrieve control
     control_name = "../example/control/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_init{}_minuptime{}".format(

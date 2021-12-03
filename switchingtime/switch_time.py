@@ -851,14 +851,14 @@ def test_optimize_minup():
 
 
 def test_optimize_gradient():
-    n = 6
-    num_edges = 3
-    seed = 3
+    n = 2
+    num_edges = 1
+    seed = 0
     n_ts = 40
     evo_time = 2
     initial_type = "warm"
     alpha = 0.01
-    min_up_time = 0
+    min_up_time = 0.5
     name = "EnergySTADMMG"
 
     lb_threshold = 0.1
@@ -875,7 +875,8 @@ def test_optimize_gradient():
 
     y0 = uniform(n)
 
-    initial_control = "../example/control/ADMM/EnergyADMM6_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance3.csv"
+    initial_control = "../example/control/ADMM/EnergyADMM2_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv"
+    # initial_control = "../example/control/ADMM/EnergyADMM4_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance1.csv"
     # initial_control = "../example/control/Trustregion/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv"
     # initial_control = "../example/control/Continuous/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5.csv"
     switches = Switches(initial_control, delta_t=evo_time / n_ts)
@@ -929,8 +930,6 @@ def test_optimize_gradient():
     print("total computational time", end2 - start1, file=output_file)
     print("thresholds", lb_threshold, ub_threshold, file=output_file)
 
-    exit()
-
     # retrieve control
     control_name = "../example/control/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}".format(
         name + str(n), str(evo_time), str(n_ts), str(num_switch), initial_type, str(min_up_time), seed) + ".csv"
@@ -956,10 +955,10 @@ def test_optimize_gradient():
 
 def test_optimize_gradient_compile():
     d = 2
-    qubit_num = 4
-    molecule = "LiH"
-    target = "../example/control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv"
-    # target = "../example/control/Continuous/MoleculeNEW_H2_evotime4.0_n_ts80_target.csv"
+    qubit_num = 2
+    molecule = "H2"
+    # target = "../example/control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv"
+    target = "../example/control/Continuous/MoleculeNEW_H2_evotime4.0_n_ts80_target.csv"
     initial_type = "warm"
     Hops, H0, U0, U = generate_molecule_func(qubit_num, d, molecule)
 
@@ -969,14 +968,14 @@ def test_optimize_gradient_compile():
         print("Please provide the target file!")
         exit()
 
-    n_ts = 200
-    evo_time = 20
+    n_ts = 80
+    evo_time = 4
 
     step = 1
     alpha = 0.001
-    min_up_time = 0
+    min_up_time = 0.5
 
-    name = "MoleculeSTCG"
+    name = "MoleculeSTADMMG"
 
     # The control Hamiltonians (Qobj classes)
     H_c = [Qobj(hops) for hops in Hops]
@@ -988,8 +987,8 @@ def test_optimize_gradient_compile():
     X_targ = Qobj(U)
 
     # initial_control = "../example/control/Continuous/MoleculeNEW_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0.csv"
-    initial_control = "../example/control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1.csv"
-    # initial_control = "../example/control/ADMM/MoleculeADMMNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_sum_penalty1.0_penalty0.001_ADMM_0.5_iter100.csv"
+    # initial_control = "../example/control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1.csv"
+    initial_control = "../example/control/ADMM/MoleculeADMMNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_sum_penalty1.0_penalty0.001_ADMM_0.5_iter100.csv"
     # initial_control = "../example/control/ADMM/MoleculeVQEADMM_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.001_ADMM_3.0_iter100.csv"
     # initial_control = "../example/control/Trustregion/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv"
     # initial_control = "../example/control/Trustregion/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv"
@@ -1080,4 +1079,5 @@ def test_optimize_gradient_compile():
 
 
 if __name__ == '__main__':
-    test_optimize_gradient_compile()
+    # test_optimize_gradient_compile()
+    test_optimize_gradient()

@@ -77,6 +77,11 @@ def draw_integral_error(example="H2", ub=False):
         integral_err = []
         if ub:
             ub_list = []
+            lb_list = []
+            ub_list_1 = []
+            ub_list_2 = []
+            epsilon_list = []
+            l2_err = []
         for n_ts in ts_list:
             c_control_name = "../example/control/Continuous/MoleculeNew_H2_evotime4.0_n_ts" + str(n_ts) + \
                              "_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0.csv"
@@ -95,7 +100,12 @@ def draw_integral_error(example="H2", ub=False):
             if ub:
                 print(np.sum(integral, 1))
                 epsilon = np.max(abs(np.sum(integral, 1)))
+                lb_list.append(1 / n_ctrls * epsilon)
                 ub_list.append((n_ctrls - 1) * delta_t + (2 * n_ctrls - 1) / n_ctrls * epsilon)
+                epsilon_list.append(epsilon)
+                l2_err.append(sum(np.square(sum(c_control[t, j] for j in range(n_ctrls)) - 1) for t in range(n_ts)))
+                ub_list_1.append((n_ctrls - 1) * delta_t)
+                ub_list_2.append((2 * n_ctrls - 1) / n_ctrls * epsilon)
         # draw the figure
         plt.figure(dpi=300)
         plt.xlabel("Time steps")
@@ -103,15 +113,36 @@ def draw_integral_error(example="H2", ub=False):
         # plt.ylabel("Maximum integral error")
         # plt.plot(ts_list, integral_err, label='Maximum integral error')
         plt.ylabel("Common logarithm of maximum integral error")
+        # plt.ylim(bottom=-5, top=2)
         plt.plot(ts_list, np.log10(integral_err), '-o', label='Common logarithm of maximum integral error')
         if ub:
-            plt.plot(ts_list, np.log10(ub_list), "--", label="Upper bound of common logarithm of integral error")
+            # plt.plot(ts_list, np.log10(lb_list), linestyle='dotted', label="Lower bound of common logarithm of integral error")
+            plt.plot(ts_list, np.log10(ub_list), linestyle="-", marker='o',
+                     label="Upper bound of common logarithm of integral error")
+            plt.plot(ts_list, np.log10(ub_list_1), linestyle="--", marker='^', label="Fist term of the upper bound")
+            plt.plot(ts_list, np.log10(ub_list_2), linestyle="--", marker='+', markersize='8',
+                     label="Second term of the upper bound")
         # plt.plot(delta_t_list, integral_err, label='Maximum integral error')
-        plt.legend()
+        plt.legend(prop={'size': 6})
         if ub:
-            plt.savefig("../figure_paper/MoleculeNew_H2_evotime4.0_sur_error_delta_t_withub_log10.png")
+            plt.savefig("../figure_paper/MoleculeNew_H2_evotime4.0_sur_error_delta_t_log10_wb.png")
         else:
             plt.savefig("../figure_paper/MoleculeNew_H2_evotime4.0_sur_error_delta_t_log10.png")
+
+
+        plt.figure(dpi=300)
+        plt.xlabel("Time steps")
+        plt.plot(ts_list, np.log10(epsilon_list), linestyle='-', marker='o', label="Epsilon")
+        plt.plot(ts_list, np.log10([evo_time * np.sqrt(l2_err[i] * delta_t_list[i]) for i in range(len(l2_err))]),
+                 linestyle='--', marker='^', label="Upper bound of epsilon")
+        # plt.plot(ts_list, np.log10(ub_list_1), linestyle="--", marker='^', label="Fist term of the upper bound")
+        # plt.plot(ts_list, np.log10(ub_list_2), linestyle="--", marker='+', markersize='8',
+        #          label="Second term of the upper bound")
+        # plt.plot(delta_t_list, integral_err, label='Maximum integral error')
+        plt.legend(prop={'size': 5})
+        plt.savefig("../figure_paper/MoleculeNew_H2_evotime4.0_epsilon_ub.png")
+
+    # exit()
 
     if example == "LiH":
         evo_time = 20.0
@@ -120,6 +151,11 @@ def draw_integral_error(example="H2", ub=False):
         integral_err = []
         if ub:
             ub_list = []
+            lb_list = []
+            ub_list_1 = []
+            ub_list_2 = []
+            epsilon_list = []
+            l2_err = []
         for n_ts in ts_list:
             c_control_name = "../example/control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts" + str(n_ts) + \
                              "_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1.csv"
@@ -138,7 +174,12 @@ def draw_integral_error(example="H2", ub=False):
             if ub:
                 print(np.sum(integral, 1))
                 epsilon = np.max(abs(np.sum(integral, 1)))
+                lb_list.append(1 / n_ctrls * epsilon)
                 ub_list.append((n_ctrls - 1) * delta_t + (2 * n_ctrls - 1) / n_ctrls * epsilon)
+                ub_list_1.append((n_ctrls - 1) * delta_t)
+                ub_list_2.append((2 * n_ctrls - 1) / n_ctrls * epsilon)
+                epsilon_list.append(epsilon)
+                l2_err.append(sum(np.square(sum(c_control[t, j] for j in range(n_ctrls)) - 1) for t in range(n_ts)))
         # draw the figure
         plt.figure(dpi=300)
         plt.xlabel("Time steps")
@@ -151,13 +192,30 @@ def draw_integral_error(example="H2", ub=False):
         plt.ylabel("Common logarithm of maximum integral error")
         plt.plot(ts_list, np.log10(integral_err), '-o', label='Common logarithm of maximum integral error')
         if ub:
-            plt.plot(ts_list, np.log10(ub_list), "--", label="Upper bound of common logarithm of integral error")
+            # plt.plot(ts_list, np.log10(ub_list), "--", label="Upper bound of common logarithm of integral error")
+            plt.plot(ts_list, np.log10(ub_list), linestyle="-", marker='o',
+                     label="Upper bound of common logarithm of integral error")
+            plt.plot(ts_list, np.log10(ub_list_1), linestyle="--", marker='^', label="Fist term of the upper bound")
+            plt.plot(ts_list, np.log10(ub_list_2), linestyle="--", marker='+', markersize='8',
+                     label="Second term of the upper bound")
         # plt.plot(delta_t_list, integral_err, label='Maximum integral error')
-        plt.legend()
+        plt.legend(prop={'size': 6})
         if ub:
-            plt.savefig("../figure_paper/MoleculeVQE_LiH_evotime20.0_sur_error_delta_t_withub_log10.png")
+            plt.savefig("../figure_paper/MoleculeVQE_LiH_evotime20.0_sur_error_delta_t_log10_wb.png")
         else:
             plt.savefig("../figure_paper/MoleculeVQE_LiH_evotime20.0_sur_error_delta_t_log10.png")
+
+    plt.figure(dpi=300)
+    plt.xlabel("Time steps")
+    plt.plot(ts_list, np.log10(epsilon_list), linestyle='-', marker='o', label="Epsilon")
+    plt.plot(ts_list, np.log10([evo_time * np.sqrt(l2_err[i] * delta_t_list[i]) for i in range(len(l2_err))]),
+             linestyle='--', marker='^', label="Upper bound of epsilon")
+    # plt.plot(ts_list, np.log10(ub_list_1), linestyle="--", marker='^', label="Fist term of the upper bound")
+    # plt.plot(ts_list, np.log10(ub_list_2), linestyle="--", marker='+', markersize='8',
+    #          label="Second term of the upper bound")
+    # plt.plot(delta_t_list, integral_err, label='Maximum integral error')
+    plt.legend(prop={'size': 5})
+    plt.savefig("../figure_paper/MoleculeVQE_LiH_evotime20.0_epsilon_ub.png")
 
 
 def draw_obj_energy_c():
@@ -1852,8 +1910,9 @@ if __name__ == '__main__':
     # draw_stats()
     # draw_sos1(n_ts, control, output_fig)
     # print(max([abs(sum(control[k, :]) - 1) for k in range(n_ts)]))
-    # draw_integral_error("H2", ub=True)
-    draw_stats()
+    draw_integral_error("H2", ub=True)
+    draw_integral_error("LiH", ub=True)
+    # draw_stats()
     # draw_obj_energy_r()
     # draw_sur()
     # draw_mt()

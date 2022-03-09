@@ -44,6 +44,12 @@ python setup.py
 ```
 
 ## Usage
+### Stored results
+All the control results are stored in the folder ```example/control/```. All the output control figures are stored in 
+```example/figure/```. The output files are stored in ```example/output/```. One can change the 
+paths in files to change the positions. 
+
+**Before starting your own experiments, we suggest deleting the above three folders to clear all the existing results.** 
 ### Continuous relaxation
 First, change to the example file folder:
 ```shell
@@ -74,8 +80,7 @@ python Molecule.py --gen_target=1 --name=MoleculeVQE \
     --initial_type=CONSTANT --offset=0.5 --sum_penalty=0.1
 ```
 The output control files are stored in ```example/control/Continuous/```. The output control figures are stored in 
-```example/figure/Continuous/```. The output files are stored in ```example/output/Continuous/```. One can change the 
-paths in files to change the positions. 
+```example/figure/Continuous/```. The output files are stored in ```example/output/Continuous/```. 
 ### TV regularizer
 First, change to the example file folder:
 ```shell

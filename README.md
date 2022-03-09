@@ -25,7 +25,7 @@ The instances are provided in the folder ```/example/```.
 ### Requirements
 * Python >= 3.8
 * qiskit >= 0.29.0, scipy >= 1.6.2
-* pycombina >= 0.3.2
+* pycombina >= 0.3.2 (only for rounding)
 * Developed version of Qutip (https://github.com/qutip/qutip). 
 
 To install pycombina, please refer to https://pycombina.readthedocs.io/en/latest/. 

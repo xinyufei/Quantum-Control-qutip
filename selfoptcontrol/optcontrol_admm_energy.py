@@ -139,10 +139,12 @@ class optcontrol_admm_energy():
                 norm_grad_t = self.rho * (control_amps[k] - control_amps[k - 1] - self.v[k - 1] + self._lambda[k - 1])
             if 0 < k < self.n_ts - 1:
                 norm_grad_t = self.rho * (control_amps[k] - control_amps[k - 1] - self.v[k - 1] + self._lambda[k - 1]
-                                     - (control_amps[k + 1] - control_amps[k] - self.v[k] + self._lambda[k]))
+                                          - (control_amps[k + 1] - control_amps[k] - self.v[k] + self._lambda[k]))
 
+            # grad += [-np.imag(self._onto[self.n_ts - k - 1].dot((self.C - self.B).dot(self._into[k + 1]))
+            #                   * self.delta_t) + norm_grad_t]
             grad += [-np.imag(self._onto[self.n_ts - k - 1].dot((self.C - self.B).dot(self._into[k + 1]))
-                              * self.delta_t) + norm_grad_t]
+                              * self.delta_t) * 2 + norm_grad_t]
 
         return grad
 

@@ -1,0 +1,32 @@
+Final evolution
+[[0.33884254+0.j         0.        -0.47331954j 0.        +0.j
+  ... 0.        +0.j         0.        +0.j
+  0.        +0.j        ]
+ [0.        -0.47331954j 0.33884254+0.j         0.        +0.j
+  ... 0.        +0.j         0.        +0.j
+  0.        +0.j        ]
+ [0.        +0.j         0.        +0.j         0.33884254+0.j
+  ... 0.        +0.j         0.        +0.j
+  0.        +0.j        ]
+ ...
+ [0.        +0.j         0.        +0.j         0.        +0.j
+  ... 0.33884254+0.j         0.        +0.j
+  0.        +0.j        ]
+ [0.        +0.j         0.        +0.j         0.        +0.j
+  ... 0.        +0.j         0.33884254+0.j
+  0.        -0.47331954j]
+ [0.        +0.j         0.        +0.j         0.        +0.j
+  ... 0.        +0.j         0.        -0.47331954j
+  0.33884254+0.j        ]]
+
+********* Summary *****************
+Final fidelity error 0.3388425441150408
+Final objective value 0.34215927530535606
+Final penalized error 0.003316744583675786
+Final gradient 0.16288905917120974
+Number of iterations 93
+Terminated due to function converged
+Completed in 0:03:39.892053 HH:MM:SS.US
+Computational time 219.892053417
+total tv norm 0.0008620861131446445
+total l2 norm 0.003316744583675786

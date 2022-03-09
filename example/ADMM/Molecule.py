@@ -123,7 +123,7 @@ marker_list = ['-o', '--^', '-*', '--s']
 marker_size_list = [5, 5, 8, 5]
 for j in range(b_rel.shape[1]):
     plt.step(np.linspace(0, args.evo_time, args.n_ts + 1), np.hstack((b_rel[:, j], b_rel[-1, j])), marker_list[j % 4],
-             where='post', linewidth=2, label='controller ' + str(j + 1), markevery=(j, 4),
+             where='post', linewidth=2, label='controller ' + str(j + 1), markevery=(j, int(args.n_ts / 10)),
              markersize=marker_size_list[j % 4])
 plt.legend()
 plt.savefig(output_fig.split(".png")[0] + "_continuous.png")

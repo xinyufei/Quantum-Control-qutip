@@ -1,0 +1,42 @@
+total tv norm 10.0
+initial file ../example/control/ADMM/MoleculeADMM_BeH2_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.01_penalty0.001_ADMM_3.0_iter100.csv
+objective function before optimization 1.0
+TV regularizer before optimization 10
+     fun: 1.0
+     jac: array([-0., -0., -0., -0., -0., -0.])
+ message: 'Optimization terminated successfully'
+    nfev: 1
+     nit: 1
+    njev: 1
+  status: 0
+ success: True
+       x: array([ 0.05,  0.2 ,  0.15,  0.05, 18.5 ,  1.05])
+switching time points [ 0.05  0.25  0.4   0.45 18.95]
+computational time of retrieving switches 5.194722833000002
+computational time of optimization 0.048945874999997585
+total computational time 5.2472034579999995
+thresholds 0.1 0.65
+alpha 0.001
+tv norm 10.0
+objective with tv norm 1.01
+total tv norm 10.0
+initial file ../example/control/ADMM/MoleculeADMM_BeH2_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.01_penalty0.001_ADMM_3.0_iter100.csv
+objective function before optimization 1.0
+TV regularizer before optimization 10
+     fun: 1.0
+     jac: array([-0., -0., -0., -0., -0., -0.])
+ message: 'Optimization terminated successfully'
+    nfev: 1
+     nit: 1
+    njev: 1
+  status: 0
+ success: True
+       x: array([ 0.05,  0.2 ,  0.15,  0.05, 18.5 ,  1.05])
+switching time points [ 0.05  0.25  0.4   0.45 18.95]
+computational time of retrieving switches 5.091092124999999
+computational time of optimization 0.05502266700000291
+total computational time 5.149689583000001
+thresholds 0.1 0.65
+alpha 0.001
+tv norm 10.0
+objective with tv norm 1.01

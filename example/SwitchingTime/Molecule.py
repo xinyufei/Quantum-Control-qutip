@@ -66,9 +66,18 @@ if args.admm_control is None:
     print("Must provide control results of ADMM!")
     exit()
 
-warm_start_length, num_switch, ctrl_hamil_idx = obtain_switching_time(args.admm_control,
-                                                                      delta_t=args.evo_time / args.n_ts)
+# warm_start_length, num_switch, ctrl_hamil_idx = obtain_switching_time(args.admm_control,
+#                                                                       delta_t=args.evo_time / args.n_ts)
+switches = Switches(args.admm_control, delta_t=args.evo_time / args.n_ts)
+switches.init_gradient_computer(H0, Hops, U0, U, args.n_ts, args.evo_time, 'fid')
+warm_start_length, num_switch, ctrl_hamil_idx = switches.obtain_switches('naive')
 print(num_switch)
+
+fig_name = "../figure/SwitchTime/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_extraction".format(
+    args.name + "_" + args.molecule, str(args.evo_time), str(args.n_ts), str(num_switch), args.initial_type,
+    str(args.min_up_time)) + ".png"
+switches.draw_extracted_control(fig_name)
+
 
 # sequence of control hamiltonians
 ctrl_hamil = [(H_d + H_c[j]).full() for j in range(len(H_c))]
@@ -103,6 +112,10 @@ output_name = "../output/SwitchTime/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_
     args.name + "_" + args.molecule, str(args.evo_time), str(args.n_ts), str(num_switch), args.initial_type,
     str(args.min_up_time)) + ".log"
 output_file = open(output_name, "a+")
+print("objective function before optimization", compute_obj_by_switch(
+    Hops, warm_start_length, ctrl_hamil_idx, X_0.full(), X_targ.full(), 'fid'), file=output_file)
+print("TV regularizer before optimization", 2 * len(warm_start_length) - 2, file=output_file)
+# exit()
 print(res, file=output_file)
 print("switching time points", spin_opt.switch_time, file=output_file)
 print("computational time", end - start, file=output_file)
@@ -123,7 +136,8 @@ print("objective with tv norm", spin_opt.obj + args.alpha * tv_norm, file=output
 figure_name = "../figure/SwitchTime/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}".format(
     args.name + "_" + args.molecule, str(args.evo_time), str(args.n_ts), str(num_switch), args.initial_type,
     str(args.min_up_time)) + ".png"
-spin_opt.draw_control(figure_name)
+control = spin_opt.retrieve_control(2000)
+spin_opt.draw_control(figure_name, 250)
 
 b_bin = np.loadtxt(control_name, delimiter=",")
 f = open(output_name, "a+")

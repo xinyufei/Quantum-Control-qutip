@@ -1,0 +1,63 @@
+total tv norm 4.0
+initial file ../example/control/ADMM/MoleculeADMMNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_sum_penalty1.0_penalty0.001_ADMM_0.5_iter100.csv
+objective function before optimization 0.9999999999999998
+TV regularizer before optimization 4
+     fun: 0.4027616443755758
+     jac: array([0.49216842, 0.49266201, 0.49216842])
+ message: 'Optimization terminated successfully'
+    nfev: 5
+     nit: 4
+    njev: 4
+  status: 0
+ success: True
+       x: array([1.98161299, 0.03677401, 1.98161299])
+switching time points [1.98161299 2.01838701]
+computational time of retrieving switches 0.034249374999999915
+computational time of optimization 0.013548625000000314
+total computational time 0.048661083000000716
+thresholds 0.1 0.65
+alpha 0.001
+tv norm 4.0
+objective with tv norm 0.4067616443755758
+total tv norm 4.0
+initial file ../example/control/ADMM/MoleculeADMMNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_sum_penalty1.0_penalty0.001_ADMM_0.5_iter100.csv
+objective function before optimization 0.9999999999999998
+TV regularizer before optimization 4
+     fun: 0.4027616443755758
+     jac: array([0.49216842, 0.49266201, 0.49216842])
+ message: 'Optimization terminated successfully'
+    nfev: 5
+     nit: 4
+    njev: 4
+  status: 0
+ success: True
+       x: array([1.98161299, 0.03677401, 1.98161299])
+switching time points [1.98161299 2.01838701]
+computational time of retrieving switches 0.029717583000000047
+computational time of optimization 0.008858500000000546
+total computational time 0.03946524999999923
+thresholds 0.1 0.65
+alpha 0.001
+tv norm 4.0
+objective with tv norm 0.4067616443755758
+total tv norm 4.0
+initial file ../example/control/ADMM/MoleculeADMMNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_sum_penalty1.0_penalty0.001_ADMM_0.5_iter100.csv
+objective function before optimization 0.9999999999999998
+TV regularizer before optimization 4
+     fun: 0.4027616443755758
+     jac: array([0.49216842, 0.49266201, 0.49216842])
+ message: 'Optimization terminated successfully'
+    nfev: 5
+     nit: 4
+    njev: 4
+  status: 0
+ success: True
+       x: array([1.98161299, 0.03677401, 1.98161299])
+switching time points [1.98161299 2.01838701]
+computational time of retrieving switches 0.029754667000000623
+computational time of optimization 0.008799624999999978
+total computational time 0.03943575000000088
+thresholds 0.1 0.65
+alpha 0.001
+tv norm 4.0
+objective with tv norm 0.4067616443755758

@@ -115,14 +115,14 @@ cd ../Rounding/
 #    --type=SUR
 
 cd ../SwitchingTime/
-#python energy.py --n=6 --num_edges=3 --rgraph=1 --seed=5 --evo_time=2 --n_ts=40 \
-#    --admm_control="../control/ADMM/EnergyADMM6_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance5.csv" \
-#    --min_up_time=0 --alpha=0.01
+python energy.py --name='EnergySTADMM' --n=6 --num_edges=3 --rgraph=1 --seed=5 --evo_time=2 --n_ts=40 \
+    --admm_control="../control/ADMM/EnergyADMM6_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance5.csv" \
+    --min_up_time=0 --alpha=0.01 --initial_type='warm'
 #python energy.py --n=6 --num_edges=3 --rgraph=1 --seed=5 --evo_time=2 --n_ts=40 \
 #    --admm_control="../control/ADMM/EnergyADMM6_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance5.csv" \
 #    --min_up_time=0.5 --alpha=0.01
-#python energy.py --n=6 --num_edges=3 --rgraph=1 --seed=5 --evo_time=2 --n_ts=40 \
-#    --admm_control="../control/Trustregion/Energy6_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance5_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
+#python energy.py --name='EnergySTTR' --n=6 --num_edges=3 --rgraph=1 --seed=1 --evo_time=2 --n_ts=40 \
+#    --admm_control="../control/Trustregion/Energy6_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance1_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
 #    --min_up_time=0 --alpha=0.01
 #python energy.py --n=6 --num_edges=3 --rgraph=1 --seed=5 --evo_time=2 --n_ts=40 \
 #    --admm_control="../control/Trustregion/Energy6_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance5_alpha0.01_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \

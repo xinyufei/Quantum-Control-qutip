@@ -1,0 +1,48 @@
+total tv norm 8.0
+initial file ../control/Trustregion/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv
+     fun: 0.005289560581049235
+     jac: array([0.06312009, 0.06342362, 0.06300466, 0.06342362, 0.06312009])
+ message: 'Optimization terminated successfully'
+    nfev: 10
+     nit: 6
+    njev: 6
+  status: 0
+ success: True
+       x: array([0.35251124, 1.3054786 , 0.66951879, 1.3554786 , 0.31701277])
+switching time points [0.35251124 1.65798984 2.32750863 3.68298723]
+computational time 0.013964875000000099
+alpha 0.001
+tv norm 8.0
+objective with tv norm 0.013289560581049235
+total tv norm 8.0
+initial file ../control/Trustregion/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv
+     fun: 0.005289560581049235
+     jac: array([0.06312009, 0.06342362, 0.06300466, 0.06342362, 0.06312009])
+ message: 'Optimization terminated successfully'
+    nfev: 10
+     nit: 6
+    njev: 6
+  status: 0
+ success: True
+       x: array([0.35251124, 1.3054786 , 0.66951879, 1.3554786 , 0.31701277])
+switching time points [0.35251124 1.65798984 2.32750863 3.68298723]
+computational time 0.013975459000000079
+alpha 0.001
+tv norm 8.0
+objective with tv norm 0.013289560581049235
+total tv norm 8.0
+initial file ../control/Trustregion/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv
+     fun: 0.005289560581049235
+     jac: array([0.06312009, 0.06342362, 0.06300466, 0.06342362, 0.06312009])
+ message: 'Optimization terminated successfully'
+    nfev: 10
+     nit: 6
+    njev: 6
+  status: 0
+ success: True
+       x: array([0.35251124, 1.3054786 , 0.66951879, 1.3554786 , 0.31701277])
+switching time points [0.35251124 1.65798984 2.32750863 3.68298723]
+computational time 0.013982750000000266
+alpha 0.001
+tv norm 8.0
+objective with tv norm 0.013289560581049235

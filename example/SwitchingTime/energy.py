@@ -58,7 +58,16 @@ if args.admm_control is None:
     print("Must provide control results of ADMM!")
     exit()
 
-warm_start_length, num_switch, ctrl_hamil_idx = obtain_switching_time(args.admm_control, args.evo_time / args.n_ts)
+# warm_start_length, num_switch, ctrl_hamil_idx = obtain_switching_time(args.admm_control, args.evo_time / args.n_ts)
+switches = Switches(args.admm_control, delta_t=args.evo_time / args.n_ts)
+switches.init_gradient_computer(None, [B, C], y0[0:2 ** args.n], None, args.n_ts, args.evo_time, 'energy')
+warm_start_length, num_switch, ctrl_hamil_idx = switches.obtain_switches('naive')
+print(num_switch)
+
+fig_name = "../figure/SwitchTime/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}_extraction".format(
+    args.name + str(args.n), str(args.evo_time), str(args.n_ts), str(num_switch), args.initial_type,
+    str(args.min_up_time), args.seed) + ".png"
+switches.draw_extracted_control(fig_name)
 
 # sequence of control hamiltonians
 ctrl_hamil = [B, C]
@@ -67,7 +76,7 @@ ctrl_hamil = [B, C]
 X_0 = y0[0:2 ** args.n]
 
 if args.initial_type == "ave":
-    initial = np.ones(num_switch + 1) * evo_time / (num_switch + 1)
+    initial = np.ones(num_switch + 1) * args.evo_time / (num_switch + 1)
 if args.initial_type == "rnd":
     initial_pre = np.random.random(num_switch + 1)
     initial = initial_pre.copy() / sum(initial_pre) * evo_time
@@ -95,6 +104,10 @@ output_name = "../output/SwitchTime/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_
     args.name + str(args.n), str(args.evo_time), str(args.n_ts), str(num_switch), args.initial_type,
     str(args.min_up_time), args.seed) + ".log"
 output_file = open(output_name, "a+")
+print("objective function before optimization", compute_obj_by_switch(
+    [B, C], warm_start_length, ctrl_hamil_idx, X_0, None, 'energy'), file=output_file)
+print("TV regularizer before optimization", 2 * len(warm_start_length) - 2, file=output_file)
+# exit()
 print(res, file=output_file)
 print("switching time points", energy_opt.switch_time, file=output_file)
 print("computational time", end - start, file=output_file)
@@ -112,6 +125,7 @@ print("tv norm", tv_norm, file=output_file)
 print("objective with tv norm", energy_opt.obj + args.alpha * tv_norm, file=output_file)
 
 # figure file
+control = energy_opt.retrieve_control(1000)
 figure_name = "../figure/SwitchTime/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}".format(
     args.name + str(args.n), str(args.evo_time), str(args.n_ts), str(num_switch), args.initial_type,
     str(args.min_up_time), args.seed) + ".png"

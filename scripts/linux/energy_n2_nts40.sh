@@ -2,11 +2,11 @@
 
 conda activate qcopt
 cd ../../example/Continuous/
-#python energy.py --n=2 --num_edges=1 --evo_time=1 --n_ts=20 --initial_type=CONSTANT --offset=0.5
-#cd ../ADMM/
-#python energy.py --n=2 --num_edges=1 --evo_time=1 --n_ts=20 --initial_type=WARM \
-#    --initial_control="../control/Continuous/Energy2_evotime1.0_n_ts20_ptypeCONSTANT_offset0.5.csv" \
-#    --alpha=1e-4 --rho=10 --max_iter_admm=100
+python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=240 --initial_type=CONSTANT --offset=0.5
+cd ../ADMM/
+python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=240 --initial_type=WARM \
+    --initial_control="../control/Continuous/Energy2_evotime2.0_n_ts240_ptypeCONSTANT_offset0.5_instance0.csv" \
+    --alpha=1e-2 --rho=10 --max_iter_admm=100
 #python energy.py --n=2 --num_edges=1 --evo_time=1 --n_ts=20 --initial_type=WARM \
 #    --initial_control="../control/ADMM/EnergyADMM2_evotime1.0_n_ts20_ptypeWARM_offset0.5_penalty0.0001_ADMM_10.0_iter100.csv" \
 #    --alpha=1e-3 --rho=10 --max_iter_admm=100
@@ -49,11 +49,11 @@ cd ../Rounding/
 #    --type=SUR
 
 cd ../SwitchingTime/
-#python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 --admm_control="../control/ADMM/EnergyADMM2_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv" \
+#python energy.py --name='EnergySTADMM' --n=2 --num_edges=1 --evo_time=2 --n_ts=40 --admm_control="../control/ADMM/EnergyADMM2_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv" \
 #    --min_up_time=0 --alpha=0.01
 #python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 --admm_control="../control/ADMM/EnergyADMM2_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv" \
 #    --min_up_time=0.5 --alpha=0.01
-#python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 --admm_control="../control/Trustregion/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
+#python energy.py --name='EnergySTTR' --n=2 --num_edges=1 --evo_time=2 --n_ts=40 --admm_control="../control/Trustregion/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
 #    --min_up_time=0 --alpha=0.01
 #python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=40 --admm_control="../control/Trustregion/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
 #    --min_up_time=0.5 --alpha=0.01

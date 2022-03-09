@@ -110,8 +110,10 @@ class optcontrol_energy():
         grad = []
         for k in range(self.n_ts):
             # grad += [calc_Phi(self.all_y[i], self.all_k[i], self.n, self.diag)]
+            # grad += [-np.imag(self._onto[self.n_ts - k - 1].dot((self.C - self.B).dot(self._into[k + 1]))
+            #                   * self.delta_t)]
             grad += [-np.imag(self._onto[self.n_ts - k - 1].dot((self.C - self.B).dot(self._into[k + 1]))
-                             * self.delta_t)]
+                              * self.delta_t) * 2]
         return grad
 
     def _set_initial_amps(self):
@@ -193,4 +195,3 @@ class optcontrol_energy():
         plt.tight_layout()
         if self.output_fig:
             plt.savefig(self.output_fig)
-

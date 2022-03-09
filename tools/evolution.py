@@ -56,3 +56,16 @@ def compute_sum_cons(u_list, max_controllers):
     n_ts = u_list.shape[0]
     penalty = sum(np.power(sum(u_list[t, j] for j in range(n_ctrls)) - max_controllers, 2) for t in range(n_ts))
     return penalty
+
+
+def compute_obj_by_switch(ctrl_hamil, length, ctrl_hamil_idx, x0, xtarg, obj_type):
+    forward = [x0]
+    for k in range(len(ctrl_hamil_idx)):
+        cur_state = expm(-1j * ctrl_hamil[ctrl_hamil_idx[k]].copy() * length[k]).dot(forward[k])
+        forward.append(cur_state)
+    final_state = forward[-1]
+    if obj_type == 'energy':
+        obj = np.real(final_state.conj().T.dot(ctrl_hamil[1].dot(final_state)))
+    if obj_type == 'fid':
+        obj = 1 - np.abs(np.trace(xtarg.conj().T.dot(final_state))) / xtarg.shape[0]
+    return obj

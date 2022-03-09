@@ -1,0 +1,58 @@
+total tv norm 18.0
+initial file ../example/control/ADMM/EnergyADMM4_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance1.csv
+objective function before optimization -2.1378835509832914
+TV regularizer before optimization 30
+     fun: -2.1533745886604225
+     jac: array([-0.3653692 , -0.36698669, -0.36508906, -0.3666793 , -0.36555926,
+       -0.36648076, -0.36529521, -0.36630632, -0.36565146, -0.36673959,
+       -0.36574684, -0.3658886 , -0.36602031, -0.36470471, -0.36602031,
+       -0.36564755])
+ message: 'Optimization terminated successfully'
+    nfev: 23
+     nit: 19
+    njev: 19
+  status: 0
+ success: True
+       x: array([0.36316696, 0.09392403, 0.03597277, 0.1166436 , 0.03790755,
+       0.11731948, 0.04988307, 0.09687094, 0.064451  , 0.05847235,
+       0.10026376, 0.03892697, 0.37802587, 0.        , 0.17983872,
+       0.26833293])
+switching time points [0.36316696 0.457091   0.49306377 0.60970737 0.64761492 0.76493439
+ 0.81481747 0.9116884  0.9761394  1.03461176 1.13487551 1.17380248
+ 1.55182836 1.55182836 1.73166707]
+computational time of retrieving switches 2.032335292000001
+computational time of optimization 0.23457208299999976
+total computational time 2.2669532500000003
+thresholds 0.1 0.65
+alpha 0.01
+tv norm 18.0
+objective with tv norm -1.9733745886604226
+total tv norm 18.0
+initial file ../example/control/ADMM/EnergyADMM4_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance1.csv
+objective function before optimization -2.1378835509832914
+TV regularizer before optimization 30
+     fun: -2.1533745886604225
+     jac: array([-0.3653692 , -0.36698669, -0.36508906, -0.3666793 , -0.36555926,
+       -0.36648076, -0.36529521, -0.36630632, -0.36565146, -0.36673959,
+       -0.36574684, -0.3658886 , -0.36602031, -0.36470471, -0.36602031,
+       -0.36564755])
+ message: 'Optimization terminated successfully'
+    nfev: 23
+     nit: 19
+    njev: 19
+  status: 0
+ success: True
+       x: array([0.36316696, 0.09392403, 0.03597277, 0.1166436 , 0.03790755,
+       0.11731948, 0.04988307, 0.09687094, 0.064451  , 0.05847235,
+       0.10026376, 0.03892697, 0.37802587, 0.        , 0.17983872,
+       0.26833293])
+switching time points [0.36316696 0.457091   0.49306377 0.60970737 0.64761492 0.76493439
+ 0.81481747 0.9116884  0.9761394  1.03461176 1.13487551 1.17380248
+ 1.55182836 1.55182836 1.73166707]
+computational time of retrieving switches 2.2092145829999996
+computational time of optimization 0.28266320899999897
+total computational time 2.491926166999999
+thresholds 0.1 0.65
+alpha 0.01
+tv norm 18.0
+objective with tv norm -1.9733745886604226

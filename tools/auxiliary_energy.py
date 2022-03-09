@@ -585,6 +585,35 @@ if __name__ == "__main__":
 
         C_mat = get_ham(n, True, Jij)
         B_mat = get_ham(n, False, Jij)
+        
+        print(C_mat)
+        print(B_mat)
+        # exit()
+        Hops = [B_mat, C_mat]
+        init = np.zeros((2 ** n, 1), dtype='complex128')
+        y = uniform(n)
+        for i in range(2 ** n):
+                init[i] = y[i]
+        print(B_mat.dot(C_mat) - C_mat.dot(B_mat))
+        print(init.T.dot(B_mat.conj().T).dot(C_mat).dot(B_mat).dot(init))
+        print(init.T.dot(C_mat.conj().T).dot(C_mat).dot(C_mat).dot(init))
+        # exit()
+        # n_ts = 40
+        # fid_control = []
+        # temp_H_t = sum(sum(control[t, j] * Hops[j].copy() for j in range(2)) for t in range(0, n_ts))
+        # for j in range(20):
+        #         if j == 0:
+        #                 H_t_0 = np.identity(2 ** n) - 1j * delta_t * temp_H_t
+        #         else:
+        #                 H_t_0 = np.identity(2 ** n) - 1j * delta_t * (
+        #                         temp_H_t - sum(control[25, j] * Hops[j].copy() for j in range(2)) + Hops[j - 1].copy())
+        #         # print([H_t_0.dot(X[0])[i, 0] for i in range(2 ** 6)])
+        #         # print(np.linalg.inv(U))
+        #         fid = np.abs(np.trace(
+        #                 np.linalg.inv(U).dot(H_t_0.dot(X[0])))) / U.shape[0]
+        #         fid_control.append(fid)
+        # print(fid_control)
+        # print(-sum(fid_control[1:] - fid_control[0]))
 
         ######################################################
         # ... Sven's additions

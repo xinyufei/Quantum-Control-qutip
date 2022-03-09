@@ -1,0 +1,99 @@
+objective function before optimization 0.9694833638124624
+TV regularizer before optimization 38
+total tv norm 34.0
+initial file ../example/control/ADMM/MoleculeVQEADMM_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.001_ADMM_3.0_iter100.csv
+objective function before optimization 0.9694833638124624
+TV regularizer before optimization 38
+     fun: 0.0015751611842197422
+     jac: array([-1.46818015e-04, -9.02896010e-06,  1.38343110e-03,  2.84998601e-08,
+        5.60184107e-05,  8.19599632e-06, -4.63525754e-05, -1.46818015e-04,
+        1.88855285e-05, -1.14522032e-03,  7.56412294e-04, -8.36456300e-06,
+        1.46766311e-04,  3.39289756e-04,  9.44305201e-05, -8.36456300e-06,
+       -1.83069169e-03, -5.44603346e-05, -9.11044526e-05, -4.91214164e-08])
+ message: 'Optimization terminated successfully'
+    nfev: 31
+     nit: 21
+    njev: 21
+  status: 0
+ success: True
+       x: array([6.01168683e-01, 4.84229508e-01, 9.99864459e-01, 0.00000000e+00,
+       9.31246655e-01, 1.45290793e+00, 9.98771015e-01, 6.01168683e-01,
+       5.00028012e+00, 1.00017709e+00, 1.00013987e+00, 4.84294831e-01,
+       1.20270967e+00, 1.00000695e+00, 9.15494003e-01, 4.84294831e-01,
+       9.96996356e-01, 9.31105905e-01, 9.15143436e-01, 2.16840434e-19])
+switching time points [ 0.60116868  1.08539819  2.08526265  2.08526265  3.01650931  4.46941723
+  5.46818825  6.06935693 11.06963705 12.06981414 13.06995401 13.55424884
+ 14.75695851 15.75696547 16.67245947 17.1567543  18.15375066 19.08485656
+ 20.        ]
+computational time of retrieving switches 0.226876665999999
+computational time of optimization 0.48368029199999896
+total computational time 0.7126954579999989
+thresholds 0.1 0.65
+alpha 0.001
+tv norm 34.0
+objective with tv norm 0.035575161184219745
+total tv norm 34.0
+initial file ../example/control/ADMM/MoleculeVQEADMM_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.001_ADMM_3.0_iter100.csv
+objective function before optimization 0.9694833638124624
+TV regularizer before optimization 38
+     fun: 0.0015751611842197422
+     jac: array([-1.46818015e-04, -9.02896010e-06,  1.38343110e-03,  2.84998601e-08,
+        5.60184107e-05,  8.19599632e-06, -4.63525754e-05, -1.46818015e-04,
+        1.88855285e-05, -1.14522032e-03,  7.56412294e-04, -8.36456300e-06,
+        1.46766311e-04,  3.39289756e-04,  9.44305201e-05, -8.36456300e-06,
+       -1.83069169e-03, -5.44603346e-05, -9.11044526e-05, -4.91214164e-08])
+ message: 'Optimization terminated successfully'
+    nfev: 31
+     nit: 21
+    njev: 21
+  status: 0
+ success: True
+       x: array([6.01168683e-01, 4.84229508e-01, 9.99864459e-01, 0.00000000e+00,
+       9.31246655e-01, 1.45290793e+00, 9.98771015e-01, 6.01168683e-01,
+       5.00028012e+00, 1.00017709e+00, 1.00013987e+00, 4.84294831e-01,
+       1.20270967e+00, 1.00000695e+00, 9.15494003e-01, 4.84294831e-01,
+       9.96996356e-01, 9.31105905e-01, 9.15143436e-01, 2.16840434e-19])
+switching time points [ 0.60116868  1.08539819  2.08526265  2.08526265  3.01650931  4.46941723
+  5.46818825  6.06935693 11.06963705 12.06981414 13.06995401 13.55424884
+ 14.75695851 15.75696547 16.67245947 17.1567543  18.15375066 19.08485656
+ 20.        ]
+computational time of retrieving switches 0.2327037080000025
+computational time of optimization 0.48730766599999953
+total computational time 0.7221529580000023
+thresholds 0.1 0.65
+alpha 0.001
+tv norm 34.0
+objective with tv norm 0.035575161184219745
+total tv norm 32.0
+initial file ../example/control/ADMM/MoleculeVQEADMM_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.001_ADMM_3.0_iter100.csv
+objective function before optimization 0.9691324546647756
+TV regularizer before optimization 38
+     fun: 0.0015751588654049353
+     jac: array([ 1.21219683e-05,  5.30603100e-05,  2.68181607e-03,  1.12405809e-05,
+        1.47833541e-05, -5.34112238e-05,  2.90444856e-04, -1.10593842e-06,
+       -8.13964806e-05, -2.99209558e-03, -1.74393740e-03,  5.33990047e-05,
+        1.08266679e-06,  1.05418723e-03, -3.02795978e-05,  5.33990047e-05,
+        9.04026581e-04, -1.44988612e-05,  2.71000669e-05,  1.20607479e-05])
+ message: 'Optimization terminated successfully'
+    nfev: 30
+     nit: 20
+    njev: 20
+  status: 0
+ success: True
+       x: array([8.13151629e-20, 5.25661778e-01, 9.99789464e-01, 9.00777977e-05,
+       1.05156824e+00, 1.57695813e+00, 9.98522867e-01, 1.03090418e+00,
+       5.00011771e+00, 1.00019100e+00, 1.00015288e+00, 5.25656658e-01,
+       1.03090299e+00, 9.99937465e-01, 8.42735537e-01, 5.25656658e-01,
+       9.96970747e-01, 1.05154818e+00, 8.42635430e-01, 0.00000000e+00])
+switching time points [8.13151629e-20 5.25661778e-01 1.52545124e+00 1.52554132e+00
+ 2.57710956e+00 4.15406769e+00 5.15259056e+00 6.18349474e+00
+ 1.11836124e+01 1.21838035e+01 1.31839563e+01 1.37096130e+01
+ 1.47405160e+01 1.57404534e+01 1.65831890e+01 1.71088456e+01
+ 1.81058164e+01 1.91573646e+01 2.00000000e+01]
+computational time of retrieving switches 0.22380979199999906
+computational time of optimization 0.4468473750000008
+total computational time 0.6728528750000002
+thresholds 0.1 0.65
+alpha 0.001
+tv norm 32.0
+objective with tv norm 0.033575158865404936

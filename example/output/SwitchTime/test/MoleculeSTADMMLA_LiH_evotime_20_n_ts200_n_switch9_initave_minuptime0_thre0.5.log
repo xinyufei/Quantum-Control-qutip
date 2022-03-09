@@ -1,0 +1,24 @@
+total tv norm 18.0
+initial file ../example/control/ADMM/MoleculeVQEADMM_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.001_ADMM_3.0_iter100.csv
+objective function before optimization 0.994765135315956
+TV regularizer before optimization 18
+     fun: 0.27872299806929735
+     jac: array([0.12057925, 0.12177264, 0.12123463, 0.12114212, 0.12086988,
+       0.12087234, 0.12114102, 0.12086988, 0.12139218, 0.12065644])
+ message: 'Optimization terminated successfully'
+    nfev: 20
+     nit: 15
+    njev: 15
+  status: 0
+ success: True
+       x: array([3.38640129, 2.00771637, 3.18279704, 2.00768951, 0.77987562,
+       0.42409383, 2.7069735 , 0.77987562, 2.00793056, 2.71664666])
+switching time points [ 3.38640129  5.39411766  8.5769147  10.58460422 11.36447984 11.78857367
+ 14.49554717 15.27542279 17.28335334]
+computational time of retrieving switches 0.22699379200000003
+computational time of optimization 0.17568362500000134
+total computational time 0.40490883300000036
+thresholds 0.1 0.65
+alpha 0.001
+tv norm 18.0
+objective with tv norm 0.29672299806929736

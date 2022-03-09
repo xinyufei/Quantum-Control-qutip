@@ -2,8 +2,10 @@
 
 conda activate qcopt
 cd ../../example/Continuous/
-#python Molecule.py --gen_target=0 --name=MoleculeVQE --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=100 --initial_type=CONSTANT --offset=0.5 --sum_penalty=0 \
-#    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --max_iter=5000
+#python Molecule.py --gen_target=0 --name=MoleculeVQEMew --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=100 --initial_type=CONSTANT --offset=0.5 --sum_penalty=0 \
+#    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --max_iter=10000
+python Molecule.py --gen_target=0 --name=MoleculeVQE --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=4096 --initial_type=CONSTANT --offset=0.5 --sum_penalty=0.1 \
+    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --max_iter=10000
 #python Molecule.py --gen_target=0 --name=MoleculeVQE --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=400 --initial_type=CONSTANT --offset=0.5 --sum_penalty=0 \
 #    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --max_iter=10000
 #python Molecule.py --gen_target=0 --name=MoleculeVQE --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=800 --initial_type=CONSTANT --offset=0.5 --sum_penalty=0 \
@@ -14,8 +16,8 @@ cd ../../example/Continuous/
 #    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --max_iter=10000
 #python Molecule.py --name=MoleculeVQE2 --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --initial_type=CONSTANT --offset=0.5 --sum_penalty=0.1 --max_iter=10000
 #    --target="../control/Continuous/MoleculeVQE2_LiH_evotime20.0_n_ts200_target.csv"
-python Molecule.py --gen_target=0 --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=2000 --initial_type=CONSTANT --offset=0.5 --sum_penalty=0.1 --max_iter=10000\
-    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv"
+#python Molecule.py --gen_target=0 --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=2000 --initial_type=CONSTANT --offset=0.5 --sum_penalty=0.1 --max_iter=10000\
+#    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv"
 #python Molecule.py --name=MoleculeVQE --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --initial_type=WARM \
 #    --initial_control="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeCONSTANT_offset0.5_objUNIT_sum_penalty0.0.csv" \
 #    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --sum_penalty=1e-5 --max_iter=10000
@@ -160,11 +162,11 @@ cd ../Trustregion/
 #    --target="../control/Continuous/MoleculeVQE_LiH_evotime15.0_n_ts150_target.csv" --sos=1 --alpha=0.0001 --tr_type="tvc"
 
 cd ../SwitchingTime/
-#python Molecule.py --name=MoleculeSTVQE --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --admm_control="../control/ADMM/MoleculeVQEADMM0_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.0001_ADMM_0.5_iter100.csv" \
+#python Molecule.py --name=MoleculeSTVQEADMM --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --admm_control="../control/ADMM/MoleculeVQEADMM_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.001_ADMM_3.0_iter100.csv" \
 #    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --min_up_time=0 --alpha=0.001
 #python Molecule.py --name=MoleculeSTVQE --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --admm_control="../control/ADMM/MoleculeVQEADMM0_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.0001_ADMM_0.5_iter100.csv" \
 #    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --min_up_time=0.5 --alpha=0.001
-#python Molecule.py --name=MoleculeSTVQE --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --admm_control="../control/Trustregion/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
+#python Molecule.py --name=MoleculeSTVQETR --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --admm_control="../control/Trustregion/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
 #    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --min_up_time=0 --alpha=0.001
 #python Molecule.py --name=MoleculeSTVQE --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=200 --admm_control="../control/Trustregion/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
 #    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --min_up_time=0.5 --alpha=0.001
@@ -195,6 +197,9 @@ cd ../Rounding
 #python Molecule.py --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=400 \
 #    --initial_control="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts400_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1.csv" \
 #    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --sos1=0 --t_sos=1 --type=SUR
+python Molecule.py --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=4096 --time_limit=300 \
+    --initial_control="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts4096_ptypeCONSTANT_offset0.5_objUNIT_sum_penalty0.1.csv" \
+    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --sos1=1 --type=SUR
 #python Molecule.py --molecule=LiH --qubit_num=4 --evo_time=20 --n_ts=100 --time_limit=300 \
 #    --initial_control="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts100_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1.csv" \
 #    --target="../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv" --sos1=1 --t_sos=1 --type=SUR

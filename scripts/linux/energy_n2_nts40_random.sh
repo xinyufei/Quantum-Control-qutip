@@ -74,9 +74,9 @@ cd ../Rounding/
 #python energy.py --n=2 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=40 \
 #    --initial_control="../control/Continuous/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance1.csv" \
 #    --type=minup --min_up=10
-python energy.py --n=2 --rgraph=1 --seed=2 --num_edges=2 --evo_time=2 --n_ts=40 \
-    --initial_control="../control/Continuous/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance2.csv" \
-    --type=minup --min_up=10
+#python energy.py --n=2 --rgraph=1 --seed=2 --num_edges=2 --evo_time=2 --n_ts=40 \
+#    --initial_control="../control/Continuous/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance2.csv" \
+#    --type=minup --min_up=10
 #python energy.py --n=2 --rgraph=1 --seed=3 --num_edges=2 --evo_time=2 --n_ts=40 \
 #    --initial_control="../control/Continuous/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance3.csv" \
 #    --type=minup --min_up=10

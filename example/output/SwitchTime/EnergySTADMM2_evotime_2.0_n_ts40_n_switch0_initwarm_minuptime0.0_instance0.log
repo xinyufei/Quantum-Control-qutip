@@ -1,0 +1,50 @@
+total tv norm 0.0
+initial file ../control/ADMM/EnergyADMM2_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv
+     fun: 0.0
+     jac: array([0.])
+ message: 'Optimization terminated successfully'
+    nfev: 1
+     nit: 1
+    njev: 1
+  status: 0
+ success: True
+       x: array([2.])
+switching time points None
+computational time 0.008778167000000003
+alpha 0.01
+tv norm 0.0
+objective with tv norm 0.0
+total tv norm 0.0
+initial file ../control/ADMM/EnergyADMM2_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv
+     fun: 0.0
+     jac: array([0.])
+ message: 'Optimization terminated successfully'
+    nfev: 1
+     nit: 1
+    njev: 1
+  status: 0
+ success: True
+       x: array([2.])
+switching time points None
+computational time 0.0036271670000003198
+alpha 0.01
+tv norm 0.0
+objective with tv norm 0.0
+total tv norm 0.0
+initial file ../control/ADMM/EnergyADMM2_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv
+     fun: 0.0
+     jac: array([0.])
+ message: 'Optimization terminated successfully'
+    nfev: 1
+     nit: 1
+    njev: 1
+  status: 0
+ success: True
+       x: array([2.])
+switching time points None
+computational time 0.00392487500000005
+alpha 0.01
+tv norm 0.0
+objective with tv norm 0.0
+objective function before optimization 0.0
+TV regularizer before optimization 0

@@ -126,8 +126,10 @@ class TrustRegion:
                 self.u = control_amps
             grad = []
             for k in range(self.n_ts):
+                # grad += [-np.imag(self._onto[self.n_ts - k - 1].dot((self.H_c[1] - self.H_c[0]).dot(self._into[k + 1]))
+                #                   * self.delta_t)]
                 grad += [-np.imag(self._onto[self.n_ts - k - 1].dot((self.H_c[1] - self.H_c[0]).dot(self._into[k + 1]))
-                                  * self.delta_t)]
+                                  * self.delta_t) * 2]
             grad = np.expand_dims(np.array(grad), 1)
         return grad
 

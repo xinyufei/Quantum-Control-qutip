@@ -422,6 +422,8 @@ def calc_Phi(y,k,n,diag):
         
         output +=  cdot(y,applyB_sing(n,k))
         output += -cdot(y,applyC_sing(k,diag))
+
+        print(output)
         
         output = 2*np.imag(output)
         
@@ -461,7 +463,7 @@ def compute_gradient(tlist, tf, ulist):
         return Philist
   
 
-def gradient_descent_opt(n, uN, tf, iterations, min_grad, ulist_in=[], type="normal", v=None, _lambda=None, rho=None):
+def gradient_descent_opt(n, uN, tf, iterations, ulist_in=[], type="normal", v=None, _lambda=None, rho=None):
         '''Carries out the gradient descent and outputs the ulist from the end 
         of the procedure.
         n = number of qubits
@@ -599,9 +601,9 @@ if __name__=="__main__":
         display_ham(n,True)
 
         C_mat = get_ham(n,True)
-        np.savetxt('C_mat_' + str(n) + '.csv', C_mat)
+        # np.savetxt('C_mat_' + str(n) + '.csv', C_mat)
         B_mat = get_ham(n,False)
-        np.savetxt('B_mat_' + str(n) + '.csv', B_mat)
+        # np.savetxt('B_mat_' + str(n) + '.csv', B_mat)
 
         ######################################################
         # ... Sven's additions

@@ -11,7 +11,7 @@ from qutip import Qobj
 
 sys.path.append("..")
 from tools.auxiliary_energy import *
-from tools.evolution import compute_TV_norm
+from tools.evolution import compute_TV_norm, compute_obj_by_switch
 from tools.auxiliary_molecule import generate_molecule_func
 from switchingtime.obtain_switches import Switches
 
@@ -111,8 +111,10 @@ class SwitchTimeOpt:
         grad = []
         if self.obj_type == 'energy':
             for k in range(self.num_switch + 1):
+                # grad += [np.imag(self.backward[self.num_switch - k].dot(
+                #     self.hlist[self.ctrl_hamil_idx[k]].copy().dot(self.forward[k + 1])))]
                 grad += [np.imag(self.backward[self.num_switch - k].dot(
-                    self.hlist[self.ctrl_hamil_idx[k]].copy().dot(self.forward[k + 1])))]
+                    self.hlist[self.ctrl_hamil_idx[k]].copy().dot(self.forward[k + 1]))) * 2]
         if self.obj_type == 'fid':
             pre_grad = np.zeros(self.num_switch + 1, dtype=complex)
             for k in range(self.num_switch + 1):
@@ -247,7 +249,7 @@ class SwitchTimeOpt:
 
         return control
 
-    def draw_control(self, fig_name):
+    def draw_control(self, fig_name, marker_step=250):
         """
         draw control results
         """
@@ -263,8 +265,9 @@ class SwitchTimeOpt:
                      where='post', linewidth=2, label='controller ' + str(1))
         else:
             for j in range(self.control.shape[1]):
+                # if max(self.control[:, j]) > 0:
                 plt.step(t, np.hstack((self.control[:, j], self.control[-1, j])), marker_list[j % 4],
-                         where='post', linewidth=2, label='controller ' + str(j + 1), markevery=(j, 4),
+                         where='post', linewidth=2, label='controller ' + str(j + 1), markevery=(j, marker_step),
                          markersize=marker_size_list[j % 4])
         plt.legend()
         plt.savefig(fig_name)
@@ -850,19 +853,16 @@ def test_optimize_minup():
     print(end - start)
 
 
-def test_optimize_gradient():
-    n = 2
-    num_edges = 1
-    seed = 0
+def draw_sur_metric():
+    n = 6
+    num_edges = 3
+    seed = 1
     n_ts = 40
     evo_time = 2
     initial_type = "warm"
     alpha = 0.01
-    min_up_time = 0.5
-    name = "EnergySTADMMG"
-
-    lb_threshold = 0.1
-    ub_threshold = 0.65
+    min_up_time = 0
+    name = "EnergySTADMMSUR"
 
     if seed == 0:
         Jij, edges = generate_Jij_MC(n, num_edges, 100)
@@ -875,14 +875,97 @@ def test_optimize_gradient():
 
     y0 = uniform(n)
 
-    initial_control = "../example/control/ADMM/EnergyADMM2_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv"
-    # initial_control = "../example/control/ADMM/EnergyADMM4_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance1.csv"
+    # initial_control = "../example/control/ADMM/EnergyADMM2_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv"
+    initial_control = "../example/control/ADMM/EnergyADMM6_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance1.csv"
+    # initial_control = "../example/control/Trustregion/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv"
+    # initial_control = "../example/control/Continuous/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5.csv"
+    switches = Switches(initial_control, delta_t=evo_time / n_ts)
+    switches.init_gradient_computer(None, [B, C], y0[0:2 ** n], None, n_ts, evo_time, 'energy')
+
+    fig_name = "../example/figure/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_instance{}_metric".format(
+        name + str(n), str(evo_time), str(n_ts), seed) + ".png"
+    switches.draw_metric(fig_name, "sur")
+
+
+def draw_sur_metric_compile():
+    d = 2
+    qubit_num = 2
+    molecule = "H2"
+    # target = "../example/control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv"
+    target = "../example/control/Continuous/MoleculeNEW_H2_evotime4.0_n_ts80_target.csv"
+    initial_type = "ave"
+    Hops, H0, U0, U = generate_molecule_func(qubit_num, d, molecule)
+
+    if target is not None:
+        U = np.loadtxt(target, dtype=np.complex_, delimiter=',')
+    else:
+        print("Please provide the target file!")
+        exit()
+
+    n_ts = 80
+    evo_time = 4
+
+    name = "MoleculeSTADMMSUR"
+
+    # The control Hamiltonians (Qobj classes)
+    H_c = [Qobj(hops) for hops in Hops]
+    # Drift Hamiltonian
+    H_d = Qobj(H0)
+    # start point for the gate evolution
+    X_0 = Qobj(U0)
+    # Target for the gate evolution
+    X_targ = Qobj(U)
+
+    initial_control = "../example/control/ADMM/MoleculeADMMNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_sum_penalty1.0_penalty0.001_ADMM_0.5_iter100.csv"
+    # initial_control = "../example/control/ADMM/MoleculeVQEADMM_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.001_ADMM_3.0_iter100.csv"
+
+    if initial_control is None:
+        print("Must provide control results of ADMM!")
+        exit()
+
+    switches = Switches(initial_control, delta_t=evo_time / n_ts)
+    switches.init_gradient_computer(H0, Hops, U0, U, n_ts, evo_time, 'fid')
+    fig_name = "../example/figure/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_init{}_metric".format(
+        name + "_" + molecule, str(evo_time), str(n_ts), initial_type) + ".png"
+    switches.draw_metric(fig_name, "sur")
+
+
+def test_optimize_gradient():
+    n = 4
+    num_edges = 2
+    seed = 1
+    n_ts = 120
+    evo_time = 2
+    initial_type = "warm"
+    alpha = 0.01
+    min_up_time = 0
+    name = "EnergySTADMMCost"
+
+    lb_threshold = 0.1
+    ub_threshold = 0.65
+    thre_ratio = 0
+
+    if seed == 0:
+        Jij, edges = generate_Jij_MC(n, num_edges, 100)
+
+    else:
+        Jij = generate_Jij(n, seed)
+
+    C = get_ham(n, True, Jij)
+    B = get_ham(n, False, Jij)
+
+    y0 = uniform(n)
+
+    # initial_control = "../example/control/ADMM/EnergyADMM2_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv"
+    # initial_control = "../example/control/ADMM/EnergyADMM2_evotime2.0_n_ts240_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance0.csv"
+    initial_control = "../example/control/ADMM/EnergyADMM4_evotime2.0_n_ts120_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance1.csv"
+    # initial_control = "../example/control/ADMM/EnergyADMM6_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance5_extend_ts_80.csv"
     # initial_control = "../example/control/Trustregion/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv"
     # initial_control = "../example/control/Continuous/Energy2_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5.csv"
     switches = Switches(initial_control, delta_t=evo_time / n_ts)
     start1 = time.time()
     switches.init_gradient_computer(None, [B, C], y0[0:2 ** n], None, n_ts, evo_time, 'energy')
-    warm_start_length, num_switch, ctrl_hamil_idx = switches.obtain_switches('gradient')
+    warm_start_length, num_switch, ctrl_hamil_idx = switches.obtain_switches('redu', thre_ratio=thre_ratio)
     end1 = time.time()
     print(ctrl_hamil_idx)
     if min_up_time > 0:
@@ -919,10 +1002,29 @@ def test_optimize_gradient():
     if not os.path.exists("../example/figure/SwitchTime/test/"):
         os.makedirs("../example/figure/SwitchTime/test/")
 
+    fig_name = "../example/figure/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}_extraction_thre{}".format(
+        name + str(n), str(evo_time), str(n_ts), str(num_switch), initial_type, str(min_up_time), seed, thre_ratio) + ".png"
+    switches.draw_extracted_control(fig_name)
+
+    fig_name = "../example/figure/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}_extraction_thre{}".format(
+        name + str(n), str(evo_time), str(n_ts), str(num_switch), initial_type, str(min_up_time), seed, thre_ratio) + ".png"
+    switches.draw_metric(fig_name, "redu")
+
+    # exit()
+
     # output file
-    output_name = "../example/output/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}".format(
-        name + str(n), str(evo_time), str(n_ts), str(num_switch), initial_type, str(min_up_time), seed) + ".log"
+    output_name = "../example/output/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}_extraction_thre{}".format(
+        name + str(n), str(evo_time), str(n_ts), str(num_switch), initial_type, str(min_up_time), seed, thre_ratio) + ".log"
     output_file = open(output_name, "a+")
+
+    # print([sum(switches.cost[k, j] for j in range(2)) for k in range(n_ts)], file=output_file)
+    # print(sum([sum(switches.cost[k, j] for j in range(2)) for k in range(n_ts)]), file=output_file)
+    print("difference", sum(min(switches.cost[k, :]) for k in range(n_ts)), file=output_file)
+    # exit()
+
+    print("objective function before optimization", compute_obj_by_switch(
+        [B, C], warm_start_length, ctrl_hamil_idx, X_0, None, 'energy'), file=output_file)
+    print("TV regularizer before optimization", 2 * len(warm_start_length) - 2, file=output_file)
     print(res, file=output_file)
     print("switching time points", energy_opt.switch_time, file=output_file)
     print("computational time of retrieving switches", end1 - start1, file=output_file)
@@ -931,8 +1033,8 @@ def test_optimize_gradient():
     print("thresholds", lb_threshold, ub_threshold, file=output_file)
 
     # retrieve control
-    control_name = "../example/control/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}".format(
-        name + str(n), str(evo_time), str(n_ts), str(num_switch), initial_type, str(min_up_time), seed) + ".csv"
+    control_name = "../example/control/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}_extraction_thre{}".format(
+        name + str(n), str(evo_time), str(n_ts), str(num_switch), initial_type, str(min_up_time), seed, thre_ratio) + ".csv"
     control = energy_opt.retrieve_control(n_ts)
     np.savetxt(control_name, control, delimiter=",")
 
@@ -942,8 +1044,8 @@ def test_optimize_gradient():
     print("objective with tv norm", energy_opt.obj + alpha * tv_norm, file=output_file)
 
     # figure file
-    figure_name = "../example/figure/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}".format(
-        name + str(n), str(evo_time), str(n_ts), str(num_switch), initial_type, str(min_up_time), seed) + ".png"
+    figure_name = "../example/figure/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_instance{}_extraction_thre{}".format(
+        name + str(n), str(evo_time), str(n_ts), str(num_switch), initial_type, str(min_up_time), seed, thre_ratio) + ".png"
     energy_opt.draw_control(figure_name)
 
     b_bin = np.loadtxt(control_name, delimiter=",")
@@ -955,11 +1057,14 @@ def test_optimize_gradient():
 
 def test_optimize_gradient_compile():
     d = 2
-    qubit_num = 2
-    molecule = "H2"
-    # target = "../example/control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv"
-    target = "../example/control/Continuous/MoleculeNEW_H2_evotime4.0_n_ts80_target.csv"
-    initial_type = "warm"
+    qubit_num = 4
+    molecule = "LiH"
+    target = "../example/control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv"
+    # target = "../example/control/Continuous/MoleculeNEW_H2_evotime4.0_n_ts80_target.csv"
+    # target = "../example/control/Continuous/MoleculeVQE_BeH2_evotime20.0_n_ts200_target.csv"
+    # target = "../example/control/Continuous/MoleculeVQE_BeH2_evotime5.0_n_ts50_target.csv"
+    # target = "../example/control/Continuous/MoleculeVQE_BeH2_evotime3.0_n_ts60_target.csv"
+    initial_type = "ave"
     Hops, H0, U0, U = generate_molecule_func(qubit_num, d, molecule)
 
     if target is not None:
@@ -968,14 +1073,16 @@ def test_optimize_gradient_compile():
         print("Please provide the target file!")
         exit()
 
-    n_ts = 80
-    evo_time = 4
+    n_ts = 200
+    evo_time = 20
+    # n_ts = 80
+    # evo_time = 4
 
     step = 1
     alpha = 0.001
-    min_up_time = 0.5
+    min_up_time = 0
 
-    name = "MoleculeSTADMMG"
+    name = "MoleculeSTADMMLA"
 
     # The control Hamiltonians (Qobj classes)
     H_c = [Qobj(hops) for hops in Hops]
@@ -988,10 +1095,17 @@ def test_optimize_gradient_compile():
 
     # initial_control = "../example/control/Continuous/MoleculeNEW_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0.csv"
     # initial_control = "../example/control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1.csv"
-    initial_control = "../example/control/ADMM/MoleculeADMMNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_sum_penalty1.0_penalty0.001_ADMM_0.5_iter100.csv"
-    # initial_control = "../example/control/ADMM/MoleculeVQEADMM_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.001_ADMM_3.0_iter100.csv"
+    # initial_control = "../example/control/ADMM/MoleculeADMMNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_sum_penalty1.0_penalty0.001_ADMM_0.5_iter100.csv"
+    initial_control = "../example/control/ADMM/MoleculeVQEADMM_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.1_penalty0.001_ADMM_3.0_iter100.csv"
+    # initial_control = "../example/control/ADMM/MoleculeADMM_BeH2_evotime3.0_n_ts60_ptypeWARM_offset0.5_sum_penalty1.0_penalty0.001_ADMM_3.0_iter100.csv"
     # initial_control = "../example/control/Trustregion/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv"
     # initial_control = "../example/control/Trustregion/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv"
+    # initial_control = "../example/control/ADMM/MoleculeADMM_BeH2_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.01_penalty0.001_ADMM_3.0_iter100.csv"
+    # initial_control = "../example/control/ADMM/MoleculeADMM_BeH2_evotime5.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.01_penalty0.001_ADMM_3.0_iter30.csv"
+    # initial_control = "../example/control/ADMM/MoleculeADMM_BeH2_evotime20.0_n_ts200_ptypeWARM_offset0.5_sum_penalty0.01_penalty0.001_ADMM_3.0_iter100.csv"
+    # initial_control = "../example/control/Continuous/MoleculeVQE_BeH2_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.01.csv"
+    # initial_control = "../example/control/ADMM/MoleculeADMMNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_sum_penalty1.0_penalty0.001_ADMM_0.5_iter100_extend_ts_400.csv"
+    # initial_control = "../example/control/Rounding/MoleculeADMMNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_sum_penalty1.0_penalty0.001_ADMM_0.5_iter100_1_SUR.csv"
 
     if initial_control is None:
         print("Must provide control results of ADMM!")
@@ -999,11 +1113,12 @@ def test_optimize_gradient_compile():
 
     lb_threshold = 0.1
     ub_threshold = 0.65
+    threshold_ratio = 0
 
     switches = Switches(initial_control, delta_t=evo_time / n_ts)
     start1 = time.time()
     switches.init_gradient_computer(H0, Hops, U0, U, n_ts, evo_time, 'fid')
-    warm_start_length, num_switch, ctrl_hamil_idx = switches.obtain_switches('gradient')
+    warm_start_length, num_switch, ctrl_hamil_idx = switches.obtain_switches('la', thre_ratio=threshold_ratio)
     end1 = time.time()
     print(ctrl_hamil_idx)
     if min_up_time > 0:
@@ -1024,6 +1139,11 @@ def test_optimize_gradient_compile():
     if initial_type == "warm":
         initial = warm_start_length
 
+    # exit()
+    # print([sum(switches.la[k, j] for j in range(len(H_c))) for k in range(n_ts)])
+    # print(sum([sum(switches.la[k, j] for j in range(len(H_c))) for k in range(n_ts)]))
+    # print(sum(min(switches.la[k, :]) for k in range(n_ts)))
+    # exit()
     # build optimizer
     spin_opt = SwitchTimeOpt()
     min_time = 1
@@ -1041,11 +1161,35 @@ def test_optimize_gradient_compile():
     if not os.path.exists("../example/figure/SwitchTime/test/"):
         os.makedirs("../example/figure/SwitchTime/test/")
 
-    # output file
-    output_name = "../example/output/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}".format(
+    fig_name = "../example/figure/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_thre{}_extraction".format(
         name + "_" + molecule, str(evo_time), str(n_ts), str(num_switch), initial_type,
-        str(min_up_time)) + ".log"
+        str(min_up_time), threshold_ratio) + ".png"
+    switches.draw_extracted_control(fig_name)
+
+    fig_name = "../example/figure/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_thre{}_metric".format(
+        name + "_" + molecule, str(evo_time), str(n_ts), str(num_switch), initial_type,
+        str(min_up_time), threshold_ratio) + ".png"
+    switches.draw_metric(fig_name, "la")
+    # exit()
+
+    # output file
+    output_name = "../example/output/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_thre{}".format(
+        name + "_" + molecule, str(evo_time), str(n_ts), str(num_switch), initial_type,
+        str(min_up_time), threshold_ratio) + ".log"
     output_file = open(output_name, "a+")
+    # print("minimum cost at each step", [min(switches.cost[k, :]) for k in range(n_ts)], file=output_file)
+    # print("maximum chosen cost", max([min(switches.cost[k, :]) for k in range(n_ts)]), file=output_file)
+    # print("maximum change at each time step", max([max(switches.cost[k, :]) for k in range(n_ts)]), file=output_file)
+    # exit()
+    # cost = [sum(switches.cost[k, j] for j in range(len(H_c))) for k in range(n_ts)]
+    # print(cost, file=output_file)
+    # print(max(cost), file=output_file)
+    # print(sum([sum(switches.cost[k, j] for j in range(len(H_c))) for k in range(n_ts)]), file=output_file)
+    # print(sum(min(switches.cost[k, :]) for k in range(n_ts)), file=output_file)
+    print("objective function before optimization", compute_obj_by_switch(
+        Hops, warm_start_length, ctrl_hamil_idx, X_0.full(), X_targ.full(), 'fid'), file=output_file)
+    print("TV regularizer before optimization", 2 * len(warm_start_length) - 2, file=output_file)
+    # exit()
     print(res, file=output_file)
     print("switching time points", spin_opt.switch_time, file=output_file)
     print("computational time of retrieving switches", end1 - start1, file=output_file)
@@ -1054,9 +1198,9 @@ def test_optimize_gradient_compile():
     print("thresholds", lb_threshold, ub_threshold, file=output_file)
 
     # retrieve control
-    control_name = "../example/control/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}".format(
+    control_name = "../example/control/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_thre{}".format(
         name + "_" + molecule, str(evo_time), str(n_ts), str(num_switch), initial_type,
-        str(min_up_time)) + ".csv"
+        str(min_up_time), threshold_ratio) + ".csv"
     control = spin_opt.retrieve_control(n_ts)
     np.savetxt(control_name, control, delimiter=",")
 
@@ -1066,9 +1210,9 @@ def test_optimize_gradient_compile():
     print("objective with tv norm", spin_opt.obj + alpha * tv_norm, file=output_file)
 
     # figure file
-    figure_name = "../example/figure/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}".format(
+    figure_name = "../example/figure/SwitchTime/test/" + "{}_evotime_{}_n_ts{}_n_switch{}_init{}_minuptime{}_thre{}".format(
         name + "_" + molecule, str(evo_time), str(n_ts), str(num_switch), initial_type,
-        str(min_up_time)) + ".png"
+        str(min_up_time), threshold_ratio) + ".png"
     spin_opt.draw_control(figure_name)
 
     b_bin = np.loadtxt(control_name, delimiter=",")
@@ -1079,5 +1223,7 @@ def test_optimize_gradient_compile():
 
 
 if __name__ == '__main__':
-    # test_optimize_gradient_compile()
-    test_optimize_gradient()
+    test_optimize_gradient_compile()
+    # test_optimize_gradient()
+    # draw_sur_metric()
+    # draw_sur_metric_compile()

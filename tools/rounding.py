@@ -89,6 +89,16 @@ class Rounding:
                 plt.savefig(self.out_fig + "_binary_maxswitch" + str(self.max_switches) + ".png")
 
     def rounding_with_sos1(self):
+        
+        # step = int(self.time_steps / 200)
+        # 
+        # new_b_real = np.zeros((self.time_steps, self.b_rel.shape[1]))
+        # 
+        # for i in range(200):
+        #     for j in range(step):
+        #         new_b_real[i*step+j, :] = self.b_rel[i, :]
+        #         
+        # self.b_rel = new_b_real
 
         binapprox = BinApprox(self.t, self.b_rel)
 

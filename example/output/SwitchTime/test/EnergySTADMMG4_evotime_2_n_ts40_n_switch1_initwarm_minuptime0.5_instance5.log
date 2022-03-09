@@ -17,3 +17,5 @@ thresholds 0.1 0.65
 alpha 0.01
 tv norm 2.0
 objective with tv norm 0.01999999999999989
+objective function before optimization -1.1102230246251565e-16
+TV regularizer before optimization 2

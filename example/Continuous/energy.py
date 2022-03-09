@@ -19,7 +19,7 @@ parser.add_argument('--num_edges', help='number of edges for generating regular 
                     default=1)
 # if generate the graph randomly
 parser.add_argument('--rgraph', help='if generate the graph randomly', type=int, default=0)
-# number of instances
+# seed to generate random graph
 parser.add_argument('--seed', help='random seed', type=int, default=0)
 # evolution time
 parser.add_argument('--evo_time', help='evolution time', type=float, default=2)

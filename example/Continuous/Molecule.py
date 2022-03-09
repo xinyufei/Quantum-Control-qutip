@@ -37,9 +37,9 @@ parser.add_argument('--max_time', help='maximum allowed computational time (seco
 # Minimum gradient (sum of gradients squared)
 # as this tends to 0 -> local minimum has been found
 parser.add_argument('--min_grad', help='minimum gradient', type=float, default=1e-6)
-# indicator to generate target file
-parser.add_argument('--gen_target', help='indicator to generate target file', type=int, default=0)
-# file store the target circuit
+# indicator to generate target operator
+parser.add_argument('--gen_target', help='indicator to generate target circuit', type=int, default=0)
+# file storing the target circuit
 parser.add_argument('--target', help='unitary matrix of target circuit', type=str, default=None)
 
 args = parser.parse_args()

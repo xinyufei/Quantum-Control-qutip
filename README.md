@@ -59,7 +59,7 @@ To run an energy minimization problem with 4 qubits, randomly generated graph fo
 evolution time as 2, time steps as 40, constant initial control values 0.5, run:
 ```shell 
 python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 \
-    --evo_time=2 --n_ts=240 --initial_type=CONSTANT --offset=0.5
+    --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5
 ```
 To run a CNOT estimation problem with evolution time 10, time steps 200, constant initial control values 0.5, run:
 ```shell

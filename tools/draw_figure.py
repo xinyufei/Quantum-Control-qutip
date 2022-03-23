@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
+import adjustText
 from tools.auxiliary_molecule import generate_molecule_func
 from tools.auxiliary_energy import *
 
@@ -13,7 +14,7 @@ def draw_stats():
     # sum_norm = [4980.880077104522, 603.8538414769712, 332.6922609756568, 311.7450060080427,
     #             176.5722320180486, 5.863445830245192e-06, 6.282453886269812e-07,
     #             6.174458598795899e-10, 1.8027156950348233e-11]
-                # 8.822329350354554e-08, 1.4531085324239638e-08]
+    # 8.822329350354554e-08, 1.4531085324239638e-08]
 
     # exit()
     # plt.plot(np.array(x), np.array(sum_norm), '-o', label='squared_L2_norm')
@@ -122,7 +123,8 @@ def draw_integral_error(example="H2", ub=False):
             # plt.plot(ts_list, np.log10(lb_list), linestyle='dotted', label="Lower bound of common logarithm of integral error")
             plt.plot(np.log2(ts_list), np.log2(ub_list), linestyle="-", marker='*',
                      label="Upper bound")
-            plt.plot(np.log2(ts_list), np.log2(ub_list_1), linestyle="--", marker='^', label="First term of the upper bound")
+            plt.plot(np.log2(ts_list), np.log2(ub_list_1), linestyle="--", marker='^',
+                     label="First term of the upper bound")
             plt.plot(np.log2(ts_list), np.log2(ub_list_2), linestyle="--", marker='+', markersize='8',
                      label="Second term of the upper bound")
         # plt.plot(delta_t_list, integral_err, label='Maximum integral error')
@@ -132,12 +134,12 @@ def draw_integral_error(example="H2", ub=False):
         else:
             plt.savefig("../figure_paper/MoleculeNew_H2_evotime4.0_sur_error_delta_t_log2.png")
 
-
         plt.figure(dpi=300)
         plt.xlabel("Binary logarithm of time steps")
         plt.ylabel("Binary logarithm")
         plt.plot(np.log2(ts_list), np.log2(epsilon_list), linestyle='-', marker='o', label="Epsilon")
-        plt.plot(np.log2(ts_list), np.log2([np.sqrt(evo_time * l2_err[i] * delta_t_list[i]) for i in range(len(l2_err))]),
+        plt.plot(np.log2(ts_list),
+                 np.log2([np.sqrt(evo_time * l2_err[i] * delta_t_list[i]) for i in range(len(l2_err))]),
                  linestyle='--', marker='^', label="Upper bound of epsilon")
         # plt.plot(ts_list, np.log10(ub_list_1), linestyle="--", marker='^', label="Fist term of the upper bound")
         # plt.plot(ts_list, np.log10(ub_list_2), linestyle="--", marker='+', markersize='8',
@@ -212,7 +214,8 @@ def draw_integral_error(example="H2", ub=False):
         plt.figure(dpi=300)
         plt.xlabel("Time steps")
         plt.plot(np.log2(ts_list), np.log2(epsilon_list), linestyle='-', marker='o', label="Epsilon")
-        plt.plot(np.log2(ts_list), np.log2([np.sqrt(evo_time * l2_err[i] * delta_t_list[i]) for i in range(len(l2_err))]),
+        plt.plot(np.log2(ts_list),
+                 np.log2([np.sqrt(evo_time * l2_err[i] * delta_t_list[i]) for i in range(len(l2_err))]),
                  linestyle='--', marker='^', label="Upper bound of epsilon")
         # plt.plot(ts_list, np.log10(ub_list_1), linestyle="--", marker='^', label="Fist term of the upper bound")
         # plt.plot(ts_list, np.log10(ub_list_2), linestyle="--", marker='+', markersize='8',
@@ -235,9 +238,11 @@ def draw_obj_energy_c():
     tr_tv = [0.993, 3.962, 3.820]
     admm_tv = [0.999, 3.993, 3.806]
     width = 0.1 * step
-    plt.bar(instance-width, grape_tv, alpha=0.9, width=width, hatch='/', color='lightgray', edgecolor='black', label='GRAPE')
+    plt.bar(instance - width, grape_tv, alpha=0.9, width=width, hatch='/', color='lightgray', edgecolor='black',
+            label='GRAPE')
     plt.bar(instance, tr_tv, alpha=0.9, width=width, hatch='\\', color='lightgray', edgecolor='black', label='TR')
-    plt.bar(instance+width, admm_tv, alpha=0.9, width=width, hatch='+', color='lightgray', edgecolor='black', label='ADMM')
+    plt.bar(instance + width, admm_tv, alpha=0.9, width=width, hatch='+', color='lightgray', edgecolor='black',
+            label='ADMM')
     x_loc = plt.MultipleLocator(step)
     ax = plt.gca()
     ax.xaxis.set_major_locator(x_loc)
@@ -682,13 +687,17 @@ def draw_grape_tv_instance():
 
     plt.plot(methods, [np.log10(method[0]) for method in all_methods], marker='o', linestyle='-', label="Energy2")
     plt.plot(methods, [np.log10(method[1]) for method in all_methods], marker='^', linestyle='-', label="Energy4")
-    plt.plot(methods, [np.log10(method[2]) for method in all_methods], marker='+', markersize='8', linestyle='-', label="Energy6")
+    plt.plot(methods, [np.log10(method[2]) for method in all_methods], marker='+', markersize='8', linestyle='-',
+             label="Energy6")
     plt.plot(methods, [np.log10(method[3]) for method in all_methods], marker='o', linestyle='--', label="CNOT5")
     plt.plot(methods, [np.log10(method[4]) for method in all_methods], marker='^', linestyle='--', label="CNOT10")
-    plt.plot(methods, [np.log10(method[5]) for method in all_methods], marker='+', markersize='8', linestyle='--', label="CNOT15")
+    plt.plot(methods, [np.log10(method[5]) for method in all_methods], marker='+', markersize='8', linestyle='--',
+             label="CNOT15")
     plt.plot(methods, [np.log10(method[6]) for method in all_methods], marker='s', linestyle='--', label='CNOT20')
-    plt.plot(methods, [np.log10(method[7]) for method in all_methods], marker='o', linestyle='dotted', label="CircuitH2")
-    plt.plot(methods, [np.log10(method[8]) for method in all_methods], marker='^', linestyle='dotted', label="CircuitLiH")
+    plt.plot(methods, [np.log10(method[7]) for method in all_methods], marker='o', linestyle='dotted',
+             label="CircuitH2")
+    plt.plot(methods, [np.log10(method[8]) for method in all_methods], marker='^', linestyle='dotted',
+             label="CircuitLiH")
 
     x_loc = plt.MultipleLocator(1)
     ax = plt.gca()
@@ -810,8 +819,10 @@ def draw_pgrape_tv_instance():
     method_name = ["p-GRAPE", "p-GRAPE+SUR", "p-GRAPE+MT", "p-GRAPE+MS", "p-GRAPE+SUR+ALB", "p-GRAPE+MT+ALB",
                    "p-GRAPE+MS+ALB"]
 
-    plt.plot(methods, [np.log10(method[0]) for method in all_methods], marker='o', linestyle='dotted', label="CircuitH2")
-    plt.plot(methods, [np.log10(method[1]) for method in all_methods], marker='^', linestyle='dotted', label="CircuitLiH")
+    plt.plot(methods, [np.log10(method[0]) for method in all_methods], marker='o', linestyle='dotted',
+             label="CircuitH2")
+    plt.plot(methods, [np.log10(method[1]) for method in all_methods], marker='^', linestyle='dotted',
+             label="CircuitLiH")
 
     x_loc = plt.MultipleLocator(1)
     ax = plt.gca()
@@ -1166,8 +1177,9 @@ def draw_admm_instance_split():
 
     lines, labels = fig.axes[0].get_legend_handles_labels()
 
-    fig.legend(lines, labels, bbox_to_anchor=(0.25, 0, 0.5, 0.2), loc='lower center', mode='expand', borderaxespad=0, ncol=5)
-        # , bbox_to_anchor=(0, 1.02, 1, 0.2), mode='expand', borderaxespad=0, ncol=5)
+    fig.legend(lines, labels, bbox_to_anchor=(0.25, 0, 0.5, 0.2), loc='lower center', mode='expand', borderaxespad=0,
+               ncol=5)
+    # , bbox_to_anchor=(0, 1.02, 1, 0.2), mode='expand', borderaxespad=0, ncol=5)
 
     # fig.legend(loc='upper right', bbox_to_anchor=(1, 0.5))
     # fig.tight_layout()
@@ -1187,7 +1199,7 @@ def draw_admm_selected():
     admm_st = [0, 0.525196884, 0.6789286, None, None, None, None, 0.869, 0.001]
     admm_stmt = [0, 0.521655792, 0.6242092, None, None, None, None, 0.869, 0.001]
 
-    admm_tv = [0.567, 4.114, 4.508, 9.419, 15.194, 24.348, 23.481, 8.421, 48.720]
+    admm_tv = [0.523, 2.752, 3.237, 6.094, 11.056, 16.795, 15.099, 2.744, 0.677]
     admm_sur_tv = [48, 44.8, 52.8, 41, 86, 279, 467, 76, 252]
     admm_mt_tv = [6, 6, 6, 7, 15, 27, 47, 8, 48]
     admm_ms_tv = [10, 10, 10, 32, 32, 39, 39, 22, 148]
@@ -1439,13 +1451,19 @@ def draw_admm_tv_instance():
     plt.plot(methods, [np.log10(method[1]) for method in all_methods], marker='^', linestyle='-', label="Energy4")
     plt.plot(methods, [np.log10(method[2]) for method in all_methods], marker='+', markersize='8', linestyle='-',
              label="Energy6")
-    plt.plot(methods[:-2], [np.log10(method[3]) for method in all_methods[:-2]], marker='o', linestyle='--', label="CNOT5")
-    plt.plot(methods[:-2], [np.log10(method[4]) for method in all_methods[:-2]], marker='^', linestyle='--', label="CNOT10")
-    plt.plot(methods[:-2], [np.log10(method[5]) for method in all_methods[:-2]], marker='+', markersize='8', linestyle='--',
+    plt.plot(methods[:-2], [np.log10(method[3]) for method in all_methods[:-2]], marker='o', linestyle='--',
+             label="CNOT5")
+    plt.plot(methods[:-2], [np.log10(method[4]) for method in all_methods[:-2]], marker='^', linestyle='--',
+             label="CNOT10")
+    plt.plot(methods[:-2], [np.log10(method[5]) for method in all_methods[:-2]], marker='+', markersize='8',
+             linestyle='--',
              label="CNOT15")
-    plt.plot(methods[:-2], [np.log10(method[6]) for method in all_methods[:-2]], marker='s', linestyle='--', label='CNOT20')
-    plt.plot(methods, [np.log10(method[7]) for method in all_methods], marker='o', linestyle='dotted', label="CircuitH2")
-    plt.plot(methods, [np.log10(method[8]) for method in all_methods], marker='^', linestyle='dotted', label="CircuitLiH")
+    plt.plot(methods[:-2], [np.log10(method[6]) for method in all_methods[:-2]], marker='s', linestyle='--',
+             label='CNOT20')
+    plt.plot(methods, [np.log10(method[7]) for method in all_methods], marker='o', linestyle='dotted',
+             label="CircuitH2")
+    plt.plot(methods, [np.log10(method[8]) for method in all_methods], marker='^', linestyle='dotted',
+             label="CircuitLiH")
 
     x_loc = plt.MultipleLocator(1)
     ax = plt.gca()
@@ -1614,7 +1632,7 @@ def draw_tr_instance_split():
 
     fig.legend(lines, labels, bbox_to_anchor=(0.25, 0, 0.5, 0.2), loc='lower center', mode='expand', borderaxespad=0,
                ncol=5)
-        # , bbox_to_anchor=(0, 1.02, 1, 0.2), mode='expand', borderaxespad=0, ncol=5)
+    # , bbox_to_anchor=(0, 1.02, 1, 0.2), mode='expand', borderaxespad=0, ncol=5)
 
     # fig.legend(loc='upper right', bbox_to_anchor=(1, 0.5))
     # fig.tight_layout()
@@ -1787,13 +1805,19 @@ def draw_tr_tv_instance():
     plt.plot(methods, [np.log10(method[1]) for method in all_methods], marker='^', linestyle='-', label="Energy4")
     plt.plot(methods, [np.log10(method[2]) for method in all_methods], marker='+', markersize='8', linestyle='-',
              label="Energy6")
-    plt.plot(methods[:-2], [np.log10(method[3]) for method in all_methods[:-2]], marker='o', linestyle='--', label="CNOT5")
-    plt.plot(methods[:-2], [np.log10(method[4]) for method in all_methods[:-2]], marker='^', linestyle='--', label="CNOT10")
-    plt.plot(methods[:-2], [np.log10(method[5]) for method in all_methods[:-2]], marker='+', markersize='8', linestyle='--',
+    plt.plot(methods[:-2], [np.log10(method[3]) for method in all_methods[:-2]], marker='o', linestyle='--',
+             label="CNOT5")
+    plt.plot(methods[:-2], [np.log10(method[4]) for method in all_methods[:-2]], marker='^', linestyle='--',
+             label="CNOT10")
+    plt.plot(methods[:-2], [np.log10(method[5]) for method in all_methods[:-2]], marker='+', markersize='8',
+             linestyle='--',
              label="CNOT15")
-    plt.plot(methods[:-2], [np.log10(method[6]) for method in all_methods[:-2]], marker='s', linestyle='--', label='CNOT20')
-    plt.plot(methods, [np.log10(method[7]) for method in all_methods], marker='o', linestyle='dotted', label="CircuitH2")
-    plt.plot(methods, [np.log10(method[8]) for method in all_methods], marker='^', linestyle='dotted', label="CircuitLiH")
+    plt.plot(methods[:-2], [np.log10(method[6]) for method in all_methods[:-2]], marker='s', linestyle='--',
+             label='CNOT20')
+    plt.plot(methods, [np.log10(method[7]) for method in all_methods], marker='o', linestyle='dotted',
+             label="CircuitH2")
+    plt.plot(methods, [np.log10(method[8]) for method in all_methods], marker='^', linestyle='dotted',
+             label="CircuitLiH")
 
     x_loc = plt.MultipleLocator(1)
     ax = plt.gca()
@@ -1806,6 +1830,7 @@ def draw_tr_tv_instance():
 
     plt.savefig("../figure_paper/tr_tv_per_instance_log10.png")
 
+
 def draw_tr_selected():
     tr = [0.999, 0.862748429, 0.791003234, 0.876, 1.000, 1.000, 1.000, 1.000, 0.999]
     tr_sur = [0.995, 0.841779059, 0.7838377, 0.668, 0.998, 0.998, 0.999, 0.973, 0.818]
@@ -1817,7 +1842,7 @@ def draw_tr_selected():
     tr_st = [0, 0.838716809, 0.6789286, None, None, None, None, 0.995, 0.999]
     tr_stmt = [0, 0.803798946, 0.6242092, None, None, None, None, 0.995, 0.593]
 
-    tr_tv = [0.523, 2.752, 3.237, 6.094, 11.056, 16.795, 15.099, 2.744, 0.677]
+    tr_tv = [0.567, 4.114, 4.508, 9.419, 15.194, 24.348, 23.481, 8.421, 48.720]
     tr_sur_tv = [54, 32.4, 43.6, 24, 116, 276, 480, 36, 380]
     tr_mt_tv = [6, 6, 6, 6, 21, 36, 51, 8, 72]
     tr_ms_tv = [10, 10, 10, 15, 38, 40, 39, 24, 288]
@@ -1913,7 +1938,7 @@ def draw_threshold(instance='H2', mode="sep_per"):
                4.0658313571473315e-07, 5.159569271828701e-08, 2.8041560551361755e-07, 1.1678685185589899e-07,
                4.893899530067358e-08, 2.4012535515538502e-08]
         tv = [62, 62, 74, 74, 74, 58, 52, 48, 36, 24]
-        
+
         obj_sur = [4.0015787350355936e-09, 4.0015787350355936e-09, 1.7960340215061876e-08, 6.788980488892093e-10,
                    4.291472838202637e-07, 7.388747391701145e-10, 7.388747391701145e-10, 9.410083823269133e-11,
                    2.5455332286483667e-09, 3.2138073535747935e-08]
@@ -1943,7 +1968,7 @@ def draw_threshold(instance='H2', mode="sep_per"):
                0.001636694130179861, 0.0016406033006001186, 0.0016329232452819697, 0.001634177350660071,
                0.0016424429254702222, 0.0016512816476880188, 0.0016358850624846877, 0.0016479792765931034,
                0.0016479186490706565, 0.0016484078942400338]
-               # 0.006627966615676439]
+        # 0.006627966615676439]
         obj_sur = [0.0015630913010576952, 0.0015608963559184952,
                    0.0015606807308062853, 0.0015560945768714474, 0.0015574275852653363, 0.001569007743440154,
                    0.0015703856822677498, 0.0015706854144919014, 0.0015701928004578924, 0.0015700497898371024]
@@ -1966,7 +1991,7 @@ def draw_threshold(instance='H2', mode="sep_per"):
             plt.ylim([-0.004, 0.030])
             plt.savefig("../figure_paper/Molecule_LiH_evotime20.0_n_ts200_obj_log10_comp_per.png")
         if instance == "BeH2":
-           plt.savefig("../figure_paper/Molecule_BeH2_evotime20.0_n_ts200_obj_log10_comp_per.png")
+            plt.savefig("../figure_paper/Molecule_BeH2_evotime20.0_n_ts200_obj_log10_comp_per.png")
 
         plt.figure(dpi=300)
         plt.plot(threshold[:10], [tv_e / tv_sur[0] for tv_e in tv[:10]], '-o', label='STR')
@@ -2308,7 +2333,7 @@ def draw_str_diff_ub_molecule():
     plt.legend(prop={'size': 6})
     # plt.legend()
     plt.savefig("../figure_paper/MoleculeNew_H2_evotime4.0_str_error_delta_t_log10.png")
-    
+
 
 def draw_str_diff_ub_energy():
     change = [0.0022654349904387416, 0.00037150083126546996, -3.3161086668842543e-06, -1.5042721027147543e-05,
@@ -2413,7 +2438,7 @@ def draw_time_cia():
     energy_time = [0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
     energy_it = [8, 8, 8, 2473, 3730, 2508]
     cnot_time = [28.46, 22.86, 38.42, 67.41, 67.22, 67.30]
-    cnot_it = [31236, 8482, 1837, 2069,  1242, 26378]
+    cnot_it = [31236, 8482, 1837, 2069, 1242, 26378]
     circuit_time = [70.94, 70.87, 71.01, 71.45, 70.83, 71.23]
     circuit_it = [349, 889, 1570, 1545, 1595, 2137]
 
@@ -2453,7 +2478,8 @@ def draw_time_alb():
     circuit_it = [108, 108, 36, 186, 153, 135, 143, 71, 158]
 
     methods = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
-    method_name = ["pGRAPE+SUR+ALB", "TR+SUR+ALB", "ADMM+SUR+ALB", "pGRAPE+MT+ALB", "TR+MT+ALB", "ADMM+MT+ALB", "pGRAPE+MS+ALB", "TR+MS+ALB", "ADMM+MS+ALB"]
+    method_name = ["pGRAPE+SUR+ALB", "TR+SUR+ALB", "ADMM+SUR+ALB", "pGRAPE+MT+ALB", "TR+MT+ALB", "ADMM+MT+ALB",
+                   "pGRAPE+MS+ALB", "TR+MS+ALB", "ADMM+MS+ALB"]
 
     plt.figure(dpi=300)
     plt.plot(methods, energy_time, '-o', label='Energy6')
@@ -2478,6 +2504,224 @@ def draw_time_alb():
     plt.savefig("../figure_paper/Improvement_iteration.png")
 
 
+def draw_continuous_points():
+    continuous_obj_energy = [1 - 0.791535344, 1 - 0.791003234, 1 - 0.785477467]
+    continuous_obj_cnot = [5.93e-10, 4.06e-06, 8.07e-07]
+    continuous_obj_molecule = [1.14e-03, 1.45e-03, 1.43e-03]
+    continuous_tv_energy = [5.999, 4.508, 3.237]
+    continuous_tv_cnot = [26.162, 23.481, 15.099]
+    continuous_tv_molecule = [53.976, 48.720, 0.677]
+
+    fig = plt.figure(figsize=(12, 4), dpi=300)
+    fig.subplots_adjust(hspace=0.4, wspace=0.25, left=0.07, right=0.97, top=0.9, bottom=0.2)
+
+    instance_name = ['Energy6', 'CNOT20', 'CircuitLiH']
+    method_name = ['pGRAPE', 'TR', 'ADMM']
+
+    for i in range(3):
+        # plt.figure(dpi=300)
+        ax = fig.add_subplot(1, 3, i + 1)
+        ax.set_title(instance_name[i])
+
+        # ax.spines['right'].set_color("None")
+        # ax.spines['top'].set_color("None")
+
+        if i == 0:
+            plt.scatter(continuous_tv_energy[0], continuous_obj_energy[0], marker='o', label='pGRAPE')
+            plt.scatter(continuous_tv_energy[1], continuous_obj_energy[1], marker='o', label='TR')
+            plt.scatter(continuous_tv_energy[2], continuous_obj_energy[2], marker='o', label='ADMM')
+            # for j in range(3):
+            #     label = method_name[j]
+            #     plt.annotate(label, (continuous_tv_energy[j], continuous_obj_energy[j]),
+            #                  textcoords="offset points", xytext=(0, 6), ha='center', fontsize=6)
+            plt.ylabel("Objective value")
+        if i == 1:
+            plt.scatter(continuous_tv_cnot[0], continuous_obj_cnot[0], marker='o')
+            plt.scatter(continuous_tv_cnot[1], continuous_obj_cnot[1], marker='o')
+            plt.scatter(continuous_tv_cnot[2], continuous_obj_cnot[2], marker='o')
+            # for j in range(3):
+            #     label = method_name[j]
+            #     plt.annotate(label, (continuous_tv_cnot[j], continuous_obj_cnot[j]),
+            #                  textcoords="offset points", xytext=(0, 6), ha='center')
+        if i == 2:
+            plt.scatter(continuous_tv_molecule[0], continuous_obj_molecule[0], marker='o')
+            plt.scatter(continuous_tv_molecule[1], continuous_obj_molecule[1], marker='o')
+            plt.scatter(continuous_tv_molecule[2], continuous_obj_molecule[2], marker='o')
+            # for j in range(3):
+            #     label = method_name[j]
+            #     plt.annotate(label, (continuous_tv_molecule[j], continuous_obj_molecule[j]),
+            #                  textcoords="offset points", xytext=(0, 6), ha='center')
+
+        # x_loc = plt.MultipleLocator(1)
+        # ax.xaxis.set_major_locator(x_loc)
+        # plt.xticks(models, model_name, rotation=-5)
+        # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+        plt.xlabel("TV regularizer")
+        # plt.ylabel("Objective value")
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    fig.legend(lines, labels, bbox_to_anchor=(0.35, 0, 0.3, 0.2), loc='lower center', mode='expand', borderaxespad=0,
+               ncol=3, prop={'size': 10})
+
+    plt.savefig("../figure_paper/continuous_selected_points.png")
+
+
+def draw_binary_points(subgraph=False, zoomin=False):
+    # pgrape+sur, pgrape+mt, pgrape+ms, pgrape+sur+alb, pgrape+mt+alb, pgrape+ms+alb,
+    # tr+sur...
+    # admm+sur...
+    obj = [[0.7836432, 0.3161038, 0.7525139, 0.7816671, 0.5713352, 0.7711258,
+            0.7838377, 0.3832050, 0.7419845, 0.7837403, 0.5713352, 0.7699510,
+            0.7788632, 0.3936237, 0.7596211, 0.7808066, 0.5482583, 0.7639767],
+           [1-1.45e-03, 0.218, 0.346, 1-4.56e-04, 1-1.20e-03, 1-9.47e-04,
+            1-8.3e-04, 0.686, 0.303, 1-6.13e-04, 1-8.22e-04, 1-2.81e-03,
+            1-1.46e-03, 0.483, 0.381, 1-5.07e-04, 1-1.35e-03, 1-7.45e-04],
+           [0.832, 0.037, 0.713, 0.931, 0.998, 0.835,
+            0.818, 0.034, 0.776, 0.917, 0.504, 0.88,
+            0.967, 0.342, 0.443, 0.967, 0.645, 0.979]]
+    for i in range(3):
+        for j in range(18):
+            obj[i][j] = 1 - obj[i][j]
+    tv = [[38.8, 6, 10, 32.4, 6, 10,
+           43.6, 6, 10, 40.4, 10, 10,
+           52.8, 6, 10, 50.0, 6, 10],
+          [491, 53, 39, 479, 28, 40,
+           480, 51, 39, 471, 49, 40,
+           467, 47, 39, 441, 48, 40],
+          [380, 68, 290, 378, 6, 286,
+           380, 72, 288, 378, 70, 290,
+           252, 48, 148, 252, 48, 158]]
+
+    label = ["pGRAPE+SUR", "pGRAPE+MT", "pGRAPE+MS", "pGRAPE+SUR+ALB", "pGRAPE+MT+ALB", "pGRAPE+MS+ALB",
+             "TR+SUR", "TR+MT", "TR+MS", "TR+SUR+ALB", "TR+MT+ALB", "TR+MS+ALB",
+             "ADMM+SUR", "ADMM+MT", "ADMM+MS", "ADMM+SUR+ALB", "ADMM+MT+ALB", "ADMM+MS+ALB"]
+    best_index = [5, 4, 4]
+    best_label = ["pGRAPE+MS+ALB", "pGRAPE+MT+ALB", "pGRAPE+MT+ALB"]
+    # label = ["pGS", "pGMT", "pGMS", "pGSI", "pGMTI", "pGMSI",
+    #          "TS", "TMT", "TMS", "TSI", "TMTI", "TMSI",
+    #          "AS", "AMT", "AMS", "ASI", "AMTI", "AMSI"]
+    method = ["pGRAPE", "TR", "ADMM"]
+    round_marker = ['o', '^', '*']
+    instance_name = ["Energy6", "CNOT20", "CircuitLiH"]
+    if subgraph:
+        if not zoomin:
+            fig = plt.figure(figsize=(12, 4), dpi=300)
+            fig.subplots_adjust(hspace=0.4, wspace=0.2, left=0.05, right=0.95, top=0.9, bottom=0.22)
+        else:
+            fig = plt.figure(figsize=(12, 8), dpi=300)
+            fig.subplots_adjust(hspace=0.27, wspace=0.25, left=0.06, right=0.97, top=0.95, bottom=0.14)
+        for i in range(3):
+            ax = fig.add_subplot(2, 3, i + 1)
+            for j in range(3):
+                for k in range(3):
+                    if k == 0:
+                        sc = plt.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                         label=label[6 * j + k],
+                                         s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                    else:
+                        plt.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                    color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
+                                    s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                    plt.scatter(tv[i][6 * j + k + 3], obj[i][6 * j + k + 3], marker=round_marker[k],
+                                label=label[6 * j + k + 3],
+                                color=sc.get_facecolors()[0].tolist(), alpha=1)
+            plt.xlabel("TV regularizer")
+            if i == 0:
+                plt.ylabel("Objective value")
+
+            ax.annotate(best_label[i], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
+                        xycoords='data', xytext=(0, 30), textcoords='offset points',
+                        arrowprops=dict(arrowstyle='->', color='black'),
+                        va='center', ha='left', fontsize=10)
+
+            ax.set_title(instance_name[i])
+        if not zoomin:
+            lines, labels = fig.axes[0].get_legend_handles_labels()
+
+            fig.legend(lines, labels, bbox_to_anchor=(0.2, 0.01, 0.6, 1), loc='lower center', mode='expand',
+                       borderaxespad=0, ncol=6, prop={'size': 10}, borderpad=0.5)
+            plt.savefig("../figure_paper/binary_selected_points_all.png")
+        else:
+                # plt.savefig("../figure_paper/binary_selected_points_no_legend.png")
+            # fig = plt.figure(figsize=(18, 6), dpi=300)
+            # fig.subplots_adjust(hspace=0.4, wspace=0.2, left=0.05, right=0.95, top=0.9, bottom=0.22)
+            for i in range(3):
+                ax = fig.add_subplot(2, 3, i + 4)
+                if i == 0:
+                    ax.set_xlim([5, 15])
+                    ax.set_ylim([0.22, 0.27])
+                    inew = i
+                if i == 1:
+                    ax.set_xlim([20, 50])
+                    ax.set_ylim(top=3e-03)
+                    inew = i
+                if i == 2:
+                    ax.set_xlim([400, 520])
+                    ax.set_ylim(top=2e-03)
+                    inew = i - 1
+                for j in range(3):
+                    for k in range(3):
+                        if k == 0:
+                            sc = plt.scatter(tv[inew][6 * j + k], obj[inew][6 * j + k], marker=round_marker[k],
+                                             label=label[6 * j + k],
+                                             s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                        else:
+                            plt.scatter(tv[inew][6 * j + k], obj[inew][6 * j + k], marker=round_marker[k],
+                                        color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
+                                        s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                        plt.scatter(tv[inew][6 * j + k + 3], obj[inew][6 * j + k + 3], marker=round_marker[k],
+                                    label=label[6 * j + k + 3],
+                                    color=sc.get_facecolors()[0].tolist(), alpha=1)
+                plt.xlabel("TV regularizer")
+                if i == 0:
+                    plt.ylabel("Objective value")
+
+                # ax.annotate(best_label[i], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
+                #             xycoords='data', xytext=(0, 30), textcoords='offset points',
+                #             arrowprops=dict(arrowstyle='->', color='black'),
+                #             va='center', ha='left', fontsize=10)
+                if i == 0:
+                    ax.set_title("Energy6 - lower left corner zoomed in")
+                if i == 1:
+                    ax.set_title("CNOT20 - lower left corner zoomed in")
+                if i == 2:
+                    ax.set_title("CNOT20 - lower right corner zoomed in")
+                lines, labels = fig.axes[0].get_legend_handles_labels()
+
+                fig.legend(lines, labels, bbox_to_anchor=(0.1, 0.01, 0.8, 1), loc='lower center', mode='expand',
+                           borderaxespad=0, ncol=6, prop={'size': 8}, borderpad=0.5)
+                plt.savefig("../figure_paper/binary_selected_points_zoomin.png")
+
+    else:
+        for i in range(3):
+            plt.figure(dpi=300)
+            # ax = fig.add_subplot(1, 3, i + 1)
+            for j in range(3):
+                for k in range(3):
+                    if k == 0:
+                        sc = plt.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k], label=method[j],
+                                         s=8 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                    else:
+                        plt.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                    color=sc.get_facecolors()[0].tolist(),
+                                    s=8 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                    plt.scatter(tv[i][6 * j + k + 3], obj[i][6 * j + k + 3], marker=round_marker[k],
+                                color=sc.get_facecolors()[0].tolist(), alpha=1)
+            plt.xlabel("TV regularizer")
+            # if i == 0:
+            #     plt.ylabel("Objective value")
+            plt.ylabel("Objective value")
+            # plt.title(instance_name[i])
+            ax.set_title(instance_name[i])
+            # for j in range(18):
+            #     plt.annotate(label[j], (tv[i][j], obj[i][j]), textcoords="offset points",  xytext=(0, 6), ha='center',
+            #                  fontsize=6)
+            # texts = [plt.text(tv[i][j], obj[i][j], label[j], fontsize=6) for j in range(18)]
+            # adjustText.adjust_text(texts,)
+            plt.savefig("../figure_paper/binary_selected_points_" + instance_name[i] + ".png")
+
+
 if __name__ == '__main__':
     # evo_time = 4
     # n_ts = 80
@@ -2488,8 +2732,8 @@ if __name__ == '__main__':
     # draw_stats()
     # draw_sos1(n_ts, control, output_fig)
     # print(max([abs(sum(control[k, :]) - 1) for k in range(n_ts)]))
-    draw_integral_error("H2", ub=True)
-    draw_integral_error("LiH", ub=True)
+    # draw_integral_error("H2", ub=True)
+    # draw_integral_error("LiH", ub=True)
     # draw_stats()
     # draw_obj_energy_r()
     # draw_sur()
@@ -2533,3 +2777,5 @@ if __name__ == '__main__':
     # draw_time_continuous()
     # draw_time_cia()
     # draw_time_alb()
+    # draw_continuous_points()
+    draw_binary_points(subgraph=True, zoomin=True)

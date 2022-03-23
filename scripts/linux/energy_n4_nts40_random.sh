@@ -2,16 +2,42 @@
 
 conda activate qcopt
 cd ../../example/Continuous/
-python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=240 --initial_type=CONSTANT --offset=0.5
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=240 --initial_type=CONSTANT --offset=0.5
 #python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=2 --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5
 #python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=3 --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5
 #python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=4 --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5
 #python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=5 --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5
 #python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5
+python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=32 --initial_type=CONSTANT --offset=0.5
+python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=64 --initial_type=CONSTANT --offset=0.5
+python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=128 --initial_type=CONSTANT --offset=0.5
+python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=256 --initial_type=CONSTANT --offset=0.5
+python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=512 --initial_type=CONSTANT --offset=0.5
+python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=1024 --initial_type=CONSTANT --offset=0.5
+python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=2048 --initial_type=CONSTANT --offset=0.5
+
 cd ../ADMM/
-python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=240 --initial_type=WARM \
-    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts240_ptypeCONSTANT_offset0.5_instance1.csv" \
-    --alpha=1e-2 --rho=10 --max_iter_admm=50
+python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=32 --initial_type=WARM \
+    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts32_ptypeCONSTANT_offset0.5_instance1.csv" \
+    --alpha=1e-2 --rho=10 --max_iter_admm=30
+python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=64 --initial_type=WARM \
+    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts64_ptypeCONSTANT_offset0.5_instance1.csv" \
+    --alpha=1e-2 --rho=10 --max_iter_admm=30
+python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=128 --initial_type=WARM \
+    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts128_ptypeCONSTANT_offset0.5_instance1.csv" \
+    --alpha=1e-2 --rho=10 --max_iter_admm=30
+python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=256 --initial_type=WARM \
+    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts256_ptypeCONSTANT_offset0.5_instance1.csv" \
+    --alpha=1e-2 --rho=10 --max_iter_admm=30
+python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=512 --initial_type=WARM \
+    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts512_ptypeCONSTANT_offset0.5_instance1.csv" \
+    --alpha=1e-2 --rho=10 --max_iter_admm=30
+python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=1024 --initial_type=WARM \
+    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts1024_ptypeCONSTANT_offset0.5_instance1.csv" \
+    --alpha=1e-2 --rho=10 --max_iter_admm=30
+python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=2048 --initial_type=WARM \
+    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts2048_ptypeCONSTANT_offset0.5_instance1.csv" \
+    --alpha=1e-2 --rho=10 --max_iter_admm=30
 #python energy.py --n=4 --rgraph=1 --seed=2 --num_edges=2 --evo_time=2 --n_ts=40 --initial_type=WARM \
 #    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance2.csv" \
 #    --alpha=1e-2 --rho=10 --max_iter_admm=100

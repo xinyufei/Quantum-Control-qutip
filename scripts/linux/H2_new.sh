@@ -14,16 +14,16 @@ cd ../../example/Continuous/
 #    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --max_iter=5000
 #python Molecule.py --name=MoleculeNew --molecule=H2 --qubit_num=2 --evo_time=4 --n_ts=960 --initial_type=CONSTANT --offset=0.5 --sum_penalty=0 \
 #    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --max_iter=10000
-python Molecule.py --name=MoleculeNew --molecule=H2 --qubit_num=2 --evo_time=4 --n_ts=4096 --initial_type=CONSTANT --offset=0.5 --sum_penalty=0 \
-    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --max_iter=10000
+#python Molecule.py --name=MoleculeNew --molecule=H2 --qubit_num=2 --evo_time=4 --n_ts=32 --initial_type=CONSTANT --offset=0.5 --sum_penalty=0 \
+#    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --max_iter=10000
 #python Molecule.py --name=MoleculeNew --molecule=H2 --qubit_num=2 --evo_time=4 --n_ts=400000 --initial_type=CONSTANT --offset=0.5 --sum_penalty=0 \
 #    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --max_iter=100000
 #python Molecule.py --name=MoleculeNew --molecule=H2 --qubit_num=2 --evo_time=4 --n_ts=400000 --initial_type=WARM --sum_penalty=1.0 \
 #    --initial_control="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts400000_ptypeCONSTANT_offset0.5_objUNIT_sum_penalty0.0.csv" \
 #    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --max_iter=100000
-python Molecule.py --name=MoleculeNew --molecule=H2 --qubit_num=2 --evo_time=4 --n_ts=4096 --initial_type=WARM \
-    --initial_control="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts4096_ptypeCONSTANT_offset0.5_objUNIT_sum_penalty0.0.csv" \
-    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --sum_penalty=1.0
+#python Molecule.py --name=MoleculeNew --molecule=H2 --qubit_num=2 --evo_time=4 --n_ts=32 --initial_type=WARM \
+#    --initial_control="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts32_ptypeCONSTANT_offset0.5_objUNIT_sum_penalty0.0.csv" \
+#    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --sum_penalty=1.0
 #python Molecule.py --name=MoleculeNew --molecule=H2 --qubit_num=2 --evo_time=4 --n_ts=160 --initial_type=WARM \
 #    --initial_control="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts160_ptypeCONSTANT_offset0.5_objUNIT_sum_penalty0.0.csv" \
 #    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --sum_penalty=1.0
@@ -58,9 +58,15 @@ python Molecule.py --name=MoleculeNew --molecule=H2 --qubit_num=2 --evo_time=4 -
 #    --initial_control="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty10.0.csv" \
 #    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --sum_penalty=1e25
 cd ../ADMM/
-#python Molecule.py --name=MoleculeADMMNew --molecule=H2 --qubit_num=2 --evo_time=4 --n_ts=400 --initial_type=WARM \
-#    --initial_control="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts400_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0.csv" \
-#    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --sum_penalty=1.0 --alpha=1e-3 --rho=0.5 --max_iter_admm=100
+#python Molecule.py --name=MoleculeADMMNew --molecule=H2 --qubit_num=2 --evo_time=4 --n_ts=32 --initial_type=WARM \
+#    --initial_control="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts32_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0.csv" \
+#    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --sum_penalty=1.0 --alpha=1e-3 --rho=0.5 --max_iter_admm=50
+python Molecule.py --name=MoleculeADMMNew --molecule=H2 --qubit_num=2 --evo_time=4 --n_ts=1024 --initial_type=WARM \
+    --initial_control="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts1024_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0.csv" \
+    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --sum_penalty=1.0 --alpha=1e-3 --rho=0.5 --max_iter_admm=50
+python Molecule.py --name=MoleculeADMMNew --molecule=H2 --qubit_num=2 --evo_time=4 --n_ts=2048 --initial_type=WARM \
+    --initial_control="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts2048_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0.csv" \
+    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --sum_penalty=1.0 --alpha=1e-3 --rho=0.5 --max_iter_admm=50
 #python Molecule.py --name=MoleculeADMMNew --molecule=H2 --qubit_num=2 --evo_time=4 --n_ts=960 --initial_type=WARM \
 #    --initial_control="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts960_ptypeCONSTANT_offset0.5_objUNIT_sum_penalty1.0.csv" \
 #    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --sum_penalty=1.0 --alpha=1e-3 --rho=0.5 --max_iter_admm=50
@@ -111,9 +117,9 @@ cd ../Rounding
 #python Molecule.py --molecule=H2 --qubit_num=2 --evo_time=4 --n_ts=80 \
 #    --initial_control="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0.csv" \
 #    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --sos1=1 --type=SUR
-python Molecule.py --molecule=H2 --qubit_num=2 --evo_time=4 --n_ts=4096 \
-    --initial_control="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts4096_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0.csv" \
-    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --sos1=1 --type=SUR
+#python Molecule.py --molecule=H2 --qubit_num=2 --evo_time=4 --n_ts=4096 \
+#    --initial_control="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts4096_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0.csv" \
+#    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --sos1=1 --type=SUR
 #python Molecule.py --molecule=H2 --qubit_num=2 --evo_time=4 --n_ts=80 \
 #    --initial_control="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0.csv" \
 #    --target="../control/Continuous/MoleculeNew_H2_evotime4.0_n_ts80_target.csv" --sos1=1 --t_sos=1 --type=SUR

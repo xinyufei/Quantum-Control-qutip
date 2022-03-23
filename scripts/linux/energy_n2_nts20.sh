@@ -2,7 +2,7 @@
 
 conda activate qcopt
 cd ../../example/Continuous/
-#python energy.py --n=2 --num_edges=1 --evo_time=1 --n_ts=20 --initial_type=CONSTANT --offset=0.5
+python energy.py --n=2 --num_edges=1 --evo_time=1 --n_ts=20 --initial_type=CONSTANT --offset=0.5
 cd ../ADMM/
 #python energy.py --n=2 --num_edges=1 --evo_time=1 --n_ts=20 --initial_type=WARM \
 #    --initial_control="../control/Continuous/Energy2_evotime1.0_n_ts20_ptypeCONSTANT_offset0.5.csv" \
@@ -12,7 +12,7 @@ cd ../ADMM/
 #    --alpha=1e-3 --rho=10 --max_iter_admm=100
 #python energy.py --n=2 --num_edges=1 --evo_time=1 --n_ts=20 --initial_type=WARM \
 #    --initial_control="../control/ADMM/EnergyADMM2_evotime1.0_n_ts20_ptypeWARM_offset0.5_penalty0.001_ADMM_10.0_iter100.csv" \
-#    --alpha=1e-2 --rho=10 --max_iter_admm=100
+#    --alpha=1e-2 --rho=10 --max_iter_admm=50
 #python energy.py --n=2 --num_edges=1 --evo_time=1 --n_ts=20 --initial_type=WARM \
 #    --initial_control="../control/ADMM/EnergyADMM2_evotime1.0_n_ts20_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv" \
 #    --alpha=1e-1 --rho=10 --max_iter_admm=100

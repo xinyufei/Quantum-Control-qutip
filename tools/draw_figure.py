@@ -2598,19 +2598,18 @@ def draw_binary_points(subgraph=False, zoomin=False):
              "ADMM+SUR", "ADMM+MT", "ADMM+MS", "ADMM+SUR+ALB", "ADMM+MT+ALB", "ADMM+MS+ALB"]
     best_index = [5, 4, 4]
     best_label = ["pGRAPE+MS+ALB", "pGRAPE+MT+ALB", "pGRAPE+MT+ALB"]
-    # label = ["pGS", "pGMT", "pGMS", "pGSI", "pGMTI", "pGMSI",
-    #          "TS", "TMT", "TMS", "TSI", "TMTI", "TMSI",
-    #          "AS", "AMT", "AMS", "ASI", "AMTI", "AMSI"]
     method = ["pGRAPE", "TR", "ADMM"]
     round_marker = ['o', '^', '*']
     instance_name = ["Energy6", "CNOT20", "CircuitLiH"]
     if subgraph:
+        # use subgraphs and adjust the positions
         if not zoomin:
             fig = plt.figure(figsize=(12, 4), dpi=300)
             fig.subplots_adjust(hspace=0.4, wspace=0.2, left=0.05, right=0.95, top=0.9, bottom=0.22)
         else:
             fig = plt.figure(figsize=(12, 8), dpi=300)
             fig.subplots_adjust(hspace=0.27, wspace=0.25, left=0.06, right=0.97, top=0.95, bottom=0.14)
+        # draw the graphs
         for i in range(3):
             ax = fig.add_subplot(2, 3, i + 1)
             for j in range(3):
@@ -2629,7 +2628,7 @@ def draw_binary_points(subgraph=False, zoomin=False):
             plt.xlabel("TV regularizer")
             if i == 0:
                 plt.ylabel("Objective value")
-
+            # annotate the best point
             ax.annotate(best_label[i], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
                         xycoords='data', xytext=(0, 30), textcoords='offset points',
                         arrowprops=dict(arrowstyle='->', color='black'),
@@ -2643,20 +2642,21 @@ def draw_binary_points(subgraph=False, zoomin=False):
                        borderaxespad=0, ncol=6, prop={'size': 10}, borderpad=0.5)
             plt.savefig("../figure_paper/binary_selected_points_all.png")
         else:
-                # plt.savefig("../figure_paper/binary_selected_points_no_legend.png")
-            # fig = plt.figure(figsize=(18, 6), dpi=300)
-            # fig.subplots_adjust(hspace=0.4, wspace=0.2, left=0.05, right=0.95, top=0.9, bottom=0.22)
             for i in range(3):
                 ax = fig.add_subplot(2, 3, i + 4)
+                # The range of zoomed in areas. For the new figure, we only need to zoom in the first two parts.
                 if i == 0:
+                    # range for energy6 lower left corner
                     ax.set_xlim([5, 15])
                     ax.set_ylim([0.22, 0.27])
                     inew = i
                 if i == 1:
+                    # range for cnot20 lower left corner
                     ax.set_xlim([20, 50])
                     ax.set_ylim(top=3e-03)
                     inew = i
                 if i == 2:
+                    # range for cnot20 lower right corner
                     ax.set_xlim([400, 520])
                     ax.set_ylim(top=2e-03)
                     inew = i - 1
@@ -2671,17 +2671,10 @@ def draw_binary_points(subgraph=False, zoomin=False):
                                         color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
                                         s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
                         plt.scatter(tv[inew][6 * j + k + 3], obj[inew][6 * j + k + 3], marker=round_marker[k],
-                                    label=label[6 * j + k + 3],
-                                    color=sc.get_facecolors()[0].tolist(), alpha=1)
+                                    label=label[6 * j + k + 3], color=sc.get_facecolors()[0].tolist(), alpha=1)
                 plt.xlabel("TV regularizer")
                 if i == 0:
                     plt.ylabel("Objective value")
-
-                # ax.annotate(best_label[i], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
-                #             xycoords='data', xytext=(0, 30), textcoords='offset points',
-                #             arrowprops=dict(arrowstyle='->', color='black'),
-                #             va='center', ha='left', fontsize=10)
-                if i == 0:
                     ax.set_title("Energy6 - lower left corner zoomed in")
                 if i == 1:
                     ax.set_title("CNOT20 - lower left corner zoomed in")

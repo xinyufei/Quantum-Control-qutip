@@ -2574,9 +2574,9 @@ def draw_binary_points(subgraph=False, zoomin=False):
     obj = [[0.7836432, 0.3161038, 0.7525139, 0.7816671, 0.5713352, 0.7711258,
             0.7838377, 0.3832050, 0.7419845, 0.7837403, 0.5713352, 0.7699510,
             0.7788632, 0.3936237, 0.7596211, 0.7808066, 0.5482583, 0.7639767],
-           [1-1.45e-03, 0.218, 0.346, 1-4.56e-04, 1-1.20e-03, 1-9.47e-04,
-            1-8.3e-04, 0.686, 0.303, 1-6.13e-04, 1-8.22e-04, 1-2.81e-03,
-            1-1.46e-03, 0.483, 0.381, 1-5.07e-04, 1-1.35e-03, 1-7.45e-04],
+           [1 - 1.45e-03, 0.218, 0.346, 1 - 4.56e-04, 1 - 1.20e-03, 1 - 9.47e-04,
+            1 - 8.3e-04, 0.686, 0.303, 1 - 6.13e-04, 1 - 8.22e-04, 1 - 2.81e-03,
+            1 - 1.46e-03, 0.483, 0.381, 1 - 5.07e-04, 1 - 1.35e-03, 1 - 7.45e-04],
            [0.832, 0.037, 0.713, 0.931, 0.998, 0.835,
             0.818, 0.034, 0.776, 0.917, 0.504, 0.88,
             0.967, 0.342, 0.443, 0.967, 0.645, 0.979]]
@@ -2603,15 +2603,15 @@ def draw_binary_points(subgraph=False, zoomin=False):
     instance_name = ["Energy6", "CNOT20", "CircuitLiH"]
     if subgraph:
         # use subgraphs and adjust the positions
-        if not zoomin:
-            fig = plt.figure(figsize=(12, 4), dpi=300)
-            fig.subplots_adjust(hspace=0.4, wspace=0.2, left=0.05, right=0.95, top=0.9, bottom=0.22)
-        else:
-            fig = plt.figure(figsize=(12, 8), dpi=300)
-            fig.subplots_adjust(hspace=0.27, wspace=0.25, left=0.06, right=0.97, top=0.95, bottom=0.14)
+        # if not zoomin:
+        fig = plt.figure(figsize=(12, 4.8), dpi=300)
+        fig.subplots_adjust(hspace=0.4, wspace=0.2, left=0.05, right=0.98, top=0.9, bottom=0.22)
+        # else:
+        # fig = plt.figure(figsize=(12, 8), dpi=300)
+        # fig.subplots_adjust(hspace=0.27, wspace=0.25, left=0.06, right=0.97, top=0.95, bottom=0.14)
         # draw the graphs
         for i in range(3):
-            ax = fig.add_subplot(2, 3, i + 1)
+            ax = fig.add_subplot(1, 3, i + 1)
             for j in range(3):
                 for k in range(3):
                     if k == 0:
@@ -2628,12 +2628,65 @@ def draw_binary_points(subgraph=False, zoomin=False):
             plt.xlabel("TV regularizer")
             if i == 0:
                 plt.ylabel("Objective value")
-            # annotate the best point
-            ax.annotate(best_label[i], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
-                        xycoords='data', xytext=(0, 30), textcoords='offset points',
-                        arrowprops=dict(arrowstyle='->', color='black'),
-                        va='center', ha='left', fontsize=10)
 
+            if i == 0:
+                axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+                for j in range(3):
+                    for k in range(3):
+                        if k == 0:
+                            sc = axins.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                               label=label[6 * j + k],
+                                               s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                        else:
+                            axins.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                          color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
+                                          s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                        axins.scatter(tv[i][6 * j + k + 3], obj[i][6 * j + k + 3], marker=round_marker[k],
+                                      label=label[6 * j + k + 3],
+                                      color=sc.get_facecolors()[0].tolist(), alpha=1)
+                axins.set_xlim(9, 11)
+                axins.set_ylim(0.22, 0.27)
+                # axins.set_xticks([])
+                # axins.set_yticks([])
+                # axins.set_xticklabels([])
+                # axins.set_yticklabels([])
+                ax.indicate_inset_zoom(axins, edgecolor="black")
+
+            elif i == 1:
+                axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+                for j in range(3):
+                    for k in range(3):
+                        if k == 0:
+                            sc = axins.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                               label=label[6 * j + k],
+                                               s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                        else:
+                            axins.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                          color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
+                                          s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                        axins.scatter(tv[i][6 * j + k + 3], obj[i][6 * j + k + 3], marker=round_marker[k],
+                                      label=label[6 * j + k + 3],
+                                      color=sc.get_facecolors()[0].tolist(), alpha=1)
+                axins.set_xlim(25, 50)
+                axins.set_ylim(0, 0.003)
+                # axins.set_xticks([])
+                # axins.set_yticks([])
+                # axins.set_xticklabels([])
+                # axins.set_yticklabels([])
+                ax.indicate_inset_zoom(axins, edgecolor="black")
+
+            # annotate the best point
+
+            axins.annotate(best_label[i], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
+                           xycoords='data', xytext=(0, 30), textcoords='offset points',
+                           arrowprops=dict(arrowstyle='->', color='black'),
+                           va='center', ha='left', fontsize=10)
+
+            if i == 2:
+                ax.annotate(best_label[i], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
+                            xycoords='data', xytext=(0, 30), textcoords='offset points',
+                            arrowprops=dict(arrowstyle='->', color='black'),
+                            va='center', ha='left', fontsize=10)
             ax.set_title(instance_name[i])
         if not zoomin:
             lines, labels = fig.axes[0].get_legend_handles_labels()
@@ -2642,49 +2695,49 @@ def draw_binary_points(subgraph=False, zoomin=False):
                        borderaxespad=0, ncol=6, prop={'size': 10}, borderpad=0.5)
             plt.savefig("../figure_paper/binary_selected_points_all.png")
         else:
-            for i in range(3):
-                ax = fig.add_subplot(2, 3, i + 4)
-                # The range of zoomed in areas. For the new figure, we only need to zoom in the first two parts.
-                if i == 0:
-                    # range for energy6 lower left corner
-                    ax.set_xlim([5, 15])
-                    ax.set_ylim([0.22, 0.27])
-                    inew = i
-                if i == 1:
-                    # range for cnot20 lower left corner
-                    ax.set_xlim([20, 50])
-                    ax.set_ylim(top=3e-03)
-                    inew = i
-                if i == 2:
-                    # range for cnot20 lower right corner
-                    ax.set_xlim([400, 520])
-                    ax.set_ylim(top=2e-03)
-                    inew = i - 1
-                for j in range(3):
-                    for k in range(3):
-                        if k == 0:
-                            sc = plt.scatter(tv[inew][6 * j + k], obj[inew][6 * j + k], marker=round_marker[k],
-                                             label=label[6 * j + k],
-                                             s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
-                        else:
-                            plt.scatter(tv[inew][6 * j + k], obj[inew][6 * j + k], marker=round_marker[k],
-                                        color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
-                                        s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
-                        plt.scatter(tv[inew][6 * j + k + 3], obj[inew][6 * j + k + 3], marker=round_marker[k],
-                                    label=label[6 * j + k + 3], color=sc.get_facecolors()[0].tolist(), alpha=1)
-                plt.xlabel("TV regularizer")
-                if i == 0:
-                    plt.ylabel("Objective value")
-                    ax.set_title("Energy6 - lower left corner zoomed in")
-                if i == 1:
-                    ax.set_title("CNOT20 - lower left corner zoomed in")
-                if i == 2:
-                    ax.set_title("CNOT20 - lower right corner zoomed in")
-                lines, labels = fig.axes[0].get_legend_handles_labels()
+            # for i in range(3):
+            # ax = fig.add_subplot(2, 3, i + 4)
+            # # The range of zoomed in areas. For the new figure, we only need to zoom in the first two parts.
+            # if i == 0:
+            #     # range for energy6 lower left corner
+            #     ax.set_xlim([5, 15])
+            #     ax.set_ylim([0.22, 0.27])
+            #     inew = i
+            # if i == 1:
+            #     # range for cnot20 lower left corner
+            #     ax.set_xlim([20, 50])
+            #     ax.set_ylim(top=3e-03)
+            #     inew = i
+            # if i == 2:
+            #     # range for cnot20 lower right corner
+            #     ax.set_xlim([400, 520])
+            #     ax.set_ylim(top=2e-03)
+            #     inew = i - 1
+            # for j in range(3):
+            #     for k in range(3):
+            #         if k == 0:
+            #             sc = plt.scatter(tv[inew][6 * j + k], obj[inew][6 * j + k], marker=round_marker[k],
+            #                              label=label[6 * j + k],
+            #                              s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+            #         else:
+            #             plt.scatter(tv[inew][6 * j + k], obj[inew][6 * j + k], marker=round_marker[k],
+            #                         color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
+            #                         s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+            #         plt.scatter(tv[inew][6 * j + k + 3], obj[inew][6 * j + k + 3], marker=round_marker[k],
+            #                     label=label[6 * j + k + 3], color=sc.get_facecolors()[0].tolist(), alpha=1)
+            # plt.xlabel("TV regularizer")
+            # if i == 0:
+            #     plt.ylabel("Objective value")
+            #     ax.set_title("Energy6 - lower left corner zoomed in")
+            # if i == 1:
+            #     ax.set_title("CNOT20 - lower left corner zoomed in")
+            # if i == 2:
+            #     ax.set_title("CNOT20 - lower right corner zoomed in")
+            lines, labels = fig.axes[0].get_legend_handles_labels()
 
-                fig.legend(lines, labels, bbox_to_anchor=(0.1, 0.01, 0.8, 1), loc='lower center', mode='expand',
-                           borderaxespad=0, ncol=6, prop={'size': 8}, borderpad=0.5)
-                plt.savefig("../figure_paper/binary_selected_points_zoomin.png")
+            fig.legend(lines, labels, bbox_to_anchor=(0.1, 0.01, 0.8, 1), loc='lower center', mode='expand',
+                       borderaxespad=0, ncol=6, prop={'size': 8}, borderpad=0.5)
+            plt.savefig("../figure_paper/binary_selected_points_zoomin_new.png")
 
     else:
         for i in range(3):
@@ -2713,6 +2766,992 @@ def draw_binary_points(subgraph=False, zoomin=False):
             # texts = [plt.text(tv[i][j], obj[i][j], label[j], fontsize=6) for j in range(18)]
             # adjustText.adjust_text(texts,)
             plt.savefig("../figure_paper/binary_selected_points_" + instance_name[i] + ".png")
+
+
+def draw_all_binary_points():
+    obj = [[4.22e-04, 0.159, 0.029, 1 - 0.9972747935307649, 1 - 0.9970696577756559, 1 - 0.9995860614857415,
+            4.91e-03, 0.159, 0.040, 1 - 0.9958248817406824, 1 - 0.9970696577756559, 1 - 0.9979979002765695,
+            4.01e-04, 0.154, 0.028, 1 - 0.9963256502628339, 1 - 0.9595137942323617, 1 - 0.9985863650625982],
+           [1 - 0.841476808, 0.367, 0.163, 0.160, 0.199, 0.160,
+            0.158, 0.317, 0.162, 0.162, 0.198, 0.160,
+            0.170, 0.363, 0.195, 0.166, 0.218, 0.184],
+           [0.2163568, 0.6838962, 0.2474861, 0.2183329, 0.4286648, 0.2288742,
+            0.2161623, 0.616795, 0.2580155, 0.2162597, 0.4286648, 0.230049,
+            0.2211368, 0.6063763, 0.2403789, 0.2191934, 0.4517417, 0.2360233],
+           [0.170, 0.243, 0.170, 0.17645017858391998, 0.195, 0.170,
+            0.332, 0.525, 0.593, 0.206, 0.196, 0.173,
+            0.190, 0.285, 0.191, 0.1768800871829428, 0.195, 0.172],
+           [6.01e-04, 0.158, 0.011, 1.58e-03, 4.06e-03, 9.80e-04,
+            1.78e-03, 0.323, 0.019, 2.46e-03, 9.43e-03, 1.31e-03,
+            1.68e-03, 0.084, 0.006, 1.15e-03, 6.04e-03, 1.18e-03],
+           [1.12e-03, 0.539, 0.325, 5.59e-04, 6.31e-03, 1.30e-03,
+            2.30e-03, 0.290, 0.284, 4.67e-04, 6.25e-03, 3.72e-03,
+            2.90e-03, 0.176, 0.214, 8.51e-04, 1.63e-03, 1.91e-03],
+           [1.45e-03, 1 - 0.218, 1 - 0.346, 4.56e-04, 1.20e-03, 9.47e-04,
+            8.3e-04, 1 - 0.686, 1 - 0.303, 6.13e-04, 8.22e-04, 2.81e-03,
+            1.46e-03, 1 - 0.483, 1 - 0.381, 5.07e-04, 1.35e-03, 7.45e-04],
+           [0.027, 0.600, 0.026, 0.003, 0.245, 0.014,
+            0.027, 0.591, 0.038, 0.013, 0.007, 0.003,
+            0.006, 0.063, 0.008, 0.006, 0.054, 0.008],
+           [0.168, 0.963, 0.287, 0.069, 0.002, 0.165,
+            0.182, 0.966, 0.224, 0.083, 0.496, 0.12,
+            0.033, 0.658, 0.557, 0.033, 0.355, 0.021]]
+
+    tv = [[54, 4, 10, 10, 4, 10,
+           54, 6, 10, 8, 4, 10,
+           48, 6, 10, 4, 6, 8],
+          [26.8, 6, 10, 17.2, 6, 9.2,
+           32.4, 6, 10, 14, 6, 10,
+           44.8, 6, 10, 14.4, 5.6, 8.4],
+          [38.8, 6, 10, 32.4, 6, 10,
+           43.6, 6, 10, 40.4, 10, 10,
+           52.8, 6, 10, 50.0, 6, 10],
+          [16, 10, 16, 9, 9, 16,
+           24, 6, 15, 7, 10, 20,
+           41, 7, 32, 9, 9, 16],
+          [116, 22, 39, 30, 23, 39,
+           116, 21, 38, 24, 16, 38,
+           82, 15, 32, 20, 15, 36],
+          [266, 37, 38, 262, 33, 39,
+           276, 36, 40, 256, 34, 39,
+           279, 27, 39, 263, 30, 40],
+          [491, 53, 39, 479, 28, 40,
+           480, 51, 39, 471, 49, 40,
+           467, 47, 39, 441, 48, 40],
+          [32, 8, 22, 24, 12, 18,
+           36, 8, 24, 32, 2, 22,
+           76, 8, 22, 76, 10, 22],
+          [380, 68, 290, 378, 6, 286,
+           380, 72, 288, 378, 70, 290,
+           252, 48, 148, 252, 48, 158]]
+
+    label = ["pGRAPE+SUR", "pGRAPE+MT", "pGRAPE+MS", "pGRAPE+SUR+ALB", "pGRAPE+MT+ALB", "pGRAPE+MS+ALB",
+             "TR+SUR", "TR+MT", "TR+MS", "TR+SUR+ALB", "TR+MT+ALB", "TR+MS+ALB",
+             "ADMM+SUR", "ADMM+MT", "ADMM+MS", "ADMM+SUR+ALB", "ADMM+MT+ALB", "ADMM+MS+ALB"]
+    method = ["pGRAPE", "TR", "ADMM"]
+    round_marker = ['o', '^', '*']
+    instance_name = ["Energy2", "Energy4", "Energy6",
+                     "CNOT5", "CNOT10", "CNOT15", "CNOT20",
+                     "CircuitH2", "CircuitLiH"]
+    num_instances = len(instance_name)
+    zoom_in = [True, True, True, False, True, True, True, False, False]
+    zoom_in_xlim = [(3, 12), (5, 12), (9, 11), None, (10, 40), (25, 42), (25, 50), None, None]
+    zoom_in_ylim = [(0, 0.004), (0.15, 0.21), (0.22, 0.27), None, (0, 0.01), (0, 0.007), (0, 0.003), None, None]
+    best_index = [17, 5, 5, 15, 15, 16, 4, 10, 4]
+    # best_label = ["pGRAPE+MS+ALB", "pGRAPE+MT+ALB", "pGRAPE+MT+ALB"]
+    # use subgraphs and adjust the positions
+    # if not zoomin:
+    # height = 4.8 * 3 + 0.4 * 2
+    fig = plt.figure(figsize=(12, 12), dpi=300)
+    fig.subplots_adjust(hspace=0.3, wspace=0.2, left=0.07, right=0.98, top=0.95, bottom=0.11)
+    for i in range(num_instances):
+        ax = fig.add_subplot(3, 3, i + 1)
+        for j in range(3):
+            for k in range(3):
+                if k == 0:
+                    sc = plt.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                     label=label[6 * j + k],
+                                     s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                else:
+                    plt.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
+                                s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                plt.scatter(tv[i][6 * j + k + 3], obj[i][6 * j + k + 3], marker=round_marker[k],
+                            label=label[6 * j + k + 3],
+                            color=sc.get_facecolors()[0].tolist(), alpha=1)
+        plt.xlabel("TV regularizer", fontsize=12)
+        if i % 3 == 0:
+            plt.ylabel("Objective value", fontsize=12)
+
+        if zoom_in[i]:
+            axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+            for j in range(3):
+                for k in range(3):
+                    if k == 0:
+                        sc = axins.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                           label=label[6 * j + k],
+                                           s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                    else:
+                        axins.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                      color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
+                                      s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                    axins.scatter(tv[i][6 * j + k + 3], obj[i][6 * j + k + 3], marker=round_marker[k],
+                                  label=label[6 * j + k + 3],
+                                  color=sc.get_facecolors()[0].tolist(), alpha=1)
+            axins.set_xlim(zoom_in_xlim[i][0], zoom_in_xlim[i][1])
+            axins.set_ylim(zoom_in_ylim[i][0], zoom_in_ylim[i][1])
+
+            ax.indicate_inset_zoom(axins, edgecolor="black")
+
+            # annotate the best point
+
+            axins.annotate(label[best_index[i]], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
+                           xycoords='data', xytext=(0, 40), textcoords='offset points',
+                           arrowprops=dict(arrowstyle='->', color='black'),
+                           va='center', ha='left', fontsize=8)
+
+        else:
+            ax.annotate(label[best_index[i]], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
+                        xycoords='data', xytext=(0, 40), textcoords='offset points',
+                        arrowprops=dict(arrowstyle='->', color='black'),
+                        va='center', ha='left', fontsize=8)
+        ax.set_title(instance_name[i], fontsize=16)
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    fig.legend(lines, labels, bbox_to_anchor=(0.1, 0.01, 0.8, 1), loc='lower center', mode='expand',
+               borderaxespad=0, ncol=6, prop={'size': 10}, borderpad=0.5)
+    plt.savefig("../figure_paper/binary_all_points_zoomin_new.png")
+
+
+def draw_separate_time():
+    num_qubits = [2, 4, 6, 2, 2, 2, 2, 2, 4]
+    num_controller = [2, 2, 2, 2, 2, 2, 2, 5, 12]
+    num_steps = [40, 40, 40, 100, 200, 300, 400, 80, 200]
+
+    time_continuous = [[0.13, 1.77, 19.56],
+                       [2.89, 27.99, 163.08],
+                       [27.94, 341.43, 1195.41],
+                       [1.12, 79.55, 21.75],
+                       [0.75, 192.78, 70.21],
+                       [1.26, 348.96, 100.59],
+                       [1.02, 432.73, 150.25],
+                       [3.01, 154.05, 39.86],
+                       [663.08, 1403.03, 564.95]]
+    iteration_continuous = [[7, 132, 100],
+                            [44, 914, 100],
+                            [51, 1578, 100],
+                            [111, 3146, 100],
+                            [31, 3279, 100],
+                            [39, 3900, 100],
+                            [21, 3929, 100],
+                            [244, 3832, 100],
+                            [4345, 4247, 100]]
+    time_cia = [[0.55, 0.50, 0.55, 0.52, 0.57, 0.72],
+                [19.29, 61.83, 13.50, 61.83, 6.49, 61.83],
+                [7.92, 64.36, 8.89, 64.62, 25.79, 64.70],
+                [28.46, 67.41, 22.86, 67.22, 38.42, 67.30],
+                [0.89, 1.34, 0.87, 1.87, 3.83, 60.76],
+                [70.94, 71.45, 70.87, 70.83, 71.01, 71.23]]
+    iteration_cia = [[39, 3715, 39, 4627, 18, 5106],
+                     [15, 759, 17, 2578, 17, 925],
+                     [8, 2473, 8, 3730, 8, 2508],
+                     [5, 3, 2, 2, 2, 7],
+                     [36786, 25685, 5916, 27432, 4136, 54921],
+                     [555, 14349, 10, 9878, 21326, 29421],
+                     [31236, 2069, 8482, 1242, 1837, 26378],
+                     [1, 1, 1, 1, 1514, 24639],
+                     [349, 1545, 889, 1595, 1570, 2137]]
+    time_alb = [[3.41, 2.26, 1.27, 5.21, 2.25, 1.90, 2.26, 1.59, 1.24],
+                [3.36, 5.12, 1.21, 5.53, 5.13, 1.23, 7.90, 4.94, 2.14],
+                [16.95, 41.42, 18.51, 11.11, 39.53, 24.02, 9.88, 33.36, 10.84],
+                [12.69, 19.67, 0.91, 16.96, 20.34, 33.99, 30.09, 21.46, 12.58],
+                [70.36, 74.83, 19.89, 56.97, 84.95, 24.04, 56.90, 51.37, 16.65],
+                [9.12, 150.25, 113.02, 30.48, 169.47, 129.21, 25.57, 107.17, 82.44],
+                [27.82, 208.79, 153.63, 26.22, 139.69, 155.07, 33.77, 157.57, 157.87],
+                [4.84, 5.40, 4.88, 3.18, 9.21, 3.14, 4.70, 2.73, 1.68],
+                [26.08, 64.29, 41.43, 46.26, 74.88, 20.02, 9.05, 59.21, 39.78]]
+    iteration_alb = [[255, 170, 93, 379, 170, 154, 262, 150, 91],
+                      [127, 207, 43, 191, 207, 43, 280, 194, 68],
+                      [94, 219, 100, 62, 208, 144, 56, 174, 56],
+                      [394, 521, 1377, 506, 550, 33, 993, 575, 464],
+                      [1245, 945, 301, 1031, 1050, 323, 998, 574, 270],
+                      [106, 1238, 944, 395, 1335, 1288, 317, 895, 935],
+                      [249, 1246, 1035, 251, 1010, 1138, 397, 1009, 1182],
+                      [97, 88, 108, 65, 156, 65, 33, 39, 33],
+                      [108, 186, 143, 108, 153, 71, 36, 135, 158]]
+
+    time_continuous = np.log10(np.array(time_continuous))
+    iteration_continuous = np.log10(np.array(iteration_continuous))
+    time_cia = np.log10(np.array(time_cia))
+    iteration_cia = np.log10(np.array(iteration_cia))
+    time_alb = np.log10(np.array(time_alb))
+    iteration_alb = np.log10(np.array(iteration_alb))
+
+    label_continuous = ["pGRAPE", "TR", "ADMM"]
+
+    label = ["pGRAPE+SUR", "pGRAPE+MT", "pGRAPE+MS", "pGRAPE+SUR+ALB", "pGRAPE+MT+ALB", "pGRAPE+MS+ALB",
+             "TR+SUR", "TR+MT", "TR+MS", "TR+SUR+ALB", "TR+MT+ALB", "TR+MS+ALB",
+             "ADMM+SUR", "ADMM+MT", "ADMM+MS", "ADMM+SUR+ALB", "ADMM+MT+ALB", "ADMM+MS+ALB"]
+    method = ["pGRAPE", "TR", "ADMM"]
+    round_marker = ['o', '^', '*']
+    instance_name = ["Energy2", "Energy4", "Energy6",
+                     "CNOT5", "CNOT10", "CNOT15", "CNOT20",
+                     "CircuitH2", "CircuitLiH"]
+    num_instances = len(instance_name)
+
+    instance_name = ["Energy-", "CNOT-", "Circuit-"]
+
+    xaxis = [2 ** num_qubits[i] * num_controller[i] * num_steps[i] for i in range(num_instances)]
+    xaxis = np.log10(np.array(xaxis))
+    idx_instance = [0, 3, 7, 9]
+
+    matplotlib.rcParams['text.usetex'] = True
+    fig = plt.figure(figsize=(9, 4), dpi=300)
+    ax = fig.add_subplot(1, 2, 1)
+    # fig.subplots_adjust(left=0.13, right=0.95, top=0.9, bottom=0.2)
+    fig.subplots_adjust(left=0.08, right=0.88, top=0.95, bottom=0.12)
+    for i in range(len(instance_name)):
+        for j in range(3):
+            if j == 0:
+                sc = ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+                                 np.array(time_continuous)[idx_instance[i]: idx_instance[i + 1], j],
+                                 marker=round_marker[j], label=instance_name[i] + method[j])
+            else:
+                ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+                            np.array(time_continuous)[idx_instance[i]: idx_instance[i + 1], j],
+                            marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                            label=instance_name[i] + method[j])
+
+    # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+    # for i in range(len(instance_name)):
+    #     for j in range(3):
+    #         if j == 0:
+    #             sc = axins.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+    #                              np.array(time_continuous)[idx_instance[i]: idx_instance[i + 1], j],
+    #                              marker=round_marker[j], label=instance_name[i] + method[j])
+    #         else:
+    #             axins.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+    #                         np.array(time_continuous)[idx_instance[i]: idx_instance[i + 1], j],
+    #                         marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+    #                         label=instance_name[i] + method[j])
+    # axins.set_xlim(0, 1000)
+    # axins.set_ylim(-10, 60)
+    #
+    # ax.indicate_inset_zoom(axins, edgecolor="black")
+
+    # plt.xlabel("Number of qubits multiplied by number of variables")
+    plt.xlabel(r'$\log_{10} (2^q\times N\times T)$')
+    plt.ylabel("Common logarithm of CPU time (s)")
+    ax.set_title("CPU time (s)")
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    # fig.legend(lines, labels, bbox_to_anchor=(0.25, 0.01, 0.5, 1), loc='lower center', mode='expand',
+    #            borderaxespad=0, ncol=3, prop={'size': 6}, borderpad=0.5)
+    # fig.legend(lines, labels, bbox_to_anchor=(1, 0.5), loc='center right', prop={'size': 6}, borderpad=0.5)
+    # plt.savefig("../figure_paper/time_continuous_new_log.png")
+
+    # fig, ax = plt.figure(dpi=300)
+    # fig.subplots_adjust(left=0.13, right=0.95, top=0.9, bottom=0.2)
+    # fig.subplots_adjust(left=0.11, right=0.82, top=0.95, bottom=0.12)
+    ax = fig.add_subplot(1, 2, 2)
+    for i in range(len(instance_name)):
+        for j in range(3):
+            if j == 0:
+                sc = ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+                                 np.array(iteration_continuous)[idx_instance[i]: idx_instance[i + 1], j],
+                                 marker=round_marker[j], label=instance_name[i] + method[j])
+            else:
+                ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+                            np.array(iteration_continuous)[idx_instance[i]: idx_instance[i + 1], j],
+                            marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                            label=instance_name[i] + method[j])
+
+    # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+    # for i in range(len(instance_name)):
+    #     for j in range(3):
+    #         if j == 0:
+    #             sc = axins.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+    #                              np.array(iteration_continuous)[idx_instance[i]: idx_instance[i + 1], j],
+    #                              marker=round_marker[j], label=instance_name[i] + method[j])
+    #         else:
+    #             axins.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+    #                         np.array(iteration_continuous)[idx_instance[i]: idx_instance[i + 1], j],
+    #                         marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+    #                         label=instance_name[i] + method[j])
+    # axins.set_xlim(0, 2000)
+    # axins.set_ylim(-10, 150)
+    #
+    # ax.indicate_inset_zoom(axins, edgecolor="black")
+
+    # plt.xlabel("Number of qubits multiplied by number of variables")
+    plt.xlabel(r'$\log_{10} (2^q\times N\times T)$')
+    plt.ylabel("Common logarithm of iterations")
+    ax.set_title("Iteration")
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    # fig.legend(lines, labels, bbox_to_anchor=(0.25, 0.01, 0.5, 1), loc='lower center', mode='expand',
+    #            borderaxespad=0, ncol=3, prop={'size': 6}, borderpad=0.5)
+    fig.legend(lines, labels, bbox_to_anchor=(1, 0.5), loc='center right', prop={'size': 6}, borderpad=0.5)
+    plt.savefig("../figure_paper/time_and_iteration_continuous_new_log.png")
+
+    # fig, ax = plt.figure(dpi=300)
+
+    fig.subplots_adjust(left=0.13, right=0.95, top=0.9, bottom=0.2)
+    for i in range(len(instance_name)):
+        for j in range(3):
+            if j == 0:
+                sc = plt.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+                                 np.array(time_continuous)[idx_instance[i]: idx_instance[i + 1], j] /
+                                 np.array(iteration_continuous)[idx_instance[i]: idx_instance[i + 1], j],
+                                 marker=round_marker[j], label=instance_name[i] + method[j])
+            else:
+                plt.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+                            np.array(time_continuous)[idx_instance[i]: idx_instance[i + 1], j] /
+                            np.array(iteration_continuous)[idx_instance[i]: idx_instance[i + 1], j],
+                            marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                            label=instance_name[i] + method[j])
+
+    axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+    for i in range(len(instance_name)):
+        for j in range(3):
+            if j == 0:
+                sc = axins.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+                                   np.array(time_continuous)[idx_instance[i]: idx_instance[i + 1], j] /
+                                 np.array(iteration_continuous)[idx_instance[i]: idx_instance[i + 1], j],
+                                 marker=round_marker[j], label=instance_name[i] + method[j])
+            else:
+                axins.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+                              np.array(time_continuous)[idx_instance[i]: idx_instance[i + 1], j] /
+                              np.array(iteration_continuous)[idx_instance[i]: idx_instance[i + 1], j],
+                            marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                            label=instance_name[i] + method[j])
+    axins.set_xlim(0, 2000)
+    axins.set_ylim(-0.05, 0.8)
+
+    ax.indicate_inset_zoom(axins, edgecolor="black")
+
+    # plt.xlabel("Number of qubits multiplied by number of variables")
+    plt.xlabel(r'$\log_{10} (2^q\times N\times T)$')
+    plt.ylabel("Time per iteration")
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    fig.legend(lines, labels, bbox_to_anchor=(0.25, 0.01, 0.5, 1), loc='lower center', mode='expand',
+               borderaxespad=0, ncol=3, prop={'size': 6}, borderpad=0.5)
+    # plt.savefig("../figure_paper/time_per_iteration_continuous_zoomin.png")
+
+    fig = plt.figure(figsize=(9, 4), dpi=300)
+    ax = fig.add_subplot(1, 2, 1)
+    # fig.subplots_adjust(left=0.13, right=0.95, top=0.9, bottom=0.2)
+    fig.subplots_adjust(left=0.08, right=0.85, top=0.95, bottom=0.12)
+    area = [matplotlib.rcParams['lines.markersize'] ** 2, 2 * matplotlib.rcParams['lines.markersize'] ** 2]
+    alpha = [1, 1/5]
+    for i in range(1, len(instance_name)):
+        for j in range(3):
+            for k in range(2):
+                if j == 0 and k == 0:
+                    sc = ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+                                     np.array(time_cia)[idx_instance[i] - 3: idx_instance[i + 1] - 3, 2*j+k],
+                                     marker=round_marker[j], label=instance_name[i] + label[6*j+k+1],
+                                     s=area[k], alpha=alpha[k])
+                else:
+                    ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+                                np.array(time_cia)[idx_instance[i] - 3: idx_instance[i + 1] - 3, 2*j+k],
+                                marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                                label=instance_name[i] + label[6*j+k+1], s=area[k], alpha=alpha[k])
+
+    # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+    # for i in range(1, len(instance_name)):
+    #     for j in range(3):
+    #         for k in range(2):
+    #             if j == 0 and k == 0:
+    #                 sc = plt.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+    #                                  np.array(time_cia)[idx_instance[i] - 3: idx_instance[i + 1] - 3, 2*j+k],
+    #                                  marker=round_marker[j], label=instance_name[i] + label[6*j+k+1],
+    #                                  s=area[k], alpha=alpha[k])
+    #             else:
+    #                 plt.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+    #                             np.array(time_cia)[idx_instance[i] - 3: idx_instance[i + 1] - 3, 2*j+k],
+    #                             marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+    #                             label=instance_name[i] + label[6*j+k+1], s=area[k], alpha=alpha[k])
+    # axins.set_xlim(0, 1000)
+    # axins.set_ylim(-10, 60)
+    #
+    # ax.indicate_inset_zoom(axins, edgecolor="black")
+
+    # plt.xlabel("Number of qubits multiplied by number of variables")
+    plt.xlabel(r'$\log_{10} (2^q\times N\times T)$')
+    plt.ylabel("Common logarithm of CPU time (s)")
+    ax.set_title("CPU time (s)")
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    # fig.legend(lines, labels, bbox_to_anchor=(0.15, 0.01, 0.7, 1), loc='lower center', mode='expand',
+    #            borderaxespad=0, ncol=4, prop={'size': 6}, borderpad=0.5)
+    # fig.legend(lines, labels, bbox_to_anchor=(1, 0.5), loc='center right', prop={'size': 6}, borderpad=0.5)
+    # plt.savefig("../figure_paper/time_cia_new_log.png")
+
+    # fig, ax = plt.figure(dpi=300)
+    # fig.subplots_adjust(left=0.11, right=0.8, top=0.95, bottom=0.12)
+    # fig.subplots_adjust(left=0.13, right=0.95, top=0.9, bottom=0.2)
+    ax = fig.add_subplot(1, 2, 2)
+    for i in range(1, len(instance_name)):
+        for j in range(3):
+            for k in range(2):
+                if j == 0 and k == 0:
+                    sc = ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+                                     np.array(iteration_cia)[idx_instance[i] - 3: idx_instance[i + 1] - 3, 2*j+k],
+                                     marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 1],
+                                     s=area[k], alpha=alpha[k])
+                else:
+                    ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+                                np.array(iteration_cia)[idx_instance[i] - 3: idx_instance[i + 1] - 3, 2*j+k],
+                                marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                                label=instance_name[i] + label[6 * j + k + 1], s=area[k], alpha=alpha[k])
+
+    # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+    # for i in range(len(instance_name)):
+    #     for j in range(3):
+    #         for k in range(2):
+    #             if j == 0 and k == 0:
+    #                 sc = plt.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+    #                                  np.array(iteration_cia)[idx_instance[i]: idx_instance[i + 1], 2*j+k],
+    #                                  marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 1],
+    #                                  s=area[k], alpha=alpha[k])
+    #             else:
+    #                 plt.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+    #                             np.array(iteration_cia)[idx_instance[i]: idx_instance[i + 1], 2*j+k],
+    #                             marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+    #                             label=instance_name[i] + label[6 * j + k + 1], s=area[k], alpha=alpha[k])
+    # axins.set_xlim(0, 2000)
+    # axins.set_ylim(-10, 150)
+    #
+    # ax.indicate_inset_zoom(axins, edgecolor="black")
+
+    # plt.xlabel("Number of qubits multiplied by number of variables")
+    plt.xlabel(r'$\log_{10} (2^q\times N\times T)$')
+    plt.ylabel("Common logarithm of iterations")
+    ax.set_title("Iteration")
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    # fig.legend(lines, labels, bbox_to_anchor=(0.15, 0.01, 0.7, 1), loc='lower center', mode='expand',
+    #            borderaxespad=0, ncol=4, prop={'size': 6}, borderpad=0.5)
+    fig.legend(lines, labels, bbox_to_anchor=(1, 0.5), loc='center right', prop={'size': 6}, borderpad=0.5)
+    plt.savefig("../figure_paper/time_and_iteration_cia_new_log.png")
+
+    # fig, ax = plt.figure(dpi=300)
+    # fig.subplots_adjust(left=0.11, right=0.75, top=0.95, bottom=0.12)
+    fig = plt.figure(figsize=(9, 4), dpi=300)
+    # fig.subplots_adjust(left=0.13, right=0.95, top=0.9, bottom=0.2)
+    fig.subplots_adjust(left=0.08, right=0.83, top=0.95, bottom=0.12)
+    ax = fig.add_subplot(1, 2, 1)
+    area = [matplotlib.rcParams['lines.markersize'] ** 2, 2 * matplotlib.rcParams['lines.markersize'] ** 2,
+            4 * matplotlib.rcParams['lines.markersize'] ** 2]
+    alpha = [1, 2/3, 1/3]
+    for i in range(len(instance_name)):
+        for j in range(3):
+            for k in range(3):
+                if j == 0 and k == 0:
+                    sc = ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+                                     np.array(time_alb)[idx_instance[i]: idx_instance[i + 1], 2*j+k],
+                                     marker=round_marker[j], label=instance_name[i] + label[6*j+k+3],
+                                     s=area[k], alpha=alpha[k])
+                else:
+                    ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+                                np.array(time_alb)[idx_instance[i]: idx_instance[i + 1], 2*j+k],
+                                marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                                label=instance_name[i] + label[6*j+k+3], s=area[k], alpha=alpha[k])
+
+    # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+    # for i in range(1, len(instance_name)):
+    #     for j in range(3):
+    #         for k in range(2):
+    #             if j == 0 and k == 0:
+    #                 sc = plt.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+    #                                  np.array(time_cia)[idx_instance[i] - 3: idx_instance[i + 1] - 3, 2*j+k],
+    #                                  marker=round_marker[j], label=instance_name[i] + label[6*j+k+1],
+    #                                  s=area[k], alpha=alpha[k])
+    #             else:
+    #                 plt.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+    #                             np.array(time_cia)[idx_instance[i] - 3: idx_instance[i + 1] - 3, 2*j+k],
+    #                             marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+    #                             label=instance_name[i] + label[6*j+k+1], s=area[k], alpha=alpha[k])
+    # axins.set_xlim(0, 1000)
+    # axins.set_ylim(-10, 60)
+    #
+    # ax.indicate_inset_zoom(axins, edgecolor="black")
+
+    # plt.xlabel("Number of qubits multiplied by number of variables")
+    plt.xlabel(r'$\log_{10} (2^q\times N\times T)$')
+    plt.ylabel("Common logarithm of CPU time (s)")
+    ax.set_title("CPU time (s)")
+
+    # lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    # fig.legend(lines, labels, bbox_to_anchor=(1, 0.5), loc='center right', mode='expand',
+    #            borderaxespad=0, ncol=2, prop={'size': 6}, borderpad=0.5)
+    # fig.legend(lines, labels, bbox_to_anchor=(1, 0.5), loc='center right', prop={'size': 6}, borderpad=0.5)
+    # plt.savefig("../figure_paper/time_alb_log.png")
+
+    # fig, ax = plt.figure(dpi=300)
+    # fig.subplots_adjust(left=0.11, right=0.75, top=0.95, bottom=0.12)
+    # fig = plt.figure(dpi=300)
+    ax = fig.add_subplot(1, 2, 2)
+    for i in range(len(instance_name)):
+        for j in range(3):
+            for k in range(3):
+                if j == 0 and k == 0:
+                    sc = ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+                                     np.array(iteration_alb)[idx_instance[i]: idx_instance[i + 1], 2*j+k],
+                                     marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 3],
+                                     s=area[k], alpha=alpha[k])
+                else:
+                    ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+                                np.array(iteration_alb)[idx_instance[i]: idx_instance[i + 1], 2*j+k],
+                                marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                                label=instance_name[i] + label[6 * j + k + 3], s=area[k], alpha=alpha[k])
+
+    # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+    # for i in range(len(instance_name)):
+    #     for j in range(3):
+    #         for k in range(2):
+    #             if j == 0 and k == 0:
+    #                 sc = plt.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+    #                                  np.array(iteration_cia)[idx_instance[i]: idx_instance[i + 1], 2*j+k],
+    #                                  marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 1],
+    #                                  s=area[k], alpha=alpha[k])
+    #             else:
+    #                 plt.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
+    #                             np.array(iteration_cia)[idx_instance[i]: idx_instance[i + 1], 2*j+k],
+    #                             marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+    #                             label=instance_name[i] + label[6 * j + k + 1], s=area[k], alpha=alpha[k])
+    # axins.set_xlim(0, 2000)
+    # axins.set_ylim(-10, 150)
+    #
+    # ax.indicate_inset_zoom(axins, edgecolor="black")
+
+    # plt.xlabel("Number of qubits multiplied by number of variables")
+    matplotlib.rcParams['text.usetex'] = True
+    plt.xlabel(r'$\log_{10} (2^q\times N\times T)$')
+    plt.ylabel("Common logarithm of iterations")
+    ax.set_title("Iteration")
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    # fig.legend(lines, labels, bbox_to_anchor=(0.15, 0.01, 0.7, 1), loc='lower center', mode='expand',
+    #            borderaxespad=0, ncol=6, prop={'size': 6}, borderpad=0.5)
+    fig.legend(lines, labels, bbox_to_anchor=(1, 0.5), loc='center right', prop={'size': 6}, borderpad=0.5)
+    plt.savefig("../figure_paper/time_and_iteration_alb_log.png")
+
+
+def draw_selected_time():
+    num_qubits = [2, 4, 6, 2, 2, 2, 2, 2, 4]
+    num_controller = [2, 2, 2, 2, 2, 2, 2, 5, 12]
+    num_steps = [40, 40, 40, 100, 200, 300, 400, 80, 200]
+
+    time_continuous = [[0.13, 1.77, 19.56],
+                       [2.89, 27.99, 163.08],
+                       [27.94, 341.43, 1195.41],
+                       [1.12, 79.55, 21.75],
+                       [0.75, 192.78, 70.21],
+                       [1.26, 348.96, 100.59],
+                       [1.02, 432.73, 150.25],
+                       [3.01, 154.05, 39.86],
+                       [663.08, 1403.03, 564.95]]
+    iteration_continuous = [[7, 132, 100],
+                            [44, 914, 100],
+                            [51, 1578, 100],
+                            [111, 3146, 100],
+                            [31, 3279, 100],
+                            [39, 3900, 100],
+                            [21, 3929, 100],
+                            [244, 3832, 100],
+                            [4345, 4247, 100]]
+    time_cia = [[0.55, 0.50, 0.55, 0.52, 0.57, 0.72],
+                [19.29, 61.83, 13.50, 61.83, 6.49, 61.83],
+                [7.92, 64.36, 8.89, 64.62, 25.79, 64.70],
+                [28.46, 67.41, 22.86, 67.22, 38.42, 67.30],
+                [0.89, 1.34, 0.87, 1.87, 3.83, 60.76],
+                [70.94, 71.45, 70.87, 70.83, 71.01, 71.23]]
+    iteration_cia = [[39, 3715, 39, 4627, 18, 5106],
+                     [15, 759, 17, 2578, 17, 925],
+                     [8, 2473, 8, 3730, 8, 2508],
+                     [5, 3, 2, 2, 2, 7],
+                     [36786, 25685, 5916, 27432, 4136, 54921],
+                     [555, 14349, 10, 9878, 21326, 29421],
+                     [31236, 2069, 8482, 1242, 1837, 26378],
+                     [1, 1, 1, 1, 1514, 24639],
+                     [349, 1545, 889, 1595, 1570, 2137]]
+    time_alb = [[3.41, 2.26, 1.27, 5.21, 2.25, 1.90, 2.26, 1.59, 1.24],
+                [3.36, 5.12, 1.21, 5.53, 5.13, 1.23, 7.90, 4.94, 2.14],
+                [16.95, 41.42, 18.51, 11.11, 39.53, 24.02, 9.88, 33.36, 10.84],
+                [12.69, 19.67, 0.91, 16.96, 20.34, 33.99, 30.09, 21.46, 12.58],
+                [70.36, 74.83, 19.89, 56.97, 84.95, 24.04, 56.90, 51.37, 16.65],
+                [9.12, 150.25, 113.02, 30.48, 169.47, 129.21, 25.57, 107.17, 82.44],
+                [27.82, 208.79, 153.63, 26.22, 139.69, 155.07, 33.77, 157.57, 157.87],
+                [4.84, 5.40, 4.88, 3.18, 9.21, 3.14, 4.70, 2.73, 1.68],
+                [26.08, 64.29, 41.43, 46.26, 74.88, 20.02, 9.05, 59.21, 39.78]]
+    iteration_alb = [[255, 170, 93, 379, 170, 154, 262, 150, 91],
+                     [127, 207, 43, 191, 207, 43, 280, 194, 68],
+                     [94, 219, 100, 62, 208, 144, 56, 174, 56],
+                     [394, 521, 1377, 506, 550, 33, 993, 575, 464],
+                     [1245, 945, 301, 1031, 1050, 323, 998, 574, 270],
+                     [106, 1238, 944, 395, 1335, 1288, 317, 895, 935],
+                     [249, 1246, 1035, 251, 1010, 1138, 397, 1009, 1182],
+                     [97, 88, 108, 65, 156, 65, 33, 39, 33],
+                     [108, 186, 143, 108, 153, 71, 36, 135, 158]]
+
+    time_continuous = np.log10(np.array(time_continuous))
+    iteration_continuous = np.log10(np.array(iteration_continuous))
+    time_cia = np.log10(np.array(time_cia))
+    iteration_cia = np.log10(np.array(iteration_cia))
+    time_alb = np.log10(np.array(time_alb))
+    iteration_alb = np.log10(np.array(iteration_alb))
+
+    label_continuous = ["pGRAPE", "TR", "ADMM"]
+
+    label = ["pGRAPE+SUR", "pGRAPE+MT", "pGRAPE+MS", "pGRAPE+SUR+ALB", "pGRAPE+MT+ALB", "pGRAPE+MS+ALB",
+             "TR+SUR", "TR+MT", "TR+MS", "TR+SUR+ALB", "TR+MT+ALB", "TR+MS+ALB",
+             "ADMM+SUR", "ADMM+MT", "ADMM+MS", "ADMM+SUR+ALB", "ADMM+MT+ALB", "ADMM+MS+ALB"]
+    method = ["pGRAPE", "TR", "ADMM"]
+    round_marker = ['o', '^', '*']
+    instance_name = ["Energy2", "Energy4", "Energy6",
+                     "CNOT5", "CNOT10", "CNOT15", "CNOT20",
+                     "CircuitH2", "CircuitLiH"]
+    num_instances = len(instance_name)
+
+    instance_name = ["Energy-", "CNOT-", "Circuit-"]
+
+    xaxis = [2 ** num_qubits[i] * num_controller[i] * num_steps[i] for i in range(num_instances)]
+    xaxis = np.log10(np.array(xaxis))
+    idx_instance = [2, 6, 8]
+
+    matplotlib.rcParams['text.usetex'] = True
+    fig = plt.figure(figsize=(9, 4), dpi=300)
+    # fig.subplots_adjust(left=0.13, right=0.95, top=0.9, bottom=0.2)
+    fig.subplots_adjust(left=0.08, right=0.88, top=0.95, bottom=0.12)
+    ax = fig.add_subplot(1, 2, 1)
+    # fig.subplots_adjust(left=0.11, right=0.82, top=0.95, bottom=0.12)
+    for i in range(len(instance_name)):
+        for j in range(3):
+            if j == 0:
+                sc = ax.scatter(np.array(xaxis)[idx_instance[i]],
+                                 np.array(time_continuous)[idx_instance[i], j],
+                                 marker=round_marker[j], label=instance_name[i] + method[j])
+            else:
+                ax.scatter(np.array(xaxis)[idx_instance[i]],
+                            np.array(time_continuous)[idx_instance[i], j],
+                            marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                            label=instance_name[i] + method[j])
+
+    # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+    # for i in range(len(instance_name)):
+    #     for j in range(3):
+    #         if j == 0:
+    #             sc = axins.scatter(np.array(xaxis)[idx_instance[i]],
+    #                              np.array(time_continuous)[idx_instance[i], j],
+    #                              marker=round_marker[j], label=instance_name[i] + method[j])
+    #         else:
+    #             axins.scatter(np.array(xaxis)[idx_instance[i]],
+    #                         np.array(time_continuous)[idx_instance[i], j],
+    #                         marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+    #                         label=instance_name[i] + method[j])
+    # axins.set_xlim(0, 1000)
+    # axins.set_ylim(-10, 60)
+    #
+    # ax.indicate_inset_zoom(axins, edgecolor="black")
+
+    # plt.xlabel("Number of qubits multiplied by number of variables")
+    plt.xlabel(r'$\log_{10} (2^q\times N\times T)$')
+    plt.ylabel("Common logarithm of CPU time (s)")
+    ax.set_title("CPU time (s)")
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    # fig.legend(lines, labels, bbox_to_anchor=(0.25, 0.01, 0.5, 1), loc='lower center', mode='expand',
+    #            borderaxespad=0, ncol=3, prop={'size': 6}, borderpad=0.5)
+    # fig.legend(lines, labels, bbox_to_anchor=(1, 0.5), loc='center right', prop={'size': 6}, borderpad=0.5)
+    # plt.savefig("../figure_paper/time_continuous_new_log_select.png")
+
+    # fig, ax = plt.figure(dpi=300)
+    # # fig.subplots_adjust(left=0.13, right=0.95, top=0.9, bottom=0.2)
+    # fig.subplots_adjust(left=0.11, right=0.82, top=0.95, bottom=0.12)
+    ax = fig.add_subplot(1, 2, 2)
+    for i in range(len(instance_name)):
+        for j in range(3):
+            if j == 0:
+                sc = ax.scatter(np.array(xaxis)[idx_instance[i]],
+                                 np.array(iteration_continuous)[idx_instance[i], j],
+                                 marker=round_marker[j], label=instance_name[i] + method[j])
+            else:
+                ax.scatter(np.array(xaxis)[idx_instance[i]],
+                            np.array(iteration_continuous)[idx_instance[i], j],
+                            marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                            label=instance_name[i] + method[j])
+
+    # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+    # for i in range(len(instance_name)):
+    #     for j in range(3):
+    #         if j == 0:
+    #             sc = axins.scatter(np.array(xaxis)[idx_instance[i]],
+    #                              np.array(iteration_continuous)[idx_instance[i], j],
+    #                              marker=round_marker[j], label=instance_name[i] + method[j])
+    #         else:
+    #             axins.scatter(np.array(xaxis)[idx_instance[i]],
+    #                         np.array(iteration_continuous)[idx_instance[i], j],
+    #                         marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+    #                         label=instance_name[i] + method[j])
+    # axins.set_xlim(0, 2000)
+    # axins.set_ylim(-10, 150)
+    #
+    # ax.indicate_inset_zoom(axins, edgecolor="black")
+
+    # plt.xlabel("Number of qubits multiplied by number of variables")
+    plt.xlabel(r'$\log_{10} (2^q\times N\times T)$')
+    plt.ylabel("Common logarithm of iterations")
+    ax.set_title("Iteration")
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    # fig.legend(lines, labels, bbox_to_anchor=(0.25, 0.01, 0.5, 1), loc='lower center', mode='expand',
+    #            borderaxespad=0, ncol=3, prop={'size': 6}, borderpad=0.5)
+    fig.legend(lines, labels, bbox_to_anchor=(1, 0.5), loc='center right', prop={'size': 6}, borderpad=0.5)
+    plt.savefig("../figure_paper/time_and_iteration_continuous_new_log_select.png")
+
+    # fig, ax = plt.figure(dpi=300)
+    # fig.subplots_adjust(left=0.13, right=0.95, top=0.9, bottom=0.2)
+    # for i in range(len(instance_name)):
+    #     for j in range(3):
+    #         if j == 0:
+    #             sc = plt.scatter(np.array(xaxis)[idx_instance[i]],
+    #                              np.array(time_continuous)[idx_instance[i], j] /
+    #                              np.array(iteration_continuous)[idx_instance[i], j],
+    #                              marker=round_marker[j], label=instance_name[i] + method[j])
+    #         else:
+    #             plt.scatter(np.array(xaxis)[idx_instance[i]],
+    #                         np.array(time_continuous)[idx_instance[i], j] /
+    #                         np.array(iteration_continuous)[idx_instance[i], j],
+    #                         marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+    #                         label=instance_name[i] + method[j])
+    #
+    # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+    # for i in range(len(instance_name)):
+    #     for j in range(3):
+    #         if j == 0:
+    #             sc = axins.scatter(np.array(xaxis)[idx_instance[i]],
+    #                                np.array(time_continuous)[idx_instance[i], j] /
+    #                                np.array(iteration_continuous)[idx_instance[i], j],
+    #                                marker=round_marker[j], label=instance_name[i] + method[j])
+    #         else:
+    #             axins.scatter(np.array(xaxis)[idx_instance[i]],
+    #                           np.array(time_continuous)[idx_instance[i], j] /
+    #                           np.array(iteration_continuous)[idx_instance[i], j],
+    #                           marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+    #                           label=instance_name[i] + method[j])
+    # axins.set_xlim(0, 2000)
+    # axins.set_ylim(-0.05, 0.8)
+    #
+    # ax.indicate_inset_zoom(axins, edgecolor="black")
+    #
+    # # plt.xlabel("Number of qubits multiplied by number of variables")
+    # plt.xlabel(r'$\log_{10} (2^q\times N\times T)$')
+    # plt.ylabel("Time per iteration")
+    #
+    # lines, labels = fig.axes[0].get_legend_handles_labels()
+    #
+    # fig.legend(lines, labels, bbox_to_anchor=(0.25, 0.01, 0.5, 1), loc='lower center', mode='expand',
+    #            borderaxespad=0, ncol=3, prop={'size': 6}, borderpad=0.5)
+    # plt.savefig("../figure_paper/time_per_iteration_continuous_zoomin.png")
+
+    # fig, ax = plt.figure(dpi=300)
+    # # fig.subplots_adjust(left=0.13, right=0.95, top=0.9, bottom=0.2)
+    # fig.subplots_adjust(left=0.11, right=0.8, top=0.95, bottom=0.12)
+    fig = plt.figure(figsize=(9, 4), dpi=300)
+    # fig.subplots_adjust(left=0.13, right=0.95, top=0.9, bottom=0.2)
+    fig.subplots_adjust(left=0.08, right=0.85, top=0.95, bottom=0.12)
+    ax = fig.add_subplot(1, 2, 1)
+    area = [matplotlib.rcParams['lines.markersize'] ** 2, 2 * matplotlib.rcParams['lines.markersize'] ** 2]
+    alpha = [1, 1 / 5]
+    for i in range(1, len(instance_name)):
+        for j in range(3):
+            for k in range(2):
+                if j == 0 and k == 0:
+                    sc = ax.scatter(np.array(xaxis)[idx_instance[i]],
+                                     np.array(time_cia)[idx_instance[i] - 3 - 3, 2 * j + k],
+                                     marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 1],
+                                     s=area[k], alpha=alpha[k])
+                else:
+                    ax.scatter(np.array(xaxis)[idx_instance[i]],
+                                np.array(time_cia)[idx_instance[i] - 3 - 3, 2 * j + k],
+                                marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                                label=instance_name[i] + label[6 * j + k + 1], s=area[k], alpha=alpha[k])
+
+    # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+    # for i in range(1, len(instance_name)):
+    #     for j in range(3):
+    #         for k in range(2):
+    #             if j == 0 and k == 0:
+    #                 sc = plt.scatter(np.array(xaxis)[idx_instance[i]],
+    #                                  np.array(time_cia)[idx_instance[i] - 3 - 3, 2*j+k],
+    #                                  marker=round_marker[j], label=instance_name[i] + label[6*j+k+1],
+    #                                  s=area[k], alpha=alpha[k])
+    #             else:
+    #                 plt.scatter(np.array(xaxis)[idx_instance[i]],
+    #                             np.array(time_cia)[idx_instance[i] - 3 - 3, 2*j+k],
+    #                             marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+    #                             label=instance_name[i] + label[6*j+k+1], s=area[k], alpha=alpha[k])
+    # axins.set_xlim(0, 1000)
+    # axins.set_ylim(-10, 60)
+    #
+    # ax.indicate_inset_zoom(axins, edgecolor="black")
+
+    # plt.xlabel("Number of qubits multiplied by number of variables")
+    plt.xlabel(r'$\log_{10} (2^q\times N\times T)$')
+    plt.ylabel("Common logarithm of CPU time (s)")
+    ax.set_title("CPU time (s)")
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    # fig.legend(lines, labels, bbox_to_anchor=(0.15, 0.01, 0.7, 1), loc='lower center', mode='expand',
+    #            borderaxespad=0, ncol=4, prop={'size': 6}, borderpad=0.5)
+    # fig.legend(lines, labels, bbox_to_anchor=(1, 0.5), loc='center right', prop={'size': 6}, borderpad=0.5)
+    # plt.savefig("../figure_paper/time_cia_new_log_select.png")
+
+    # fig, ax = plt.figure(dpi=300)
+    # fig.subplots_adjust(left=0.11, right=0.8, top=0.95, bottom=0.12)
+    # fig.subplots_adjust(left=0.13, right=0.95, top=0.9, bottom=0.2)
+    ax = fig.add_subplot(1, 2, 2)
+    for i in range(1, len(instance_name)):
+        for j in range(3):
+            for k in range(2):
+                if j == 0 and k == 0:
+                    sc = ax.scatter(np.array(xaxis)[idx_instance[i]],
+                                     np.array(iteration_cia)[idx_instance[i] - 3 - 3, 2 * j + k],
+                                     marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 1],
+                                     s=area[k], alpha=alpha[k])
+                else:
+                    ax.scatter(np.array(xaxis)[idx_instance[i]],
+                                np.array(iteration_cia)[idx_instance[i] - 3 - 3, 2 * j + k],
+                                marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                                label=instance_name[i] + label[6 * j + k + 1], s=area[k], alpha=alpha[k])
+
+    # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+    # for i in range(len(instance_name)):
+    #     for j in range(3):
+    #         for k in range(2):
+    #             if j == 0 and k == 0:
+    #                 sc = plt.scatter(np.array(xaxis)[idx_instance[i]],
+    #                                  np.array(iteration_cia)[idx_instance[i], 2*j+k],
+    #                                  marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 1],
+    #                                  s=area[k], alpha=alpha[k])
+    #             else:
+    #                 plt.scatter(np.array(xaxis)[idx_instance[i]],
+    #                             np.array(iteration_cia)[idx_instance[i], 2*j+k],
+    #                             marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+    #                             label=instance_name[i] + label[6 * j + k + 1], s=area[k], alpha=alpha[k])
+    # axins.set_xlim(0, 2000)
+    # axins.set_ylim(-10, 150)
+    #
+    # ax.indicate_inset_zoom(axins, edgecolor="black")
+
+    # plt.xlabel("Number of qubits multiplied by number of variables")
+    plt.xlabel(r'$\log_{10} (2^q\times N\times T)$')
+    plt.ylabel("Common logarithm of iterations")
+    ax.set_title("Iteration")
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    # fig.legend(lines, labels, bbox_to_anchor=(0.15, 0.01, 0.7, 1), loc='lower center', mode='expand',
+    #            borderaxespad=0, ncol=4, prop={'size': 6}, borderpad=0.5)
+    fig.legend(lines, labels, bbox_to_anchor=(1, 0.5), loc='center right', prop={'size': 6}, borderpad=0.5)
+    plt.savefig("../figure_paper/time_and_iteration_cia_new_log_select.png")
+
+    # fig, ax = plt.figure(dpi=300)
+    # fig.subplots_adjust(left=0.11, right=0.75, top=0.95, bottom=0.12)
+    fig = plt.figure(figsize=(9, 4), dpi=300)
+    # fig.subplots_adjust(left=0.13, right=0.95, top=0.9, bottom=0.2)
+    fig.subplots_adjust(left=0.08, right=0.83, top=0.95, bottom=0.12)
+    ax = fig.add_subplot(1, 2, 1)
+    area = [matplotlib.rcParams['lines.markersize'] ** 2, 2 * matplotlib.rcParams['lines.markersize'] ** 2,
+            4 * matplotlib.rcParams['lines.markersize'] ** 2]
+    alpha = [1, 2 / 3, 1 / 3]
+    for i in range(len(instance_name)):
+        for j in range(3):
+            for k in range(3):
+                if j == 0 and k == 0:
+                    sc = plt.scatter(np.array(xaxis)[idx_instance[i]],
+                                     np.array(time_alb)[idx_instance[i], 2 * j + k],
+                                     marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 3],
+                                     s=area[k], alpha=alpha[k])
+                else:
+                    plt.scatter(np.array(xaxis)[idx_instance[i]],
+                                np.array(time_alb)[idx_instance[i], 2 * j + k],
+                                marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                                label=instance_name[i] + label[6 * j + k + 3], s=area[k], alpha=alpha[k])
+
+    # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+    # for i in range(1, len(instance_name)):
+    #     for j in range(3):
+    #         for k in range(2):
+    #             if j == 0 and k == 0:
+    #                 sc = plt.scatter(np.array(xaxis)[idx_instance[i]],
+    #                                  np.array(time_cia)[idx_instance[i] - 3 - 3, 2*j+k],
+    #                                  marker=round_marker[j], label=instance_name[i] + label[6*j+k+1],
+    #                                  s=area[k], alpha=alpha[k])
+    #             else:
+    #                 plt.scatter(np.array(xaxis)[idx_instance[i]],
+    #                             np.array(time_cia)[idx_instance[i] - 3 - 3, 2*j+k],
+    #                             marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+    #                             label=instance_name[i] + label[6*j+k+1], s=area[k], alpha=alpha[k])
+    # axins.set_xlim(0, 1000)
+    # axins.set_ylim(-10, 60)
+    #
+    # ax.indicate_inset_zoom(axins, edgecolor="black")
+
+    # plt.xlabel("Number of qubits multiplied by number of variables")
+    plt.xlabel(r'$\log_{10} (2^q\times N\times T)$')
+    plt.ylabel("Common logarithm of CPU time (s)")
+    ax.set_title("CPU time (s)")
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    # fig.legend(lines, labels, bbox_to_anchor=(1, 0.5), loc='center right', mode='expand',
+    #            borderaxespad=0, ncol=2, prop={'size': 6}, borderpad=0.5)
+    # fig.legend(lines, labels, bbox_to_anchor=(1, 0.5), loc='center right', prop={'size': 6}, borderpad=0.5)
+    # plt.savefig("../figure_paper/time_alb_log_select.png")
+
+    # fig, ax = plt.figure(dpi=300)
+    # fig.subplots_adjust(left=0.11, right=0.75, top=0.95, bottom=0.12)
+    ax = fig.add_subplot(1, 2, 2)
+    for i in range(len(instance_name)):
+        for j in range(3):
+            for k in range(3):
+                if j == 0 and k == 0:
+                    sc = ax.scatter(np.array(xaxis)[idx_instance[i]],
+                                     np.array(iteration_alb)[idx_instance[i], 2 * j + k],
+                                     marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 3],
+                                     s=area[k], alpha=alpha[k])
+                else:
+                    ax.scatter(np.array(xaxis)[idx_instance[i]],
+                                np.array(iteration_alb)[idx_instance[i], 2 * j + k],
+                                marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                                label=instance_name[i] + label[6 * j + k + 3], s=area[k], alpha=alpha[k])
+
+    # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+    # for i in range(len(instance_name)):
+    #     for j in range(3):
+    #         for k in range(2):
+    #             if j == 0 and k == 0:
+    #                 sc = plt.scatter(np.array(xaxis)[idx_instance[i]],
+    #                                  np.array(iteration_cia)[idx_instance[i], 2*j+k],
+    #                                  marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 1],
+    #                                  s=area[k], alpha=alpha[k])
+    #             else:
+    #                 plt.scatter(np.array(xaxis)[idx_instance[i]],
+    #                             np.array(iteration_cia)[idx_instance[i], 2*j+k],
+    #                             marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+    #                             label=instance_name[i] + label[6 * j + k + 1], s=area[k], alpha=alpha[k])
+    # axins.set_xlim(0, 2000)
+    # axins.set_ylim(-10, 150)
+    #
+    # ax.indicate_inset_zoom(axins, edgecolor="black")
+
+    # plt.xlabel("Number of qubits multiplied by number of variables")
+    matplotlib.rcParams['text.usetex'] = True
+    plt.xlabel(r'$\log_{10} (2^q\times N\times T)$')
+    plt.ylabel("Common logarithm of iterations")
+    ax.set_title("Iteration")
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    # fig.legend(lines, labels, bbox_to_anchor=(0.15, 0.01, 0.7, 1), loc='lower center', mode='expand',
+    #            borderaxespad=0, ncol=6, prop={'size': 6}, borderpad=0.5)
+    fig.legend(lines, labels, bbox_to_anchor=(1, 0.5), loc='center right', prop={'size': 6}, borderpad=0.5)
+    plt.savefig("../figure_paper/time_and_iteration_alb_log_select.png")
 
 
 if __name__ == '__main__':
@@ -2771,4 +3810,7 @@ if __name__ == '__main__':
     # draw_time_cia()
     # draw_time_alb()
     # draw_continuous_points()
-    draw_binary_points(subgraph=True, zoomin=True)
+    # draw_binary_points(subgraph=True, zoomin=True)
+    # draw_all_binary_points()
+    draw_separate_time()
+    # draw_selected_time()

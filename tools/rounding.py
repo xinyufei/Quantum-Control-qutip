@@ -22,7 +22,7 @@ class Rounding:
         self.n_ctrls = None
         self.delta_t = None
 
-    def build_rounding_optimizer(self, b_rel, evo_time, time_steps, type, min_up_times=0, max_switches=10, 
+    def build_rounding_optimizer(self, b_rel, evo_time, time_steps, type, min_up_times=0, max_switches=10,
                                  time_limit=60, compare=False, bin=True, out_fig=None):
         self.b_rel = b_rel
         self.evo_time = evo_time
@@ -78,7 +78,7 @@ class Rounding:
             marker_size_list = [5, 5, 8, 5]
             for j in range(self.n_ctrls):
                 plt.step(self.t, np.hstack((self.b_bin[:, j], self.b_bin[-1, j])),
-                         marker_list[j % 4], where='post', linewidth=2, label='controller ' + str(j + 1), 
+                         marker_list[j % 4], where='post', linewidth=2, label='controller ' + str(j + 1),
                          markevery=(j, 4), markersize=marker_size_list[j % 4])
             plt.legend()
             if self.type == "SUR":
@@ -89,7 +89,7 @@ class Rounding:
                 plt.savefig(self.out_fig + "_binary_maxswitch" + str(self.max_switches) + ".png")
 
     def rounding_with_sos1(self):
-        
+
         # step = int(self.time_steps / 200)
         # 
         # new_b_real = np.zeros((self.time_steps, self.b_rel.shape[1]))
@@ -227,7 +227,13 @@ class Rounding:
             round.optimize()
             print(round.objval)
 
+            # round.reset()
+            # round = round.relax()
+            # round.optimize()
+
         end = time.time()
+
+        exit()
 
         if self.type in ["minup", "maxswitch"]:
             self.b_bin = np.zeros((self.time_steps, self.n_ctrls))
@@ -243,6 +249,13 @@ class Rounding:
 
         return self.b_bin, end - start
 
-# if __name__ == '__main__':
-#     file_name = "control/CNOTSUM1_evotime20_n_ts400_ptypeZERO_offset0.5_objUNIT.csv"
-#     rounding(file_name, "SUR", 1)
+
+if __name__ == '__main__':
+    file_name = "../example/control/Trustregion/MoleculeVQE_LiH_evotime20.0_n_ts200_ptypeWARM_offset0.5_objUNIT_sum_penalty0.1_alpha0.0001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv"
+    evo_time = 20
+    time_steps = 200
+    b_rel = np.loadtxt(file_name, delimiter=',')
+    round = Rounding()
+    round.build_rounding_optimizer(b_rel, evo_time, time_steps, "minup", min_up_times=5, max_switches=40,
+                                   time_limit=60, compare=False, bin=True, out_fig=None)
+    round.rounding_without_sos1(False)

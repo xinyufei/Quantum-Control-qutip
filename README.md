@@ -40,7 +40,7 @@ git clone https://github.com/xinyufei/Quantum-Control-qutip.git
 Then, install Qutip by 
 
 ```shell
-python setup.py
+python setup.py develop
 ```
 
 ## Usage

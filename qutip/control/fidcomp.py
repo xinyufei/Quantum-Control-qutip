@@ -334,6 +334,7 @@ class FidCompUnitary(FidelityComputer):
         # Phase options are
         #  SU - global phase important
         #  PSU - global phase is not important
+        #  SQ - square form of PSU
         """
         self._init_phase_option(value)
 
@@ -345,6 +346,9 @@ class FidCompUnitary(FidelityComputer):
         elif value == 'SU':
             self.fid_norm_func = self.normalize_SU
             self.grad_norm_func = self.normalize_gradient_SU
+        elif value == 'SQ':
+            self.fid_norm_func = self.normalize_SQ
+            self.grad_norm_func = self.normalize_gradient_SQ
         elif value is None:
             raise errors.UsageError("phase_option cannot be set to None"
                                     " for this FidelityComputer.")
@@ -436,6 +440,24 @@ class FidCompUnitary(FidelityComputer):
         fid_pn = self.get_fidelity_prenorm()
         grad_normalized = np.real(grad * np.exp(-1j * np.angle(fid_pn)) /
                                   self.dimensional_norm)
+        return grad_normalized
+
+    def normalize_SQ(self, A):
+        try:
+            if A.shape[0] == A.shape[1]:
+               # input is an operator (Qobj, array, sparse etc), so
+                norm = _trace(A)
+            else:
+                raise TypeError("Cannot compute trace (not square)")
+        except:
+            # assume input is already scalar and hence assumed
+            # to be the prenormalised scalar value, e.g. fidelity
+            norm = A
+        return np.abs(norm) ** 2 / self.dimensional_norm
+    
+    def normalize_gradient_SQ(self, grad):
+        fid_pn = self.get_fidelity_prenorm()
+        grad_normalized = 2 * np.real(grad * np.conj(fid_pn) / self.dimensional_norm)
         return grad_normalized
 
     def get_fid_err(self):

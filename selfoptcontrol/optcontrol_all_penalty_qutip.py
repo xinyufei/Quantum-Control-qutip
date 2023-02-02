@@ -140,7 +140,7 @@ class Optcontrol_General_Qutip():
                                            fid_err_targ=self.fid_err_targ, min_grad=min_grad,
                                            max_iter=self.max_iter_step, max_wall_time=self.max_wall_time_step,
                                            dyn_type='UNIT',
-                                           fid_type=self.obj_type, phase_option="PSU",
+                                           fid_type=self.obj_type, phase_option=self.phase_option,
                                            init_pulse_params={"offset": self.constant},
                                            gen_stats=True)
         optim.ADMM_rho = self.rho
@@ -188,6 +188,9 @@ class Optcontrol_General_Qutip():
         fid = 0
         if self.obj_type == "UNIT" and self.phase_option == "PSU":
             fid = np.abs(np.trace(
+                np.linalg.inv(self.X_targ).dot(evolution_result))) / self.X_targ.shape[0]
+        if self.obj_type == "UNIT" and self.phase_option == "SU":
+            fid = np.real(np.trace(
                 np.linalg.inv(self.X_targ).dot(evolution_result))) / self.X_targ.shape[0]
         return fid
 
@@ -268,8 +271,11 @@ class Optcontrol_General_Qutip():
                 grad_temp = expm_frechet(-1j * H[t] * delta_t, -1j * self.H_c[j] * delta_t, compute_expm=False)
                 g = np.trace(onto[t + 1].dot(grad_temp).dot(fwd[t]))
                 grad[t, j] = g
-        fid_pre = np.trace(self.X_targ.conj().T.dot(fwd[-1]))
-        fid_grad = - np.real(grad * np.exp(-1j * np.angle(fid_pre)) / self.X_targ.shape[0]).flatten()
+        if self.phase_option == "PSU":
+            fid_pre = np.trace(self.X_targ.conj().T.dot(fwd[-1]))
+            fid_grad = - np.real(grad * np.exp(-1j * np.angle(fid_pre)) / self.X_targ.shape[0]).flatten()
+        if self.phase_option == "SU":
+            fid_grad = - np.real(grad / self.X_targ.shape[0]).flatten()
 
         norm_grad = np.zeros((self.n_ts, self.n_ctrls))
         for j in range(self.n_ctrls):
@@ -388,6 +394,7 @@ class Optcontrol_General_Qutip():
             # time_iter.append(admm_opt_time - admm_start)
             time_iteration = admm_opt_time - admm_start - time_iter[-1]
             time_iter.append(time_iteration)
+            print("completed ADMM iteration", self.admm_num_iter, "with objective value", self.cur_obj)
             if admm_opt_time - admm_start >= self.max_wall_time_admm:
                 tr = "Exceed the max wall time of ADMM"
                 break

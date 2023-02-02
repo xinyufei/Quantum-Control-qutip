@@ -59,7 +59,7 @@ class Optcontrol_Penalized_Qutip():
 
     def build_optimizer(self, H_d, H_c, X_0, X_targ, n_ts, evo_time, amp_lbound=0, amp_ubound=1, ops_max_amp=1, 
                         fid_err_targ=1e-4, min_grad=1e-8, max_iter_step=500, max_wall_time_step=120,
-                        fid_type="UNIT", phase_option="PSU", p_type="ZERO", seed=None, constant=0, initial_control=None,
+                        fid_type="UNIT", phase_option="SU", p_type="ZERO", seed=None, constant=0, initial_control=None,
                         output_num=None, output_fig=None, output_control=None, penalty=10, max_controllers=1):
         self.H_d_qobj = H_d
         self.H_c_qobj = H_c
@@ -116,8 +116,14 @@ class Optcontrol_Penalized_Qutip():
                 np.random.seed(self.seed)
             self.init_amps = np.random.rand(
                 self.n_ts, self.n_ctrls) * (self.amp_ubound - self.amp_lbound) + self.amp_lbound
+            for t in range(self.n_ts):
+                while np.sum(self.init_amps[t, :]) == 0:
+                    self.init_amps[t, :] = np.random.rand(self.n_ctrls) * (
+                            self.amp_ubound - self.amp_lbound) + self.amp_lbound
+                self.init_amps[t, :] = self.init_amps[t, :] / np.sum(self.init_amps[t, :])
+                print(self.init_amps[t, :])
         if self.p_type == "CONSTANT":
-            self.init_amps = np.zeros((self.n_ts, self.n_ctrls)) + self.constant
+            self.init_amps = np.ones((self.n_ts, self.n_ctrls)) / self.n_ctrls
         if self.p_type == "WARM":
             # file = open(self.initial_control)
             warm_start_control = np.loadtxt(self.initial_control, delimiter=",")
@@ -126,6 +132,13 @@ class Optcontrol_Penalized_Qutip():
             for j in range(self.n_ctrls):
                 for time_step in range(self.n_ts):
                     self.init_amps[time_step, j] = warm_start_control[int(np.floor(time_step / step)), j]
+
+    def _initialize_props(self):
+        self.initial_props = []
+        for hc in self.H_c:
+            s, v = np.linalg.eigh(hc + self.H_d)
+            self.initial_props.append(np.dot(v.dot(np.diag(np.exp(-1j * s * self.evo_time / self.n_ts))), v.conj().T))
+            # print(self.initial_props[-1], expm(-1j * (hc + self.H_d) * self.evo_time / self.n_ts))
 
     def evolution(self, control_amps):
         delta_t = self.evo_time / self.n_ts
@@ -143,6 +156,9 @@ class Optcontrol_Penalized_Qutip():
         fid = 0
         if self.obj_type == "UNIT" and self.phase_option == "PSU":
             fid = np.abs(np.trace(
+                np.linalg.inv(self.X_targ).dot(evolution_result))) / self.X_targ.shape[0]
+        if self.obj_type == "UNIT" and self.phase_option == "SU":
+            fid = np.real(np.trace(
                 np.linalg.inv(self.X_targ).dot(evolution_result))) / self.X_targ.shape[0]
         return fid
 
@@ -206,10 +222,15 @@ class Optcontrol_Penalized_Qutip():
                 grad_temp = expm_frechet(-1j * H[t] * delta_t, -1j * self.ops_max_amp[j] * self.H_c[j] * delta_t, compute_expm=False)
                 g = np.trace(onto[t + 1].dot(grad_temp).dot(fwd[t]))
                 grad[t, j] = g
-        fid_pre = np.trace(self.X_targ.conj().T.dot(fwd[-1]))
-        fid_grad = - np.real(grad * np.exp(-1j * np.angle(fid_pre)) / self.X_targ.shape[0]).flatten()
+        if self.phase_option == "PSU":
+            fid_pre = np.trace(self.X_targ.conj().T.dot(fwd[-1]))
+            fid_grad = - np.real(grad * np.exp(-1j * np.angle(fid_pre)) / self.X_targ.shape[0]).flatten()
+        if self.phase_option == "SU":
+            fid_grad = - np.real(grad / self.X_targ.shape[0]).flatten()
 
         penalized_grad = self._penalized_gradient(control_amps)
+        
+        # print(fid_grad + penalized_grad.flatten())
 
         return fid_grad + penalized_grad.flatten()
 
@@ -233,14 +254,16 @@ class Optcontrol_Penalized_Qutip():
                                            fid_err_targ=self.fid_err_targ, min_grad=min_grad,
                                            max_iter=self.max_iter_step, max_wall_time=self.max_wall_time_step,
                                            dyn_type='UNIT',
-                                           fid_type=self.obj_type, phase_option="PSU",
+                                           fid_type=self.obj_type, phase_option=self.phase_option,
                                            init_pulse_params={"offset": self.constant},
-                                           gen_stats=True)
+                                           gen_stats=True, prop_type='HERMITIAN')
         optim.sum_penalty = self.penalty
         optim.max_controller = self.max_controllers
         dyn = optim.dynamics
         dyn.initialize_controls(self.init_amps)
+        dyn.initialize_props(self.initial_props)
         result = optim.run_optimization_sum_penalty()
+        # print(result[2]['grad'])
         # print(dyn._fwd_evo[-1])
         self.u = result.final_amps
         self.cur_obj = result.fid_err + self.compute_penalty(self.u)
@@ -248,6 +271,9 @@ class Optcontrol_Penalized_Qutip():
         self.num_iter_step = result.num_iter
         self.termination_reason = result.termination_reason
         self.result = result
+        print(self.compute_fid(self.evolution(self.u + 0.1 * optim.fid_err_grad_wrapper_sum_penalty(self.u).reshape((self.n_ts, self.n_ctrls)))))
+        print(optim.fid_err_func_wrapper_sum_penalty(self.u.reshape(-1)))
+        print(optim.fid_err_func_wrapper_sum_penalty(self.u.reshape(-1) + 0.1 * optim.fid_err_grad_wrapper_sum_penalty(self.u)))
         # results = scipy.optimize.fmin_l_bfgs_b(self._compute_err, self.init_amps.reshape(-1),
         #                                        bounds=[(self.amp_lbound, self.amp_ubound)] * self.n_ts * self.n_ctrls,
         #                                        pgtol=min_grad, fprime=self._fprime,
@@ -260,6 +286,7 @@ class Optcontrol_Penalized_Qutip():
 
     def optimize_penalized(self):
         self._initialize_control()
+        self._initialize_props()
         initial_amps = self.init_amps.copy()
         start = time.time()
         self._minimize_u()

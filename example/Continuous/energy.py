@@ -80,6 +80,10 @@ opt.build_optimizer(B, C, args.n, y0[0:2**args.n], args.n_ts, args.evo_time, arg
 opt.optimize()
 
 b_rel = np.loadtxt(output_control, delimiter=",")
+# b_rel = np.loadtxt("../control/Rounding/Energy6_evotime5.0_n_ts100_ptypeCONSTANT_offset0.5_instance1_1_SUR.csv", delimiter=',')
+# print(opt._compute_energy(b_rel[:, 0]))
+bin_result = time_evolution(np.zeros((2**args.n, 2**args.n), dtype=complex), [B, C], args.n_ts, args.evo_time, 
+                            b_rel, y0[0:2 ** args.n], False, 1)
 if len(b_rel.shape) == 1:
     b_rel = np.expand_dims(b_rel, axis=1)
 fig = plt.figure(dpi=300)
@@ -99,3 +103,4 @@ plt.savefig(output_fig.split(".png")[0] + "_continuous.png")
 f = open(output_num, "a+")
 print("total tv norm", compute_TV_norm(b_rel), file=f)
 print("true energy", min(get_diag(Jij)), file=f)
+print("real energy", compute_obj_energy(C, bin_result), file=f)

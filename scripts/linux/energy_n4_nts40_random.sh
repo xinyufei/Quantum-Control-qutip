@@ -2,42 +2,51 @@
 
 conda activate qcopt
 cd ../../example/Continuous/
-#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=240 --initial_type=CONSTANT --offset=0.5
-#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=2 --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5
-#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=3 --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5
-#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=4 --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5
-#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=5 --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5
+# python energy.py --name=EnergyAcc --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=4 --n_ts=80 --initial_type=CONSTANT --offset=0.5
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=6 --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=3 --evo_time=4 --n_ts=80 --initial_type=CONSTANT --offset=0.5
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=4 --evo_time=4 --n_ts=80 --initial_type=CONSTANT --offset=0.5
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=5 --evo_time=4 --n_ts=80 --initial_type=CONSTANT --offset=0.5
 #python energy.py --n=4 --num_edges=2 --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5
-python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=32 --initial_type=CONSTANT --offset=0.5
-python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=64 --initial_type=CONSTANT --offset=0.5
-python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=128 --initial_type=CONSTANT --offset=0.5
-python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=256 --initial_type=CONSTANT --offset=0.5
-python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=512 --initial_type=CONSTANT --offset=0.5
-python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=1024 --initial_type=CONSTANT --offset=0.5
-python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=2048 --initial_type=CONSTANT --offset=0.5
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=80 --initial_type=CONSTANT --offset=0.5
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=32 --initial_type=CONSTANT --offset=0.5
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=64 --initial_type=CONSTANT --offset=0.5
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=128 --initial_type=CONSTANT --offset=0.5
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=256 --initial_type=CONSTANT --offset=0.5
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=512 --initial_type=CONSTANT --offset=0.5
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=1024 --initial_type=CONSTANT --offset=0.5
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=2048 --initial_type=CONSTANT --offset=0.5
 
 cd ../ADMM/
-python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=32 --initial_type=WARM \
-    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts32_ptypeCONSTANT_offset0.5_instance1.csv" \
-    --alpha=1e-2 --rho=10 --max_iter_admm=30
-python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=64 --initial_type=WARM \
-    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts64_ptypeCONSTANT_offset0.5_instance1.csv" \
-    --alpha=1e-2 --rho=10 --max_iter_admm=30
-python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=128 --initial_type=WARM \
-    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts128_ptypeCONSTANT_offset0.5_instance1.csv" \
-    --alpha=1e-2 --rho=10 --max_iter_admm=30
-python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=256 --initial_type=WARM \
-    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts256_ptypeCONSTANT_offset0.5_instance1.csv" \
-    --alpha=1e-2 --rho=10 --max_iter_admm=30
-python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=512 --initial_type=WARM \
-    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts512_ptypeCONSTANT_offset0.5_instance1.csv" \
-    --alpha=1e-2 --rho=10 --max_iter_admm=30
-python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=1024 --initial_type=WARM \
-    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts1024_ptypeCONSTANT_offset0.5_instance1.csv" \
-    --alpha=1e-2 --rho=10 --max_iter_admm=30
-python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=2048 --initial_type=WARM \
-    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts2048_ptypeCONSTANT_offset0.5_instance1.csv" \
-    --alpha=1e-2 --rho=10 --max_iter_admm=30
+#python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=32 --initial_type=WARM \
+#    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts32_ptypeCONSTANT_offset0.5_instance1.csv" \
+#    --alpha=1e-2 --rho=10 --max_iter_admm=30
+#python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=32 --initial_type=WARM \
+#    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts32_ptypeCONSTANT_offset0.5_instance1.csv" \
+#    --alpha=1e-2 --rho=10 --max_iter_admm=30
+#python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=32 --initial_type=WARM \
+#    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts32_ptypeCONSTANT_offset0.5_instance1.csv" \
+#    --alpha=1e-2 --rho=10 --max_iter_admm=30
+
+#python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=64 --initial_type=WARM \
+#    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts64_ptypeCONSTANT_offset0.5_instance1.csv" \
+#    --alpha=1e-2 --rho=10 --max_iter_admm=30
+#python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=128 --initial_type=WARM \
+#    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts128_ptypeCONSTANT_offset0.5_instance1.csv" \
+#    --alpha=1e-2 --rho=10 --max_iter_admm=30
+#python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=256 --initial_type=WARM \
+#    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts256_ptypeCONSTANT_offset0.5_instance1.csv" \
+#    --alpha=1e-2 --rho=10 --max_iter_admm=30
+#python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=512 --initial_type=WARM \
+#    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts512_ptypeCONSTANT_offset0.5_instance1.csv" \
+#    --alpha=1e-2 --rho=10 --max_iter_admm=30
+#python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=1024 --initial_type=WARM \
+#    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts1024_ptypeCONSTANT_offset0.5_instance1.csv" \
+#    --alpha=1e-2 --rho=10 --max_iter_admm=30
+#python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=2048 --initial_type=WARM \
+#    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts2048_ptypeCONSTANT_offset0.5_instance1.csv" \
+#    --alpha=1e-2 --rho=10 --max_iter_admm=30
 #python energy.py --n=4 --rgraph=1 --seed=2 --num_edges=2 --evo_time=2 --n_ts=40 --initial_type=WARM \
 #    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance2.csv" \
 #    --alpha=1e-2 --rho=10 --max_iter_admm=100
@@ -66,24 +75,24 @@ python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=204
 #    --initial_control="../control/ADMM/EnergyADMM6_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100.csv" \
 #    --alpha=1e-1 --rho=10 --max_iter_admm=100
 cd ../Trustregion/
-#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=40 \
-#    --initial_file="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance1.csv" \
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=1 --evo_time=2 --n_ts=13 \
+#    --initial_file="../control/Continuous/Energy4_evotime2.0_n_ts13_ptypeCONSTANT_offset0.5_instance1.csv" \
 #    --alpha=0.01 --tr_type="tvc"
-#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=2 --evo_time=2 --n_ts=40 \
-#    --initial_file="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance2.csv" \
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=2 --evo_time=2 --n_ts=13 \
+#    --initial_file="../control/Continuous/Energy4_evotime2.0_n_ts13_ptypeCONSTANT_offset0.5_instance2.csv" \
 #    --alpha=0.01 --tr_type="tvc"
-#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=3 --evo_time=2 --n_ts=40 \
-#    --initial_file="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance3.csv" \
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=3 --evo_time=2 --n_ts=13 \
+#    --initial_file="../control/Continuous/Energy4_evotime2.0_n_ts13_ptypeCONSTANT_offset0.5_instance3.csv" \
 #    --alpha=0.01 --tr_type="tvc"
-#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=4 --evo_time=2 --n_ts=40 \
-#    --initial_file="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance4.csv" \
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=4 --evo_time=2 --n_ts=13 \
+#    --initial_file="../control/Continuous/Energy4_evotime2.0_n_ts13_ptypeCONSTANT_offset0.5_instance4.csv" \
 #    --alpha=0.01 --tr_type="tvc"
-#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=5 --evo_time=2 --n_ts=40 \
-#    --initial_file="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance5.csv" \
+#python energy.py --n=4 --num_edges=2 --rgraph=1 --seed=5 --evo_time=2 --n_ts=13 \
+#    --initial_file="../control/Continuous/Energy4_evotime2.0_n_ts13_ptypeCONSTANT_offset0.5_instance5.csv" \
 #    --alpha=0.01 --tr_type="tvc"
 cd ../Rounding/
-#python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=40 \
-#    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance1.csv" \
+#python energy.py --n=4 --rgraph=1 --seed=1 --num_edges=2 --evo_time=2 --n_ts=1200 \
+#    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance1_extend_ts_1200.csv" \
 #    --type=SUR
 #python energy.py --n=4 --rgraph=1 --seed=2 --num_edges=2 --evo_time=2 --n_ts=40 \
 #    --initial_control="../control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance2.csv" \

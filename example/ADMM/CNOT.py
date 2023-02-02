@@ -107,3 +107,5 @@ for j in range(b_rel.shape[1]):
              markersize=marker_size_list[j])
 plt.legend()
 plt.savefig(output_fig.split(".png")[0] + "_continuous.png")
+
+

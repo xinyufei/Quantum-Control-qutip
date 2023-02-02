@@ -8,12 +8,12 @@ from tools.auxiliary_energy import *
 
 def draw_stats():
     x = [0, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1, 10]
-    sum_norm = [167.48180578702548, 167.47867920029202, 95.40499099227462, 34.144492624667244,
-                30.14356912948749, 18.70981873414983, 0.3962903548156124, 5.55381795807922e-07,
-                8.428231286969557e-10]
-    # sum_norm = [4980.880077104522, 603.8538414769712, 332.6922609756568, 311.7450060080427,
-    #             176.5722320180486, 5.863445830245192e-06, 6.282453886269812e-07,
-    #             6.174458598795899e-10, 1.8027156950348233e-11]
+    # sum_norm = [167.48180578702548, 167.47867920029202, 95.40499099227462, 34.144492624667244,
+    #             30.14356912948749, 18.70981873414983, 0.3962903548156124, 5.55381795807922e-07,
+    #             8.428231286969557e-10]
+    sum_norm = [4980.880077104522, 603.8538414769712, 332.6922609756568, 311.7450060080427,
+                176.5722320180486, 5.863445830245192e-06, 6.282453886269812e-07,
+                6.174458598795899e-10, 1.8027156950348233e-11]
     # 8.822329350354554e-08, 1.4531085324239638e-08]
 
     # exit()
@@ -36,21 +36,21 @@ def draw_stats():
     plt.plot(np.log10(np.array(x[1:])), np.log10(np.array(sum_norm[1:])), '-o',
              label=r'Common logarithm of squared $L_2$ norm')
     matplotlib.rcParams['text.usetex'] = True
-    plt.plot(np.log10(np.array(x[1:])), np.log10(np.array(bound)), '--',
-             # label=r'$\log_{10}$' + str(round(sum_norm[constant_idx], 2)) + r'$-\log_{10} \rho$')
-             label=r'$-$' + str(round(-np.log10(sum_norm[constant_idx] * x[constant_idx]), 2)) + r'$-\log_{10} \rho$')
+    # plt.plot(np.log10(np.array(x[1:])), np.log10(np.array(bound)), '--',
+    #          # label=r'$\log_{10}$' + str(round(sum_norm[constant_idx], 2)) + r'$-\log_{10} \rho$')
+    #          label=r'$-$' + str(round(-np.log10(sum_norm[constant_idx] * x[constant_idx]), 2)) + r'$-\log_{10} \rho$')
     plt.xlabel("Common logarithm of penalty parameter")
     plt.ylabel("Common logarithm of squared penalized Term")
-    plt.legend(loc="lower left")
-    plt.savefig("../figure_paper/MoleculeNew_H2_evotime4.0_n_ts80_log10_wb.png")
-    # plt.savefig("../figure_paper/MoleculeVQE_LiH_evotime20.0_n_ts200_log10_wb.png")
+    # plt.legend(loc="lower left")
+    # plt.savefig("../figure_paper/MoleculeNew_H2_evotime4.0_n_ts80_log10_wb.png")
+    plt.savefig("../figure_paper/MoleculeVQE_LiH_evotime20.0_n_ts200_log10.png")
 
 
 def draw_control(evo_time, n_ts, control, output_fig):
     plt.figure(dpi=300)
     plt.xlabel("Time")
     plt.ylabel("Control amplitude")
-    plt.ylim([0, 1])
+    # plt.ylim([0, 1])
     marker_list = ['-o', '--^', '-*', '--s', '-P']
     marker_size_list = [5, 5, 8, 5, 8]
     for j in range(control.shape[1]):
@@ -58,7 +58,9 @@ def draw_control(evo_time, n_ts, control, output_fig):
                  where='post', linewidth=2, label='controller ' + str(j + 1), markevery=5,
                  markersize=marker_size_list[j])
     plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    # plt.legend()
     plt.tight_layout()
+    # plt.show()
     plt.savefig(output_fig)
 
 
@@ -2768,6 +2770,35 @@ def draw_binary_points(subgraph=False, zoomin=False):
             plt.savefig("../figure_paper/binary_selected_points_" + instance_name[i] + ".png")
 
 
+def draw_single_instance():
+    obj = [0.725308788, 0.642209082, 0.667169827, 0.737180807, 0.64047666,
+           0.646551316, 0.71987975, 0.624886021, 0.680177866]
+    obj = 1 - np.array(obj)
+    tv = [12, 6, 9.6, 13.2, 6, 9.6, 12.8, 6.4, 10]
+    label = ["pGRAPE+SUR+ALB", "pGRAPE+MT+ALB", "pGRAPE+MS+ALB",
+             "TR+SUR+ALB", "TR+MT+ALB", "TR+MS+ALB",
+             "ADMM+SUR+ALB", "ADMM+MT+ALB", "ADMM+MS+ALB"]
+    round_marker = ['o', '^', '*']
+    plt.figure()
+    for j in range(3):
+        for k in range(3):
+            if k == 0:
+                sc = plt.scatter(tv[3 * j + k], obj[3 * j + k], marker=round_marker[k],
+                                 label=label[3 * j + k],
+                                 s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+            else:
+                plt.scatter(tv[3 * j + k], obj[3 * j + k], marker=round_marker[k],
+                            color=sc.get_facecolors()[0].tolist(), label=label[3 * j + k],
+                            s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+    plt.xlabel("TV regularizer", fontsize=12)
+    plt.ylabel("Objective value", fontsize=12)
+    plt.legend()
+
+    # plt.show()
+    plt.savefig("../figure_paper/single_instance.png")
+    exit()
+
+
 def draw_all_binary_points():
     obj = [[4.22e-04, 0.159, 0.029, 1 - 0.9972747935307649, 1 - 0.9970696577756559, 1 - 0.9995860614857415,
             4.91e-03, 0.159, 0.040, 1 - 0.9958248817406824, 1 - 0.9970696577756559, 1 - 0.9979979002765695,
@@ -2795,7 +2826,13 @@ def draw_all_binary_points():
             0.006, 0.063, 0.008, 0.006, 0.054, 0.008],
            [0.168, 0.963, 0.287, 0.069, 0.002, 0.165,
             0.182, 0.966, 0.224, 0.083, 0.496, 0.12,
-            0.033, 0.658, 0.557, 0.033, 0.355, 0.021]]
+            0.033, 0.658, 0.557, 0.033, 0.355, 0.021],
+           [0.0523459466807515, 0.9827948498347934, 0.31867243650005617, 0.030208446767494457, 0.06924428963307105,
+            0.11637924333594363,
+            0.05234594668075154, 0.9919828000900485, 0.2355528236350698, 0.030155696543475385, 0.0292986255403469,
+            0.23555266835051036,
+            0.11607221100642362, 0.9928289544977336, 0.33891958328260097, 0.07058326935415893, 0.589512738022216,
+            0.06486577764107115]]
 
     tv = [[54, 4, 10, 10, 4, 10,
            54, 6, 10, 8, 4, 10,
@@ -2823,7 +2860,10 @@ def draw_all_binary_points():
            76, 8, 22, 76, 10, 22],
           [380, 68, 290, 378, 6, 286,
            380, 72, 288, 378, 70, 290,
-           252, 48, 148, 252, 48, 158]]
+           252, 48, 148, 252, 48, 158],
+          [396, 72, 336, 378, 58, 320,
+           396, 70, 336, 378, 34, 336,
+           398, 72, 294, 370, 50, 286]]
 
     label = ["pGRAPE+SUR", "pGRAPE+MT", "pGRAPE+MS", "pGRAPE+SUR+ALB", "pGRAPE+MT+ALB", "pGRAPE+MS+ALB",
              "TR+SUR", "TR+MT", "TR+MS", "TR+SUR+ALB", "TR+MT+ALB", "TR+MS+ALB",
@@ -2832,20 +2872,31 @@ def draw_all_binary_points():
     round_marker = ['o', '^', '*']
     instance_name = ["Energy2", "Energy4", "Energy6",
                      "CNOT5", "CNOT10", "CNOT15", "CNOT20",
-                     "CircuitH2", "CircuitLiH"]
+                     "CircuitH2", "CircuitLiH", "CircuitBeH2"]
     num_instances = len(instance_name)
     zoom_in = [True, True, True, False, True, True, True, False, False]
     zoom_in_xlim = [(3, 12), (5, 12), (9, 11), None, (10, 40), (25, 42), (25, 50), None, None]
     zoom_in_ylim = [(0, 0.004), (0.15, 0.21), (0.22, 0.27), None, (0, 0.01), (0, 0.007), (0, 0.003), None, None]
     best_index = [17, 5, 5, 15, 15, 16, 4, 10, 4]
+
+    print([(obj[i][best_index[i]], tv[i][best_index[i]]) for i in range(9)])
+    print([label[best_index[i]] for i in range(9)])
+    # exit()
     # best_label = ["pGRAPE+MS+ALB", "pGRAPE+MT+ALB", "pGRAPE+MT+ALB"]
     # use subgraphs and adjust the positions
     # if not zoomin:
     # height = 4.8 * 3 + 0.4 * 2
-    fig = plt.figure(figsize=(12, 12), dpi=300)
-    fig.subplots_adjust(hspace=0.3, wspace=0.2, left=0.07, right=0.98, top=0.95, bottom=0.11)
-    for i in range(num_instances):
-        ax = fig.add_subplot(3, 3, i + 1)
+    # fig = plt.figure(figsize=(12, 12), dpi=300)
+    # fig.subplots_adjust(hspace=0.3, wspace=0.2, left=0.07, right=0.98, top=0.95, bottom=0.11)
+    fig = plt.figure(figsize=(12, 4.8), dpi=300)
+    fig.subplots_adjust(hspace=0.4, wspace=0.2, left=0.05, right=0.98, top=0.9, bottom=0.22)
+    select = [2, 5, 7]
+    # for i in range(num_instances):
+    for ii in range(3):
+        i = select[ii]
+        # ax = fig.add_subplot(3, 3, i + 1)
+        ax = fig.add_subplot(1, 3, ii + 1)
+
         for j in range(3):
             for k in range(3):
                 if k == 0:
@@ -2862,6 +2913,9 @@ def draw_all_binary_points():
         plt.xlabel("TV regularizer", fontsize=12)
         if i % 3 == 0:
             plt.ylabel("Objective value", fontsize=12)
+
+        plt.show()
+        exit()
 
         if zoom_in[i]:
             axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
@@ -2899,15 +2953,18 @@ def draw_all_binary_points():
 
     lines, labels = fig.axes[0].get_legend_handles_labels()
 
+    # fig.legend(lines, labels, bbox_to_anchor=(0.1, 0.01, 0.8, 1), loc='lower center', mode='expand',
+    #            borderaxespad=0, ncol=6, prop={'size': 10}, borderpad=0.5)
     fig.legend(lines, labels, bbox_to_anchor=(0.1, 0.01, 0.8, 1), loc='lower center', mode='expand',
-               borderaxespad=0, ncol=6, prop={'size': 10}, borderpad=0.5)
-    plt.savefig("../figure_paper/binary_all_points_zoomin_new.png")
+               borderaxespad=0, ncol=6, prop={'size': 8}, borderpad=0.5)
+    # plt.savefig("../figure_paper/binary_all_points_zoomin_new.png")
+    plt.savefig("../figure_paper/slides_selected.png")
 
 
 def draw_separate_time():
-    num_qubits = [2, 4, 6, 2, 2, 2, 2, 2, 4]
-    num_controller = [2, 2, 2, 2, 2, 2, 2, 5, 12]
-    num_steps = [40, 40, 40, 100, 200, 300, 400, 80, 200]
+    num_qubits = [2, 4, 6, 2, 2, 2, 2, 1, 1, 1, 2, 4]
+    num_controller = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 5, 12]
+    num_steps = [40, 40, 40, 100, 200, 300, 400, 20, 60, 100, 80, 200]
 
     time_continuous = [[0.13, 1.77, 19.56],
                        [2.89, 27.99, 163.08],
@@ -2916,6 +2973,9 @@ def draw_separate_time():
                        [0.75, 192.78, 70.21],
                        [1.26, 348.96, 100.59],
                        [1.02, 432.73, 150.25],
+                       [0.05, 4.93, 2.63],
+                       [0.15, 48.81, 10.93],
+                       [0.11, 91.39, 34.05],
                        [3.01, 154.05, 39.86],
                        [663.08, 1403.03, 564.95]]
     iteration_continuous = [[7, 132, 100],
@@ -2925,14 +2985,21 @@ def draw_separate_time():
                             [31, 3279, 100],
                             [39, 3900, 100],
                             [21, 3929, 100],
+                            [15, 1268, 100],
+                            [24, 3563, 100],
+                            [8, 3793, 100],
                             [244, 3832, 100],
                             [4345, 4247, 100]]
     time_cia = [[0.55, 0.50, 0.55, 0.52, 0.57, 0.72],
                 [19.29, 61.83, 13.50, 61.83, 6.49, 61.83],
                 [7.92, 64.36, 8.89, 64.62, 25.79, 64.70],
                 [28.46, 67.41, 22.86, 67.22, 38.42, 67.30],
+                [0.05, 0.05, 0.04, 0.04, 0.06, 0.07],
+                [0.80, 6.62, 0.26, 41.37, 0.26, 60.19],
+                [0.97, 60.51, 4.26, 60.50, 0.66, 0.59],
                 [0.89, 1.34, 0.87, 1.87, 3.83, 60.76],
                 [70.94, 71.45, 70.87, 70.83, 71.01, 71.23]]
+    # pGRAPE+MT, pGRAPE+MS, TR+MT, TR+MS, ADMM+MT, ADMM+MS
     iteration_cia = [[39, 3715, 39, 4627, 18, 5106],
                      [15, 759, 17, 2578, 17, 925],
                      [8, 2473, 8, 3730, 8, 2508],
@@ -2940,6 +3007,12 @@ def draw_separate_time():
                      [36786, 25685, 5916, 27432, 4136, 54921],
                      [555, 14349, 10, 9878, 21326, 29421],
                      [31236, 2069, 8482, 1242, 1837, 26378],
+                     # [1, 1, 1, 1, 1, 1],
+                     # [1, 35322, 1, 15525, 247, 15028],
+                     # [1623, 44130, 1723, 33508, 2134, 1],
+                     [1, 1, 1, 1, 1, 1],
+                     [7403, 32640, 1, 47882, 1, 90179],
+                     [1255, 1815, 4136, 29462, 1, 1],
                      [1, 1, 1, 1, 1514, 24639],
                      [349, 1545, 889, 1595, 1570, 2137]]
     time_alb = [[3.41, 2.26, 1.27, 5.21, 2.25, 1.90, 2.26, 1.59, 1.24],
@@ -2949,17 +3022,26 @@ def draw_separate_time():
                 [70.36, 74.83, 19.89, 56.97, 84.95, 24.04, 56.90, 51.37, 16.65],
                 [9.12, 150.25, 113.02, 30.48, 169.47, 129.21, 25.57, 107.17, 82.44],
                 [27.82, 208.79, 153.63, 26.22, 139.69, 155.07, 33.77, 157.57, 157.87],
+                # [0.46, 0.40, 0.52, 0.39, 0.36, 0.49, 0.34, 0.40, 0.67],
+                # [11.71, 2.38, 9.41, 9.46, 1.81, 2.13, 7.82, 1.32, 3.70],
+                # [29.69, 11.22, 14.12, 21.46, 13.63, 10.94, 7.22, 4.90, 4.51]
+                [0.46, 0.45, 0.47, 0.39, 0.46, 0.31, 0.34, 0.47, 0.31],
+                [11.71, 7.36, 2.94, 9.46, 5.47, 8.63, 7.82, 5.82, 6.90],
+                [29.69, 16.16, 7.87, 21.46, 21.89, 14.11, 7.22, 17.05, 4.06],
                 [4.84, 5.40, 4.88, 3.18, 9.21, 3.14, 4.70, 2.73, 1.68],
                 [26.08, 64.29, 41.43, 46.26, 74.88, 20.02, 9.05, 59.21, 39.78]]
     iteration_alb = [[255, 170, 93, 379, 170, 154, 262, 150, 91],
-                      [127, 207, 43, 191, 207, 43, 280, 194, 68],
-                      [94, 219, 100, 62, 208, 144, 56, 174, 56],
-                      [394, 521, 1377, 506, 550, 33, 993, 575, 464],
-                      [1245, 945, 301, 1031, 1050, 323, 998, 574, 270],
-                      [106, 1238, 944, 395, 1335, 1288, 317, 895, 935],
-                      [249, 1246, 1035, 251, 1010, 1138, 397, 1009, 1182],
-                      [97, 88, 108, 65, 156, 65, 33, 39, 33],
-                      [108, 186, 143, 108, 153, 71, 36, 135, 158]]
+                     [127, 207, 43, 191, 207, 43, 280, 194, 68],
+                     [94, 219, 100, 62, 208, 144, 56, 174, 56],
+                     [394, 521, 1377, 506, 550, 33, 993, 575, 464],
+                     [1245, 945, 301, 1031, 1050, 323, 998, 574, 270],
+                     [106, 1238, 944, 395, 1335, 1288, 317, 895, 935],
+                     [249, 1246, 1035, 251, 1010, 1138, 397, 1009, 1182],
+                     [93, 63, 93, 63, 63, 62, 63, 63, 62],
+                     [725, 306, 188, 592, 231, 582, 458, 236, 470],
+                     [1181, 409, 298, 824, 558, 541, 256, 465, 161],
+                     [97, 88, 108, 65, 156, 65, 33, 39, 33],
+                     [108, 186, 143, 108, 153, 71, 36, 135, 158]]
 
     time_continuous = np.log10(np.array(time_continuous))
     iteration_continuous = np.log10(np.array(iteration_continuous))
@@ -2977,31 +3059,32 @@ def draw_separate_time():
     round_marker = ['o', '^', '*']
     instance_name = ["Energy2", "Energy4", "Energy6",
                      "CNOT5", "CNOT10", "CNOT15", "CNOT20",
+                     "NOT2", "NOT6", "NOT10",
                      "CircuitH2", "CircuitLiH"]
     num_instances = len(instance_name)
 
-    instance_name = ["Energy-", "CNOT-", "Circuit-"]
+    instance_name = ["Energy-", "CNOT-", "NOT-", "Circuit-"]
 
     xaxis = [2 ** num_qubits[i] * num_controller[i] * num_steps[i] for i in range(num_instances)]
     xaxis = np.log10(np.array(xaxis))
-    idx_instance = [0, 3, 7, 9]
+    idx_instance = [0, 3, 7, 10, 12]
 
     matplotlib.rcParams['text.usetex'] = True
-    fig = plt.figure(figsize=(9, 4), dpi=300)
+    fig = plt.figure(figsize=(10, 5), dpi=300)
     ax = fig.add_subplot(1, 2, 1)
     # fig.subplots_adjust(left=0.13, right=0.95, top=0.9, bottom=0.2)
-    fig.subplots_adjust(left=0.08, right=0.88, top=0.95, bottom=0.12)
+    fig.subplots_adjust(left=0.08, right=0.88, top=0.93, bottom=0.12)
     for i in range(len(instance_name)):
         for j in range(3):
             if j == 0:
                 sc = ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
-                                 np.array(time_continuous)[idx_instance[i]: idx_instance[i + 1], j],
-                                 marker=round_marker[j], label=instance_name[i] + method[j])
+                                np.array(time_continuous)[idx_instance[i]: idx_instance[i + 1], j],
+                                marker=round_marker[j], label=instance_name[i] + method[j])
             else:
                 ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
-                            np.array(time_continuous)[idx_instance[i]: idx_instance[i + 1], j],
-                            marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
-                            label=instance_name[i] + method[j])
+                           np.array(time_continuous)[idx_instance[i]: idx_instance[i + 1], j],
+                           marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                           label=instance_name[i] + method[j])
 
     # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
     # for i in range(len(instance_name)):
@@ -3040,13 +3123,13 @@ def draw_separate_time():
         for j in range(3):
             if j == 0:
                 sc = ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
-                                 np.array(iteration_continuous)[idx_instance[i]: idx_instance[i + 1], j],
-                                 marker=round_marker[j], label=instance_name[i] + method[j])
+                                np.array(iteration_continuous)[idx_instance[i]: idx_instance[i + 1], j],
+                                marker=round_marker[j], label=instance_name[i] + method[j])
             else:
                 ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
-                            np.array(iteration_continuous)[idx_instance[i]: idx_instance[i + 1], j],
-                            marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
-                            label=instance_name[i] + method[j])
+                           np.array(iteration_continuous)[idx_instance[i]: idx_instance[i + 1], j],
+                           marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                           label=instance_name[i] + method[j])
 
     # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
     # for i in range(len(instance_name)):
@@ -3074,8 +3157,10 @@ def draw_separate_time():
 
     # fig.legend(lines, labels, bbox_to_anchor=(0.25, 0.01, 0.5, 1), loc='lower center', mode='expand',
     #            borderaxespad=0, ncol=3, prop={'size': 6}, borderpad=0.5)
-    fig.legend(lines, labels, bbox_to_anchor=(1, 0.5), loc='center right', prop={'size': 6}, borderpad=0.5)
-    plt.savefig("../figure_paper/time_and_iteration_continuous_new_log.png")
+    fig.legend(lines, labels, bbox_to_anchor=(0.985, 0.5), loc='center right', prop={'size': 6}, borderpad=0.5)
+    plt.savefig("../figure_paper_revision/time_and_iteration_continuous_new_log.png")
+
+    # exit()
 
     # fig, ax = plt.figure(dpi=300)
 
@@ -3100,14 +3185,14 @@ def draw_separate_time():
             if j == 0:
                 sc = axins.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
                                    np.array(time_continuous)[idx_instance[i]: idx_instance[i + 1], j] /
-                                 np.array(iteration_continuous)[idx_instance[i]: idx_instance[i + 1], j],
-                                 marker=round_marker[j], label=instance_name[i] + method[j])
+                                   np.array(iteration_continuous)[idx_instance[i]: idx_instance[i + 1], j],
+                                   marker=round_marker[j], label=instance_name[i] + method[j])
             else:
                 axins.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
                               np.array(time_continuous)[idx_instance[i]: idx_instance[i + 1], j] /
                               np.array(iteration_continuous)[idx_instance[i]: idx_instance[i + 1], j],
-                            marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
-                            label=instance_name[i] + method[j])
+                              marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                              label=instance_name[i] + method[j])
     axins.set_xlim(0, 2000)
     axins.set_ylim(-0.05, 0.8)
 
@@ -3123,25 +3208,25 @@ def draw_separate_time():
                borderaxespad=0, ncol=3, prop={'size': 6}, borderpad=0.5)
     # plt.savefig("../figure_paper/time_per_iteration_continuous_zoomin.png")
 
-    fig = plt.figure(figsize=(9, 4), dpi=300)
+    fig = plt.figure(figsize=(10, 5), dpi=300)
     ax = fig.add_subplot(1, 2, 1)
     # fig.subplots_adjust(left=0.13, right=0.95, top=0.9, bottom=0.2)
-    fig.subplots_adjust(left=0.08, right=0.85, top=0.95, bottom=0.12)
+    fig.subplots_adjust(left=0.08, right=0.85, top=0.93, bottom=0.12)
     area = [matplotlib.rcParams['lines.markersize'] ** 2, 2 * matplotlib.rcParams['lines.markersize'] ** 2]
-    alpha = [1, 1/5]
+    alpha = [1, 1 / 5]
     for i in range(1, len(instance_name)):
         for j in range(3):
             for k in range(2):
                 if j == 0 and k == 0:
                     sc = ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
-                                     np.array(time_cia)[idx_instance[i] - 3: idx_instance[i + 1] - 3, 2*j+k],
-                                     marker=round_marker[j], label=instance_name[i] + label[6*j+k+1],
-                                     s=area[k], alpha=alpha[k])
+                                    np.array(time_cia)[idx_instance[i] - 3: idx_instance[i + 1] - 3, 2 * j + k],
+                                    marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 1],
+                                    s=area[k], alpha=alpha[k])
                 else:
                     ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
-                                np.array(time_cia)[idx_instance[i] - 3: idx_instance[i + 1] - 3, 2*j+k],
-                                marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
-                                label=instance_name[i] + label[6*j+k+1], s=area[k], alpha=alpha[k])
+                               np.array(time_cia)[idx_instance[i] - 3: idx_instance[i + 1] - 3, 2 * j + k],
+                               marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                               label=instance_name[i] + label[6 * j + k + 1], s=area[k], alpha=alpha[k])
 
     # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
     # for i in range(1, len(instance_name)):
@@ -3183,14 +3268,14 @@ def draw_separate_time():
             for k in range(2):
                 if j == 0 and k == 0:
                     sc = ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
-                                     np.array(iteration_cia)[idx_instance[i] - 3: idx_instance[i + 1] - 3, 2*j+k],
-                                     marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 1],
-                                     s=area[k], alpha=alpha[k])
+                                    np.array(iteration_cia)[idx_instance[i] - 3: idx_instance[i + 1] - 3, 2 * j + k],
+                                    marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 1],
+                                    s=area[k], alpha=alpha[k])
                 else:
                     ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
-                                np.array(iteration_cia)[idx_instance[i] - 3: idx_instance[i + 1] - 3, 2*j+k],
-                                marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
-                                label=instance_name[i] + label[6 * j + k + 1], s=area[k], alpha=alpha[k])
+                               np.array(iteration_cia)[idx_instance[i] - 3: idx_instance[i + 1] - 3, 2 * j + k],
+                               marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                               label=instance_name[i] + label[6 * j + k + 1], s=area[k], alpha=alpha[k])
 
     # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
     # for i in range(len(instance_name)):
@@ -3220,31 +3305,31 @@ def draw_separate_time():
 
     # fig.legend(lines, labels, bbox_to_anchor=(0.15, 0.01, 0.7, 1), loc='lower center', mode='expand',
     #            borderaxespad=0, ncol=4, prop={'size': 6}, borderpad=0.5)
-    fig.legend(lines, labels, bbox_to_anchor=(1, 0.5), loc='center right', prop={'size': 6}, borderpad=0.5)
-    plt.savefig("../figure_paper/time_and_iteration_cia_new_log.png")
+    fig.legend(lines, labels, bbox_to_anchor=(0.985, 0.5), loc='center right', prop={'size': 6}, borderpad=0.5)
+    plt.savefig("../figure_paper_revision/time_and_iteration_cia_new_log.png")
 
     # fig, ax = plt.figure(dpi=300)
     # fig.subplots_adjust(left=0.11, right=0.75, top=0.95, bottom=0.12)
-    fig = plt.figure(figsize=(9, 4), dpi=300)
+    fig = plt.figure(figsize=(10, 5), dpi=300)
     # fig.subplots_adjust(left=0.13, right=0.95, top=0.9, bottom=0.2)
-    fig.subplots_adjust(left=0.08, right=0.83, top=0.95, bottom=0.12)
+    fig.subplots_adjust(left=0.08, right=0.83, top=0.93, bottom=0.12)
     ax = fig.add_subplot(1, 2, 1)
     area = [matplotlib.rcParams['lines.markersize'] ** 2, 2 * matplotlib.rcParams['lines.markersize'] ** 2,
             4 * matplotlib.rcParams['lines.markersize'] ** 2]
-    alpha = [1, 2/3, 1/3]
+    alpha = [1, 2 / 3, 1 / 3]
     for i in range(len(instance_name)):
         for j in range(3):
             for k in range(3):
                 if j == 0 and k == 0:
                     sc = ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
-                                     np.array(time_alb)[idx_instance[i]: idx_instance[i + 1], 2*j+k],
-                                     marker=round_marker[j], label=instance_name[i] + label[6*j+k+3],
-                                     s=area[k], alpha=alpha[k])
+                                    np.array(time_alb)[idx_instance[i]: idx_instance[i + 1], 2 * j + k],
+                                    marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 3],
+                                    s=area[k], alpha=alpha[k])
                 else:
                     ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
-                                np.array(time_alb)[idx_instance[i]: idx_instance[i + 1], 2*j+k],
-                                marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
-                                label=instance_name[i] + label[6*j+k+3], s=area[k], alpha=alpha[k])
+                               np.array(time_alb)[idx_instance[i]: idx_instance[i + 1], 2 * j + k],
+                               marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                               label=instance_name[i] + label[6 * j + k + 3], s=area[k], alpha=alpha[k])
 
     # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
     # for i in range(1, len(instance_name)):
@@ -3286,14 +3371,14 @@ def draw_separate_time():
             for k in range(3):
                 if j == 0 and k == 0:
                     sc = ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
-                                     np.array(iteration_alb)[idx_instance[i]: idx_instance[i + 1], 2*j+k],
-                                     marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 3],
-                                     s=area[k], alpha=alpha[k])
+                                    np.array(iteration_alb)[idx_instance[i]: idx_instance[i + 1], 2 * j + k],
+                                    marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 3],
+                                    s=area[k], alpha=alpha[k])
                 else:
                     ax.scatter(np.array(xaxis)[idx_instance[i]: idx_instance[i + 1]],
-                                np.array(iteration_alb)[idx_instance[i]: idx_instance[i + 1], 2*j+k],
-                                marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
-                                label=instance_name[i] + label[6 * j + k + 3], s=area[k], alpha=alpha[k])
+                               np.array(iteration_alb)[idx_instance[i]: idx_instance[i + 1], 2 * j + k],
+                               marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                               label=instance_name[i] + label[6 * j + k + 3], s=area[k], alpha=alpha[k])
 
     # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
     # for i in range(len(instance_name)):
@@ -3324,8 +3409,8 @@ def draw_separate_time():
 
     # fig.legend(lines, labels, bbox_to_anchor=(0.15, 0.01, 0.7, 1), loc='lower center', mode='expand',
     #            borderaxespad=0, ncol=6, prop={'size': 6}, borderpad=0.5)
-    fig.legend(lines, labels, bbox_to_anchor=(1, 0.5), loc='center right', prop={'size': 6}, borderpad=0.5)
-    plt.savefig("../figure_paper/time_and_iteration_alb_log.png")
+    fig.legend(lines, labels, bbox_to_anchor=(0.985, 0.5), loc='center right', prop={'size': 6}, borderpad=0.5)
+    plt.savefig("../figure_paper_revision/time_and_iteration_alb_log.png")
 
 
 def draw_selected_time():
@@ -3420,13 +3505,13 @@ def draw_selected_time():
         for j in range(3):
             if j == 0:
                 sc = ax.scatter(np.array(xaxis)[idx_instance[i]],
-                                 np.array(time_continuous)[idx_instance[i], j],
-                                 marker=round_marker[j], label=instance_name[i] + method[j])
+                                np.array(time_continuous)[idx_instance[i], j],
+                                marker=round_marker[j], label=instance_name[i] + method[j])
             else:
                 ax.scatter(np.array(xaxis)[idx_instance[i]],
-                            np.array(time_continuous)[idx_instance[i], j],
-                            marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
-                            label=instance_name[i] + method[j])
+                           np.array(time_continuous)[idx_instance[i], j],
+                           marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                           label=instance_name[i] + method[j])
 
     # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
     # for i in range(len(instance_name)):
@@ -3465,13 +3550,13 @@ def draw_selected_time():
         for j in range(3):
             if j == 0:
                 sc = ax.scatter(np.array(xaxis)[idx_instance[i]],
-                                 np.array(iteration_continuous)[idx_instance[i], j],
-                                 marker=round_marker[j], label=instance_name[i] + method[j])
+                                np.array(iteration_continuous)[idx_instance[i], j],
+                                marker=round_marker[j], label=instance_name[i] + method[j])
             else:
                 ax.scatter(np.array(xaxis)[idx_instance[i]],
-                            np.array(iteration_continuous)[idx_instance[i], j],
-                            marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
-                            label=instance_name[i] + method[j])
+                           np.array(iteration_continuous)[idx_instance[i], j],
+                           marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                           label=instance_name[i] + method[j])
 
     # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
     # for i in range(len(instance_name)):
@@ -3561,14 +3646,14 @@ def draw_selected_time():
             for k in range(2):
                 if j == 0 and k == 0:
                     sc = ax.scatter(np.array(xaxis)[idx_instance[i]],
-                                     np.array(time_cia)[idx_instance[i] - 3 - 3, 2 * j + k],
-                                     marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 1],
-                                     s=area[k], alpha=alpha[k])
+                                    np.array(time_cia)[idx_instance[i] - 3 - 3, 2 * j + k],
+                                    marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 1],
+                                    s=area[k], alpha=alpha[k])
                 else:
                     ax.scatter(np.array(xaxis)[idx_instance[i]],
-                                np.array(time_cia)[idx_instance[i] - 3 - 3, 2 * j + k],
-                                marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
-                                label=instance_name[i] + label[6 * j + k + 1], s=area[k], alpha=alpha[k])
+                               np.array(time_cia)[idx_instance[i] - 3 - 3, 2 * j + k],
+                               marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                               label=instance_name[i] + label[6 * j + k + 1], s=area[k], alpha=alpha[k])
 
     # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
     # for i in range(1, len(instance_name)):
@@ -3610,14 +3695,14 @@ def draw_selected_time():
             for k in range(2):
                 if j == 0 and k == 0:
                     sc = ax.scatter(np.array(xaxis)[idx_instance[i]],
-                                     np.array(iteration_cia)[idx_instance[i] - 3 - 3, 2 * j + k],
-                                     marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 1],
-                                     s=area[k], alpha=alpha[k])
+                                    np.array(iteration_cia)[idx_instance[i] - 3 - 3, 2 * j + k],
+                                    marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 1],
+                                    s=area[k], alpha=alpha[k])
                 else:
                     ax.scatter(np.array(xaxis)[idx_instance[i]],
-                                np.array(iteration_cia)[idx_instance[i] - 3 - 3, 2 * j + k],
-                                marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
-                                label=instance_name[i] + label[6 * j + k + 1], s=area[k], alpha=alpha[k])
+                               np.array(iteration_cia)[idx_instance[i] - 3 - 3, 2 * j + k],
+                               marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                               label=instance_name[i] + label[6 * j + k + 1], s=area[k], alpha=alpha[k])
 
     # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
     # for i in range(len(instance_name)):
@@ -3712,14 +3797,14 @@ def draw_selected_time():
             for k in range(3):
                 if j == 0 and k == 0:
                     sc = ax.scatter(np.array(xaxis)[idx_instance[i]],
-                                     np.array(iteration_alb)[idx_instance[i], 2 * j + k],
-                                     marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 3],
-                                     s=area[k], alpha=alpha[k])
+                                    np.array(iteration_alb)[idx_instance[i], 2 * j + k],
+                                    marker=round_marker[j], label=instance_name[i] + label[6 * j + k + 3],
+                                    s=area[k], alpha=alpha[k])
                 else:
                     ax.scatter(np.array(xaxis)[idx_instance[i]],
-                                np.array(iteration_alb)[idx_instance[i], 2 * j + k],
-                                marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
-                                label=instance_name[i] + label[6 * j + k + 3], s=area[k], alpha=alpha[k])
+                               np.array(iteration_alb)[idx_instance[i], 2 * j + k],
+                               marker=round_marker[j], color=sc.get_facecolors()[0].tolist(),
+                               label=instance_name[i] + label[6 * j + k + 3], s=area[k], alpha=alpha[k])
 
     # axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
     # for i in range(len(instance_name)):
@@ -3754,12 +3839,520 @@ def draw_selected_time():
     plt.savefig("../figure_paper/time_and_iteration_alb_log_select.png")
 
 
+def draw_selected_instance_new():
+    # pgrape+sur, pgrape+mt, pgrape+ms, pgrape+sur+alb, pgrape+mt+alb, pgrape+ms+alb,
+    # tr+sur...
+    # admm+sur...
+    obj = [[0.7836432, 0.3161038, 0.7525139, 0.7816671, 0.5713352, 0.7711258,
+            0.7838377, 0.3832050, 0.7419845, 0.7837403, 0.5713352, 0.7699510,
+            0.7788632, 0.3936237, 0.7596211, 0.7808066, 0.5482583, 0.7639767],
+           [1 - 1.45e-03, 0.218, 0.346, 1 - 4.56e-04, 1 - 1.20e-03, 1 - 9.47e-04,
+            1 - 8.3e-04, 0.686, 0.303, 1 - 6.13e-04, 1 - 8.22e-04, 1 - 2.81e-03,
+            1 - 1.46e-03, 0.483, 0.381, 1 - 5.07e-04, 1 - 1.35e-03, 1 - 7.45e-04],
+           [4.73E-03, 2.78E-02, 6.16E-02, 5.50E-04, 7.37E-04, 5.44E-04,
+            3.91E-04, 1.34E-01, 2.84E-01, 1.66E-03, 9.09E-04, 7.57E-04,
+            9.22E-03, 6.38E-02, 9.22E-03, 6.16E-04, 8.90E-04, 8.90E-04],
+           [0.832, 0.037, 0.713, 0.931, 0.998, 0.835,
+            0.818, 0.034, 0.776, 0.917, 0.504, 0.88,
+            0.967, 0.342, 0.443, 0.967, 0.645, 0.979]]
+    for j in range(18):
+        for i in range(2):
+            obj[i][j] = 1 - obj[i][j]
+        obj[3][j] = 1 - obj[3][j]
+    tv = [[38.8, 6, 10, 32.4, 6, 10,
+           43.6, 6, 10, 40.4, 10, 10,
+           52.8, 6, 10, 50.0, 6, 10],
+          [491, 53, 39, 479, 28, 40,
+           480, 51, 39, 471, 49, 40,
+           467, 47, 39, 441, 48, 40],
+          [126, 24, 40, 32, 24, 38,
+           126, 25, 40, 6, 20, 39,
+           21, 6, 21, 7, 8, 21],
+          [380, 68, 290, 378, 6, 286,
+           380, 72, 288, 378, 70, 290,
+           252, 48, 148, 252, 48, 158]]
+
+    label = ["pGRAPE+SUR", "pGRAPE+MT", "pGRAPE+MS", "pGRAPE+SUR+ALB", "pGRAPE+MT+ALB", "pGRAPE+MS+ALB",
+             "TR+SUR", "TR+MT", "TR+MS", "TR+SUR+ALB", "TR+MT+ALB", "TR+MS+ALB",
+             "ADMM+SUR", "ADMM+MT", "ADMM+MS", "ADMM+SUR+ALB", "ADMM+MT+ALB", "ADMM+MS+ALB"]
+    best_index = [5, 4, 15, 4]
+    best_label = ["pGRAPE+MS+ALB", "pGRAPE+MT+ALB", "ADMM+SUR+ALB", "pGRAPE+MT+ALB"]
+    method = ["pGRAPE", "TR", "ADMM"]
+    round_marker = ['o', '^', '*']
+    instance_name = ["Energy6", "CNOT20", "NOT10", "CircuitLiH"]
+    # use subgraphs and adjust the positions
+    # if not zoomin:
+    fig = plt.figure(figsize=(9, 9.2), dpi=300)
+    fig.subplots_adjust(hspace=0.25, wspace=0.15, left=0.07, right=0.98, top=0.96, bottom=0.13)
+    # else:
+    # fig = plt.figure(figsize=(12, 8), dpi=300)
+    # fig.subplots_adjust(hspace=0.27, wspace=0.25, left=0.06, right=0.97, top=0.95, bottom=0.14)
+    # draw the graphs
+    for i in range(4):
+        ax = fig.add_subplot(2, 2, i + 1)
+        for j in range(3):
+            for k in range(3):
+                if k == 0:
+                    sc = plt.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                     label=label[6 * j + k],
+                                     s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                else:
+                    plt.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
+                                s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                plt.scatter(tv[i][6 * j + k + 3], obj[i][6 * j + k + 3], marker=round_marker[k],
+                            label=label[6 * j + k + 3],
+                            color=sc.get_facecolors()[0].tolist(), alpha=1)
+        plt.xlabel("TV regularizer")
+        if i == 0:
+            plt.ylabel("Objective value")
+
+        if i == 0:
+            axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+            for j in range(3):
+                for k in range(3):
+                    if k == 0:
+                        sc = axins.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                           label=label[6 * j + k],
+                                           s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                    else:
+                        axins.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                      color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
+                                      s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                    axins.scatter(tv[i][6 * j + k + 3], obj[i][6 * j + k + 3], marker=round_marker[k],
+                                  label=label[6 * j + k + 3],
+                                  color=sc.get_facecolors()[0].tolist(), alpha=1)
+            axins.set_xlim(9, 11)
+            axins.set_ylim(0.22, 0.27)
+            # axins.set_xticks([])
+            # axins.set_yticks([])
+            # axins.set_xticklabels([])
+            # axins.set_yticklabels([])
+            ax.indicate_inset_zoom(axins, edgecolor="black")
+
+        if i == 1:
+            axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+            for j in range(3):
+                for k in range(3):
+                    if k == 0:
+                        sc = axins.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                           label=label[6 * j + k],
+                                           s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                    else:
+                        axins.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                      color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
+                                      s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                    axins.scatter(tv[i][6 * j + k + 3], obj[i][6 * j + k + 3], marker=round_marker[k],
+                                  label=label[6 * j + k + 3],
+                                  color=sc.get_facecolors()[0].tolist(), alpha=1)
+            axins.set_xlim(25, 50)
+            axins.set_ylim(0, 0.003)
+            ax.indicate_inset_zoom(axins, edgecolor="black")
+
+        # annotate the best point
+        #
+        # axins.annotate(best_label[i], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
+        #                xycoords='data', xytext=(0, 30), textcoords='offset points',
+        #                arrowprops=dict(arrowstyle='->', color='black'),
+        #                va='center', ha='left', fontsize=10)
+
+        if i == 2:
+            axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+            for j in range(3):
+                for k in range(3):
+                    if k == 0:
+                        sc = axins.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                           label=label[6 * j + k],
+                                           s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                    else:
+                        axins.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                      color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
+                                      s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                    axins.scatter(tv[i][6 * j + k + 3], obj[i][6 * j + k + 3], marker=round_marker[k],
+                                  label=label[6 * j + k + 3],
+                                  color=sc.get_facecolors()[0].tolist(), alpha=1)
+            axins.set_xlim(5.5, 9.5)
+            axins.set_ylim(0.0005, 0.002)
+            ax.indicate_inset_zoom(axins, edgecolor="black")
+
+        if i != 3:
+            axins.annotate(best_label[i], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
+                           xycoords='data', xytext=(0, 30), textcoords='offset points',
+                           arrowprops=dict(arrowstyle='->', color='black'),
+                           va='center', ha='left', fontsize=10)
+
+        if i == 3:
+            ax.annotate(best_label[i], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
+                        xycoords='data', xytext=(0, 30), textcoords='offset points',
+                        arrowprops=dict(arrowstyle='->', color='black'),
+                        va='center', ha='left', fontsize=10)
+        ax.set_title(instance_name[i])
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    fig.legend(lines, labels, bbox_to_anchor=(0.05, 0.01, 0.9, 1), loc='lower center', mode='expand',
+               borderaxespad=0, ncol=6, prop={'size': 8}, borderpad=0.5)
+    plt.savefig("../figure_paper_revision/binary_selected_points_zoomin.png")
+
+
+def draw_title_figure():
+    # pgrape+sur, pgrape+mt, pgrape+ms, pgrape+sur+alb, pgrape+mt+alb, pgrape+ms+alb,
+    # tr+sur...
+    # admm+sur...
+    obj = [[0.7836432, 0.3161038, 0.7525139, 0.7816671, 0.5713352, 0.7711258,
+            0.7838377, 0.3832050, 0.7419845, 0.7837403, 0.5713352, 0.7699510,
+            0.7788632, 0.3936237, 0.7596211, 0.7808066, 0.5482583, 0.7639767]]
+    for j in range(18):
+        obj[0][j] = 1 - obj[0][j]
+    tv = [[38.8, 6, 10, 32.4, 6, 10,
+           43.6, 6, 10, 40.4, 10, 10,
+           52.8, 6, 10, 50.0, 6, 10]]
+
+    label = ["pGRAPE+SUR", "pGRAPE+MT", "pGRAPE+MS", "pGRAPE+SUR+ALB", "pGRAPE+MT+ALB", "pGRAPE+MS+ALB",
+             "TR+SUR", "TR+MT", "TR+MS", "TR+SUR+ALB", "TR+MT+ALB", "TR+MS+ALB",
+             "ADMM+SUR", "ADMM+MT", "ADMM+MS", "ADMM+SUR+ALB", "ADMM+MT+ALB", "ADMM+MS+ALB"]
+    best_index = [5, 4]
+    best_label = ["pGRAPE+MS+ALB", "pGRAPE+MT+ALB", "ADMM+SUR+ALB", "pGRAPE+MT+ALB"]
+    method = ["pGRAPE", "TR", "ADMM"]
+    round_marker = ['o', '^', '*']
+    instance_name = ["Energy6", "CNOT20", "NOT10", "CircuitLiH"]
+    # use subgraphs and adjust the positions
+    # if not zoomin:
+    fig = plt.figure(figsize=(9, 4.5), dpi=300)
+    ax = fig.add_subplot(111)
+    fig.subplots_adjust(hspace=0.27, wspace=0.25, left=0.08, right=0.55, top=0.96, bottom=0.12)
+    i = 0
+    for j in range(3):
+        for k in range(3):
+            if k == 0:
+                sc = plt.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                 label=label[6 * j + k],
+                                 s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+            else:
+                plt.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                            color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
+                            s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+            plt.scatter(tv[i][6 * j + k + 3], obj[i][6 * j + k + 3], marker=round_marker[k],
+                        label=label[6 * j + k + 3],
+                        color=sc.get_facecolors()[0].tolist(), alpha=1)
+    plt.xlabel("TV regularizer")
+    plt.ylabel("Objective value")
+
+    if i == 0:
+        axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+        for j in range(3):
+            for k in range(3):
+                if k == 0:
+                    sc = axins.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                       label=label[6 * j + k],
+                                       s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                else:
+                    axins.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                  color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
+                                  s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                axins.scatter(tv[i][6 * j + k + 3], obj[i][6 * j + k + 3], marker=round_marker[k],
+                              label=label[6 * j + k + 3],
+                              color=sc.get_facecolors()[0].tolist(), alpha=1)
+        axins.set_xlim(9, 11)
+        axins.set_ylim(0.22, 0.27)
+        ax.indicate_inset_zoom(axins, edgecolor="black")
+        axins.annotate(best_label[i], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
+                       xycoords='data', xytext=(0, 30), textcoords='offset points',
+                       arrowprops=dict(arrowstyle='->', color='black'),
+                       va='center', ha='left', fontsize=10)
+
+    # ax.set_title(instance_name[i])
+
+    # fig.legend(bbox_to_anchor=(1, 0.5), loc='center left', prop={'size': 8})
+    fig.legend(bbox_to_anchor=(0.55, 0.4), loc='center left', prop={'size': 10}, ncol=2, frameon=False)
+    fig.text(0.56, 0.75, "Objective values and TV regularizer values of binary control results for energy minimization"
+             + " problem in a quantum system with 6 qubits.", ha='left', wrap=True, fontsize=12, fontstyle='italic')
+    # plt.tight_layout()
+    plt.savefig("../figure_paper_revision/binary_title_points_w_caption.png")
+
+
+def draw_all_instance_new():
+    obj = [[4.22e-04, 0.159, 0.029, 1 - 0.9972747935307649, 1 - 0.9970696577756559, 1 - 0.9995860614857415,
+            4.91e-03, 0.159, 0.040, 1 - 0.9958248817406824, 1 - 0.9970696577756559, 1 - 0.9979979002765695,
+            4.01e-04, 0.154, 0.028, 1 - 0.9963256502628339, 1 - 0.9595137942323617, 1 - 0.9985863650625982],
+           [1 - 0.841476808, 0.367, 0.163, 0.160, 0.199, 0.160,
+            0.158, 0.317, 0.162, 0.162, 0.198, 0.160,
+            0.170, 0.363, 0.195, 0.166, 0.218, 0.184],
+           [0.2163568, 0.6838962, 0.2474861, 0.2183329, 0.4286648, 0.2288742,
+            0.2161623, 0.616795, 0.2580155, 0.2162597, 0.4286648, 0.230049,
+            0.2211368, 0.6063763, 0.2403789, 0.2191934, 0.4517417, 0.2360233],
+           [0.170, 0.243, 0.170, 0.17645017858391998, 0.195, 0.170,
+            0.332, 0.525, 0.593, 0.206, 0.196, 0.173,
+            0.190, 0.285, 0.191, 0.1768800871829428, 0.195, 0.172],
+           [6.01e-04, 0.158, 0.011, 1.58e-03, 4.06e-03, 9.80e-04,
+            1.78e-03, 0.323, 0.019, 2.46e-03, 9.43e-03, 1.31e-03,
+            1.68e-03, 0.084, 0.006, 1.15e-03, 6.04e-03, 1.18e-03],
+           [1.12e-03, 0.539, 0.325, 5.59e-04, 6.31e-03, 1.30e-03,
+            2.30e-03, 0.290, 0.284, 4.67e-04, 6.25e-03, 3.72e-03,
+            2.90e-03, 0.176, 0.214, 8.51e-04, 1.63e-03, 1.91e-03],
+           [1.45e-03, 1 - 0.218, 1 - 0.346, 4.56e-04, 1.20e-03, 9.47e-04,
+            8.3e-04, 1 - 0.686, 1 - 0.303, 6.13e-04, 8.22e-04, 2.81e-03,
+            1.46e-03, 1 - 0.483, 1 - 0.381, 5.07e-04, 1.35e-03, 7.45e-04],
+           [0.164, 0.164, 0.164, 0.164, 0.164, 0.163,
+            0.164, 0.164, 0.164, 0.164, 0.164, 0.163,
+            0.164, 0.164, 0.164, 0.164, 0.164, 0.163],
+           [2.38E-03, 4.05E-02, 1.38E-02, 1.42E-03, 1.45E-03, 1.06E-03,
+            3.10E-03, 3.65E-02, 1.58E-01, 7.33E-04, 1.27E-02, 8.90E-04,
+            1.55E-03, 7.56E-02, 1.54E-01, 7.24E-04, 3.39E-03, 1.74E-03],
+           [4.73E-03, 2.78E-02, 6.16E-02, 5.50E-04, 7.37E-04, 5.44E-04,
+            3.91E-04, 1.34E-01, 2.84E-01, 1.66E-03, 9.09E-04, 7.57E-04,
+            9.22E-03, 6.38E-02, 9.22E-03, 6.16E-04, 8.90E-04, 8.90E-04],
+           [0.027, 0.600, 0.026, 0.003, 0.245, 0.014,
+            0.027, 0.591, 0.038, 0.013, 0.007, 0.003,
+            0.006, 0.063, 0.008, 0.006, 0.054, 0.008],
+           [0.168, 0.963, 0.287, 0.069, 0.002, 0.165,
+            0.182, 0.966, 0.224, 0.083, 0.496, 0.12,
+            0.033, 0.658, 0.557, 0.033, 0.355, 0.021]]
+
+    tv = [[54, 4, 10, 10, 4, 10,
+           54, 6, 10, 8, 4, 10,
+           48, 6, 10, 4, 6, 8],
+          [26.8, 6, 10, 17.2, 6, 9.2,
+           32.4, 6, 10, 14, 6, 10,
+           44.8, 6, 10, 14.4, 5.6, 8.4],
+          [38.8, 6, 10, 32.4, 6, 10,
+           43.6, 6, 10, 40.4, 10, 10,
+           52.8, 6, 10, 50.0, 6, 10],
+          [16, 10, 16, 9, 9, 16,
+           24, 6, 15, 7, 10, 20,
+           41, 7, 32, 9, 9, 16],
+          [116, 22, 39, 30, 23, 39,
+           116, 21, 38, 24, 16, 38,
+           82, 15, 32, 20, 15, 36],
+          [266, 37, 38, 262, 33, 39,
+           276, 36, 40, 256, 34, 39,
+           279, 27, 39, 263, 30, 40],
+          [491, 53, 39, 479, 28, 40,
+           480, 51, 39, 471, 49, 40,
+           467, 47, 39, 441, 48, 40],
+          [3, 1, 3, 1, 1, 3,
+           1, 1, 1, 1, 1, 3,
+           1, 1, 1, 1, 1, 3],
+          [40, 8, 19, 6, 9, 22,
+           46, 9, 14, 10, 11, 18,
+           52, 10, 14, 13, 12, 16],
+          [126, 24, 40, 32, 24, 38,
+           126, 25, 40, 6, 20, 39,
+           21, 6, 21, 7, 8, 21],
+          [32, 8, 22, 24, 12, 18,
+           36, 8, 24, 32, 2, 22,
+           76, 8, 22, 76, 10, 22],
+          [380, 68, 290, 378, 6, 286,
+           380, 72, 288, 378, 70, 290,
+           252, 48, 148, 252, 48, 158]]
+
+    label = ["pGRAPE+SUR", "pGRAPE+MT", "pGRAPE+MS", "pGRAPE+SUR+ALB", "pGRAPE+MT+ALB", "pGRAPE+MS+ALB",
+             "TR+SUR", "TR+MT", "TR+MS", "TR+SUR+ALB", "TR+MT+ALB", "TR+MS+ALB",
+             "ADMM+SUR", "ADMM+MT", "ADMM+MS", "ADMM+SUR+ALB", "ADMM+MT+ALB", "ADMM+MS+ALB"]
+    method = ["pGRAPE", "TR", "ADMM"]
+    round_marker = ['o', '^', '*']
+    instance_name = ["Energy2", "Energy4", "Energy6",
+                     "CNOT5", "CNOT10", "CNOT15", "CNOT20",
+                     "NOT2", "NOT6", "NOT10",
+                     "CircuitH2", "CircuitLiH"]
+    num_instances = len(instance_name)
+    zoom_in = [True, True, True, False, True, True, True, False, True, True, False, False]
+    zoom_in_xlim = [(3, 12), (5, 12), (9, 11), None, (10, 40), (25, 42), (25, 50), None, (5.5, 13.5), (5.5, 9.5), None,
+                    None]
+    zoom_in_ylim = [(0, 0.004), (0.15, 0.21), (0.22, 0.27), None, (0, 0.01), (0, 0.007), (0, 0.003), None,
+                    (5E-04, 1.85E-03), (0.0005, 0.002), None, None]
+    best_index = [17, 5, 5, 15, 15, 16, 4, 17, 9, 15, 10, 4]
+
+    print([(obj[i][best_index[i]], tv[i][best_index[i]]) for i in range(9)])
+    print([label[best_index[i]] for i in range(9)])
+    # exit()
+    # best_label = ["pGRAPE+MS+ALB", "pGRAPE+MT+ALB", "pGRAPE+MT+ALB"]
+    # use subgraphs and adjust the positions
+    # if not zoomin:
+    # height = 4.8 * 3 + 0.4 * 2
+    # fig = plt.figure(figsize=(12, 12), dpi=300)
+    # fig.subplots_adjust(hspace=0.3, wspace=0.2, left=0.07, right=0.98, top=0.95, bottom=0.11)
+    fig = plt.figure(figsize=(11, 14), dpi=300)
+    fig.subplots_adjust(hspace=0.4, wspace=0.2, left=0.07, right=0.98, top=0.96, bottom=0.1)
+    select = [2, 5, 7]
+    for i in range(num_instances):
+        # for ii in range(3):
+        #     i = select[ii]
+        ax = fig.add_subplot(4, 3, i + 1)
+        # ax = fig.add_subplot(1, 3, ii + 1)
+
+        for j in range(3):
+            for k in range(3):
+                if k == 0:
+                    sc = plt.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                     label=label[6 * j + k],
+                                     s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                else:
+                    plt.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
+                                s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                plt.scatter(tv[i][6 * j + k + 3], obj[i][6 * j + k + 3], marker=round_marker[k],
+                            label=label[6 * j + k + 3],
+                            color=sc.get_facecolors()[0].tolist(), alpha=1)
+        plt.xlabel("TV regularizer", fontsize=12)
+        if i % 3 == 0:
+            plt.ylabel("Objective value", fontsize=12)
+
+        if zoom_in[i]:
+            axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+            for j in range(3):
+                for k in range(3):
+                    if k == 0:
+                        sc = axins.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                           label=label[6 * j + k],
+                                           s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                    else:
+                        axins.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                      color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
+                                      s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                    axins.scatter(tv[i][6 * j + k + 3], obj[i][6 * j + k + 3], marker=round_marker[k],
+                                  label=label[6 * j + k + 3],
+                                  color=sc.get_facecolors()[0].tolist(), alpha=1)
+            axins.set_xlim(zoom_in_xlim[i][0], zoom_in_xlim[i][1])
+            axins.set_ylim(zoom_in_ylim[i][0], zoom_in_ylim[i][1])
+
+            ax.indicate_inset_zoom(axins, edgecolor="black")
+
+            # annotate the best point
+
+            axins.annotate(label[best_index[i]], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
+                           xycoords='data', xytext=(0, 40), textcoords='offset points',
+                           arrowprops=dict(arrowstyle='->', color='black'),
+                           va='center', ha='left', fontsize=8)
+
+        else:
+            if i == 7:
+                ax.annotate(label[best_index[i]], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
+                            xycoords='data', xytext=(0, 40), textcoords='offset points',
+                            arrowprops=dict(arrowstyle='->', color='black'),
+                            va='center', ha='right', fontsize=8)
+            else:
+                ax.annotate(label[best_index[i]], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
+                            xycoords='data', xytext=(0, 40), textcoords='offset points',
+                            arrowprops=dict(arrowstyle='->', color='black'),
+                            va='center', ha='left', fontsize=8)
+        ax.set_title(instance_name[i], fontsize=16)
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+
+    # fig.legend(lines, labels, bbox_to_anchor=(0.1, 0.01, 0.8, 1), loc='lower center', mode='expand',
+    #            borderaxespad=0, ncol=6, prop={'size': 10}, borderpad=0.5)
+    fig.legend(lines, labels, bbox_to_anchor=(0.1, 0.01, 0.8, 1), loc='lower center', mode='expand',
+               borderaxespad=0, ncol=6, prop={'size': 8}, borderpad=0.5)
+    # plt.savefig("../figure_paper/binary_all_points_zoomin_new.png")
+    plt.savefig("../figure_paper_revision/binary_all_points_zoomin.png")
+
+
+def draw_new_instances():
+    obj = [[0.164, 0.164, 0.164, 0.164, 0.164, 0.163,
+            0.164, 0.164, 0.164, 0.164, 0.164, 0.163,
+            0.164, 0.164, 0.164, 0.164, 0.164, 0.163],
+           [2.38E-03, 4.05E-02, 1.38E-02, 1.42E-03, 1.45E-03, 1.06E-03,
+            3.10E-03, 3.65E-02, 1.58E-01, 7.33E-04, 1.27E-02, 8.90E-04,
+            1.55E-03, 7.56E-02, 1.54E-01, 7.24E-04, 3.39E-03, 1.74E-03],
+           [4.73E-03, 2.78E-02, 6.16E-02, 5.50E-04, 7.37E-04, 5.44E-04,
+            3.91E-04, 1.34E-01, 2.84E-01, 1.66E-03, 9.09E-04, 7.57E-04,
+            9.22E-03, 6.38E-02, 9.22E-03, 6.16E-04, 8.90E-04, 8.90E-04]]
+    tv = [[3, 1, 3, 1, 1, 3,
+           1, 1, 1, 1, 1, 3,
+           1, 1, 1, 1, 1, 3],
+          [40, 8, 19, 6, 9, 22,
+           46, 9, 14, 10, 11, 18,
+           52, 10, 14, 13, 12, 16],
+          [126, 24, 40, 32, 24, 38,
+           126, 25, 40, 6, 20, 39,
+           21, 6, 21, 7, 8, 21]]
+    label = ["pGRAPE+SUR", "pGRAPE+MT", "pGRAPE+MS", "pGRAPE+SUR+ALB", "pGRAPE+MT+ALB", "pGRAPE+MS+ALB",
+             "TR+SUR", "TR+MT", "TR+MS", "TR+SUR+ALB", "TR+MT+ALB", "TR+MS+ALB",
+             "ADMM+SUR", "ADMM+MT", "ADMM+MS", "ADMM+SUR+ALB", "ADMM+MT+ALB", "ADMM+MS+ALB"]
+    method = ["pGRAPE", "TR", "ADMM"]
+    round_marker = ['o', '^', '*']
+    instance_name = ["NOT2", "NOT6", "NOT10"]
+    num_instances = len(instance_name)
+    zoom_in = [False, True, True]
+    zoom_in_xlim = [None, (5.5, 13.5), (5.5, 9.5)]
+    zoom_in_ylim = [None, (5E-04, 1.85E-03), (0.0005, 0.002)]
+    best_index = [17, 9, 15]
+
+    fig = plt.figure(figsize=(12, 4.8), dpi=300)
+    fig.subplots_adjust(hspace=0.4, wspace=0.2, left=0.05, right=0.98, top=0.9, bottom=0.22)
+
+    for i in range(num_instances):
+        ax = fig.add_subplot(1, 3, i + 1)
+
+        for j in range(3):
+            for k in range(3):
+                if k == 0:
+                    sc = plt.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                     label=label[6 * j + k],
+                                     s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                else:
+                    plt.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
+                                s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                plt.scatter(tv[i][6 * j + k + 3], obj[i][6 * j + k + 3], marker=round_marker[k],
+                            label=label[6 * j + k + 3],
+                            color=sc.get_facecolors()[0].tolist(), alpha=1)
+        plt.xlabel("TV regularizer", fontsize=12)
+        if i % 3 == 0:
+            plt.ylabel("Objective value", fontsize=12)
+
+        if zoom_in[i]:
+            axins = ax.inset_axes([0.4, 0.4, 0.5, 0.5])
+            for j in range(3):
+                for k in range(3):
+                    if k == 0:
+                        sc = axins.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                           label=label[6 * j + k],
+                                           s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                    else:
+                        axins.scatter(tv[i][6 * j + k], obj[i][6 * j + k], marker=round_marker[k],
+                                      color=sc.get_facecolors()[0].tolist(), label=label[6 * j + k],
+                                      s=6 * matplotlib.rcParams['lines.markersize'] ** 2, alpha=1 / 5)
+                    axins.scatter(tv[i][6 * j + k + 3], obj[i][6 * j + k + 3], marker=round_marker[k],
+                                  label=label[6 * j + k + 3],
+                                  color=sc.get_facecolors()[0].tolist(), alpha=1)
+            axins.set_xlim(zoom_in_xlim[i][0], zoom_in_xlim[i][1])
+            axins.set_ylim(zoom_in_ylim[i][0], zoom_in_ylim[i][1])
+
+            ax.indicate_inset_zoom(axins, edgecolor="black")
+
+            # annotate the best point
+
+            axins.annotate(label[best_index[i]], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
+                           xycoords='data', xytext=(0, 40), textcoords='offset points',
+                           arrowprops=dict(arrowstyle='->', color='black'),
+                           va='center', ha='left', fontsize=8)
+
+        else:
+            if i == 0:
+                ax.annotate(label[best_index[i]], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
+                            xycoords='data', xytext=(0, 40), textcoords='offset points',
+                            arrowprops=dict(arrowstyle='->', color='black'),
+                            va='center', ha='right', fontsize=8)
+            else:
+                ax.annotate(label[best_index[i]], xy=(tv[i][best_index[i]], obj[i][best_index[i]]),
+                            xycoords='data', xytext=(0, 40), textcoords='offset points',
+                            arrowprops=dict(arrowstyle='->', color='black'),
+                            va='center', ha='left', fontsize=8)
+        ax.set_title(instance_name[i], fontsize=16)
+
+    lines, labels = fig.axes[0].get_legend_handles_labels()
+    fig.legend(lines, labels, bbox_to_anchor=(0.1, 0.01, 0.8, 1), loc='lower center', mode='expand',
+               borderaxespad=0, ncol=6, prop={'size': 8}, borderpad=0.5)
+    plt.savefig("../figure_paper_revision/not_instance_zoomin_rev.png")
+
+
 if __name__ == '__main__':
-    # evo_time = 4
-    # n_ts = 80
-    # control = np.loadtxt("../example/control/Rounding/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0_minup10.csv",
+    # evo_time = 2
+    # n_ts = 40
+    # control = np.loadtxt("../example/control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance1.csv",
     #                      delimiter=',')
-    # output_fig = "../figure_paper/MoleculeNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_objUNIT_sum_penalty1.0_minup10.png"
+    # output_fig = "../figure_paper/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance1.png"
     # draw_control(evo_time, n_ts, control, output_fig)
     # draw_stats()
     # draw_sos1(n_ts, control, output_fig)
@@ -3812,5 +4405,16 @@ if __name__ == '__main__':
     # draw_continuous_points()
     # draw_binary_points(subgraph=True, zoomin=True)
     # draw_all_binary_points()
-    draw_separate_time()
+    # draw_separate_time()
     # draw_selected_time()
+    # draw_single_instance()
+    # draw_selected_instance_new()
+    # draw_all_instance_new()
+    # evo_time = 2
+    # n_ts = 20
+    # control = np.loadtxt("../example/control/Trustregion/NOTleakADMM_evotime2.0_n_ts20_ptypeWARM_offset0.5_objUNIT_penalty0.001_ADMM_0.25_iter100_maxswitch4_0_sigma0.25_eta0.001_threshold30_iter100_typemaxswitch_switch4.csv",
+    #                      delimiter=',')
+    # output_fig = "../figure_paper_revision/NOTleak2_ADMM_MS_ALB_ctrl.png"
+    # draw_control(evo_time, n_ts, control, output_fig)
+    # draw_new_instances()
+    draw_title_figure()

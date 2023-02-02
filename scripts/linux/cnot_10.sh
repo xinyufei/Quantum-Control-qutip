@@ -2,7 +2,7 @@
 
 conda activate qcopt
 cd ../../example/Continuous/
-#python CNOT.py --evo_time=10 --n_ts=200 --initial_type=CONSTANT --offset=0.5
+python CNOT.py --name=CNOTSQ --evo_time=10 --n_ts=200 --initial_type=CONSTANT --offset=0.5
 cd ../ADMM/
 #python CNOT.py --evo_time=10 --n_ts=200 --initial_type=WARM \
 #    --initial_control="../control/Continuous/CNOT_evotime10.0_n_ts200_ptypeCONSTANT_offset0.5_objUNIT.csv" \
@@ -54,12 +54,12 @@ cd ../Rounding
 #python CNOT.py --evo_time=10 --n_ts=200 \
 #    --initial_control="../control/Trustregion/CNOT_evotime10.0_n_ts200_ptypeCONSTANT_offset0.5_objUNIT_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
 #    --sos1=0 --type=SUR
-python CNOT.py --evo_time=10 --n_ts=200 \
-    --initial_control="../control/Trustregion/CNOT_evotime10.0_n_ts200_ptypeCONSTANT_offset0.5_objUNIT_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
-    --sos1=0 --type="minup" --min_up=10
-python CNOT.py --evo_time=10 --n_ts=200 \
-    --initial_control="../control/Trustregion/CNOT_evotime10.0_n_ts200_ptypeCONSTANT_offset0.5_objUNIT_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
-    --sos1=0 --type="maxswitch" --max_switch=20
+#python CNOT.py --evo_time=10 --n_ts=200 \
+#    --initial_control="../control/Trustregion/CNOT_evotime10.0_n_ts200_ptypeCONSTANT_offset0.5_objUNIT_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
+#    --sos1=0 --type="minup" --min_up=10
+#python CNOT.py --evo_time=10 --n_ts=200 \
+#    --initial_control="../control/Trustregion/CNOT_evotime10.0_n_ts200_ptypeCONSTANT_offset0.5_objUNIT_alpha0.001_sigma0.25_eta0.001_threshold30_iter100_typetvc.csv" \
+#    --sos1=0 --type="maxswitch" --max_switch=20
 
 cd ../Trustregion/
 #python CNOT.py --evo_time=10 --n_ts=200 \

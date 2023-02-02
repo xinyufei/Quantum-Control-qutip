@@ -99,7 +99,7 @@ def get_full_states_concerned_list(N, d):
     return states_concerned_list
 
 
-def generate_molecule_func(N, d, molecule, optimize=True):
+def generate_molecule_func(N, d, molecule, optimize=True, target=None):
     connected_qubit_pairs = get_nearest_neighbor_coupling_list(2, int(N / 2), directed=False)
     print(connected_qubit_pairs)
     H0 = get_H0(N, d).astype("complex128")
@@ -107,8 +107,16 @@ def generate_molecule_func(N, d, molecule, optimize=True):
     states_concerned_list = get_full_states_concerned_list(N, d)
     maxA = get_maxA(N, d, connected_qubit_pairs)
 
-    circuit = get_uccsd_circuit(molecule, optimize=optimize)
-    U = get_unitary(circuit).astype("complex128")
+    if not target:
+        circuit = get_uccsd_circuit(molecule, optimize=optimize)
+        U = get_unitary(circuit).astype("complex128")
+        # np.savetxt("../hamiltonians/" + molecule + "new_target.csv", U)
+    else:
+        U = np.loadtxt(target, dtype=np.complex_)
+
+
+    # np.savetxt("../hamiltonians/" + molecule + "_optimize_target_new.csv", U)
+
 
     # print(circuit)
     # print(H0.size)
@@ -123,9 +131,69 @@ def generate_molecule_func(N, d, molecule, optimize=True):
 
 
 if __name__ == '__main__':
-    Hops, H0, U0, U = generate_molecule_func(2, 2, "H2", True)
+    qubit = 4
+    Hops, H0, U0, U = generate_molecule_func(qubit, 2, "LiH", True)
+    for (idx, H) in enumerate(Hops):
+        realH = H.real
+        imagH = H.imag
+        rows, cols = np.nonzero(realH)
+        print("#nonzero REAL elements of matrix")
+        for ii in range(len(rows)):
+            print("let RealCtrl[", idx + 1, ",", rows[ii] + 1, ",", cols[ii] + 1, "] := ", realH[rows[ii], cols[ii]], ";")
+        rows, cols = np.nonzero(imagH)
+        print("#nonzero IMAGINARY elements of matrix")
+        for ii in range(len(rows)):
+            print("let ImagCtrl[", idx + 1, ",", rows[ii] + 1, ",", cols[ii] + 1, "] := ", imagH[rows[ii], cols[ii]], ";")
+
+    tf, n_ts = 20, 200
+    for (idx, H) in enumerate(Hops):
+        s, v = np.linalg.eigh(H + H0)
+        mexpm = np.dot(v.dot(np.diag(np.exp(-1j * s * tf / n_ts))), v.conj().T)
+        realH = mexpm.real
+        imagH = mexpm.imag
+        rows, cols = np.nonzero(realH)
+        print("#nonzero REAL elements of matrix exponential")
+        for ii in range(len(rows)):
+            print("let RealexpCtrl[", idx + 1, ",", rows[ii] + 1, ",", cols[ii] + 1, "] := ", realH[rows[ii], cols[ii]], ";")
+        rows, cols = np.nonzero(imagH)
+        print("#nonzero IMAGINARY elements of matrix exponential")
+        for ii in range(len(rows)):
+            print("let ImagexpCtrl[", idx + 1, ",", rows[ii] + 1, ",", cols[ii] + 1, "] := ", imagH[rows[ii], cols[ii]], ";")
+
+    realtarg = U.real
+    imagtarg = U.imag
+    rows, cols = np.nonzero(realtarg)
+    print("#nonzero REAL elements of target")
+    for ii in range(len(rows)):
+        print("let Realtarg[", rows[ii] + 1, ",", cols[ii] + 1, "] := ", realtarg[rows[ii], cols[ii]], ";")
+    rows, cols = np.nonzero(imagtarg)
+    print("#nonzero IMAGINARY elements of target")
+    for ii in range(len(rows)):
+        print("let Imagtarg[", rows[ii] + 1, ",", cols[ii] + 1, "] := ", imagtarg[rows[ii], cols[ii]], ";")
+    exit()
+
+    qubit = 6
+    Hops, H0, U0, U = generate_molecule_func(qubit, 6, "BeH2", True)
+    exit()
+    U = np.loadtxt("../hamiltonians/" + "H2" + "_optimize_target.csv", dtype=np.complex_)
     print(U)
     print(len(Hops))
+    for i, H in enumerate(Hops):
+        print(i, (np.dot(H, U) - np.dot(U, H) == np.zeros((2**qubit, 2**qubit))).all())
+
+    X1 = np.dot(expm(-1j * 13.5 * Hops[10]), U0)
+    X2 = np.dot(expm(-1j * 2.5 * Hops[4]), X1)
+    X3 = np.dot(expm(-1j * 4 * Hops[10]), X2)
+
+    val_controller = [6.31E-01, 1.33E+00, 1.41E-04, 6.80E-07, 5.00E+00,
+                      5.74E-01, 1.34E-04, 4.65E-07, 4.64E+00, 2.67E+00,
+                      5.00E+00, 6.77E-03, 3.30E+00, 3.65E-04, 6.98E+00,
+                      3.17E+00, 6.70E+00, 4.20E-04, 4.25E-04]
+    print(sum(val_controller))
+    X3 = np.dot(expm(-1j * sum(val_controller[i] * Hops[i] for i in range(len(Hops))) / 2), U0)
+    print(1 - np.trace(np.dot(U.conj(), X3)) / (2 ** qubit))
+    exit()
+
     for H in Hops:
         u, s, vh = np.linalg.svd(H, full_matrices=True)
         print(s)

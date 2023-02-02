@@ -2,6 +2,7 @@
 
 conda activate qcopt
 cd ../../example/Continuous/
+python energy.py --name=EnergyAcc --n=2 --num_edges=1 --evo_time=2 --n_ts=40 --initial_type=CONSTANT --offset=0.5
 #python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=32 --initial_type=CONSTANT --offset=0.5
 #python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=64 --initial_type=CONSTANT --offset=0.5
 #python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=128 --initial_type=CONSTANT --offset=0.5
@@ -16,15 +17,15 @@ cd ../ADMM/
 #python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=64 --initial_type=WARM \
 #    --initial_control="../control/Continuous/Energy2_evotime2.0_n_ts32_ptypeCONSTANT_offset0.5_instance0.csv" \
 #    --alpha=1e-2 --rho=5 --max_iter_admm=50
-python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=128 --initial_type=WARM \
-    --initial_control="../control/Continuous/Energy2_evotime2.0_n_ts32_ptypeCONSTANT_offset0.5_instance0.csv" \
-    --alpha=1e-2 --rho=50 --max_iter_admm=50
-python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=256 --initial_type=WARM \
-    --initial_control="../control/Continuous/Energy2_evotime2.0_n_ts32_ptypeCONSTANT_offset0.5_instance0.csv" \
-    --alpha=1e-2 --rho=50 --max_iter_admm=50
-python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=512 --initial_type=WARM \
-    --initial_control="../control/Continuous/Energy2_evotime2.0_n_ts32_ptypeCONSTANT_offset0.5_instance0.csv" \
-    --alpha=1e-2 --rho=50 --max_iter_admm=50
+#python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=128 --initial_type=WARM \
+#    --initial_control="../control/Continuous/Energy2_evotime2.0_n_ts32_ptypeCONSTANT_offset0.5_instance0.csv" \
+#    --alpha=1e-2 --rho=50 --max_iter_admm=50
+#python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=256 --initial_type=WARM \
+#    --initial_control="../control/Continuous/Energy2_evotime2.0_n_ts32_ptypeCONSTANT_offset0.5_instance0.csv" \
+#    --alpha=1e-2 --rho=50 --max_iter_admm=50
+#python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=512 --initial_type=WARM \
+#    --initial_control="../control/Continuous/Energy2_evotime2.0_n_ts32_ptypeCONSTANT_offset0.5_instance0.csv" \
+#    --alpha=1e-2 --rho=50 --max_iter_admm=50
 #python energy.py --n=2 --num_edges=1 --evo_time=2 --n_ts=1024 --initial_type=WARM \
 #    --initial_control="../control/Continuous/Energy2_evotime2.0_n_ts32_ptypeCONSTANT_offset0.5_instance0.csv" \
 #    --alpha=1e-2 --rho=40 --max_iter_admm=50

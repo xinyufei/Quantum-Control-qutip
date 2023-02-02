@@ -20,5 +20,5 @@ if __name__ == '__main__':
     #                50, 300)
     # extend_control("../example/control/ADMM/EnergyADMM6_evotime2.0_n_ts40_ptypeWARM_offset0.5_penalty0.01_ADMM_10.0_iter100_instance5.csv",
     #                40, 80)
-    extend_control("../example/control/ADMM/MoleculeADMMNew_H2_evotime4.0_n_ts80_ptypeWARM_offset0.5_sum_penalty1.0_penalty0.001_ADMM_0.5_iter100.csv", 
-                   80, 240)
+    extend_control("../example/control/Continuous/Energy4_evotime2.0_n_ts40_ptypeCONSTANT_offset0.5_instance1.csv",
+                   40, 1200)

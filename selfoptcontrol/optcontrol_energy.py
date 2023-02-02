@@ -73,18 +73,28 @@ class optcontrol_energy():
         self.max_wall_time = max_wall_time
         self.min_grad = min_grad
 
+        self.matrix_exp = []
+        s_b, v_b = np.linalg.eigh(B)
+        self.matrix_exp.append(np.dot(v_b.dot(np.diag(np.exp(-1j * s_b * self.delta_t))), v_b.conj().T))
+        s_c, v_c = np.linalg.eigh(C)
+        self.matrix_exp.append(np.dot(v_c.dot(np.diag(np.exp(-1j * s_c * self.delta_t))), v_c.conj().T))
+
     def time_evolution(self, control_amps):
         self._into = [self.y0]
         for k in range(self.n_ts):
-            fwd = expm(-1j * (control_amps[k] * self.B + (1 - control_amps[k]) * self.C) * self.delta_t).dot(
+            # fwd = expm(-1j * (control_amps[k] * self.B + (1 - control_amps[k]) * self.C) * self.delta_t).dot(
+            #     self._into[k])
+            fwd = (control_amps[k] * self.matrix_exp[0] + (1 - control_amps[k]) * self.matrix_exp[1]).dot(
                 self._into[k])
             self._into.append(fwd)
 
     def back_propagation(self, control_amps):
         self._onto = [self._into[-1].conj().T.dot(self.C.conj().T)]
         for k in range(self.n_ts):
-            bwd = self._onto[k].dot(expm(-1j * (control_amps[self.n_ts - k - 1] * self.B + (
-                    1 - control_amps[self.n_ts - k - 1]) * self.C) * self.delta_t))
+            # bwd = self._onto[k].dot(expm(-1j * (control_amps[self.n_ts - k - 1] * self.B + (
+            #         1 - control_amps[self.n_ts - k - 1]) * self.C) * self.delta_t))
+            bwd = self._onto[k].dot(control_amps[self.n_ts - k - 1] * self.matrix_exp[0] + (
+                    1 - control_amps[self.n_ts - k - 1]) * self.matrix_exp[1])
             self._onto.append(bwd)
 
     def _compute_energy(self, *args):
@@ -112,14 +122,19 @@ class optcontrol_energy():
             # grad += [calc_Phi(self.all_y[i], self.all_k[i], self.n, self.diag)]
             # grad += [-np.imag(self._onto[self.n_ts - k - 1].dot((self.C - self.B).dot(self._into[k + 1]))
             #                   * self.delta_t)]
-            grad += [-np.imag(self._onto[self.n_ts - k - 1].dot((self.C - self.B).dot(self._into[k + 1]))
-                              * self.delta_t) * 2]
+            # grad += [-np.imag(self._onto[self.n_ts - k - 1].dot((self.C - self.B).dot(self._into[k + 1]))
+            #                   * self.delta_t) * 2]
+            grad += [np.real(self._onto[self.n_ts - k - 1].dot(
+                (self.matrix_exp[0] - self.matrix_exp[1]).dot(self._into[k]))) * 2]
+        # print(grad)
         return grad
 
     def _set_initial_amps(self):
         self.initial_amps = np.zeros(self.n_ts)
         if self.initial_type == "RND":
+            np.random.seed(5)
             self.initial_amps = np.random.random(self.n_ts)
+            print(self.initial_amps)
         if self.initial_type == "CONSTANT":
             self.initial_amps = np.ones(self.n_ts) * self.constant
         if self.initial_type == "WARM":
@@ -135,6 +150,9 @@ class optcontrol_energy():
         results = scipy.optimize.fmin_l_bfgs_b(self._compute_energy, self.initial_amps.copy(),
                                                bounds=[(0, 1)] * self.n_ts,
                                                pgtol=self.min_grad, fprime=self._fprime, maxiter=self.max_iter)
+        # results = scipy.optimize.fmin_l_bfgs_b(self._compute_energy, self.initial_amps.copy(),
+        #                                        bounds=[(0, 1)] * self.n_ts, approx_grad=1,
+        #                                        pgtol=self.min_grad, maxiter=self.max_iter, iprint=101)
         # results = scipy.optimize.minimize(self._compute_energy, self.initial_amps.copy(),
         #                                   # jac=self._fprime,
         #                                   # method='SLSQP',

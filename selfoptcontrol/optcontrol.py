@@ -10,8 +10,8 @@ import qutip.control.pulsegen as pulsegen
 
 
 def optcontrol(example_name, H_d, H_c, X_0, X_targ, n_ts, evo_time, initial_type, initial_control,
-               output_num=None, output_fig=None, output_control=None, sum_cons_1=False,
-               fid_err_targ=1e-10, max_iter=500, max_wall_time=600, min_grad=1e-10, constant=0.5):
+               output_num=None, output_fig=None, output_control=None, sum_cons_1=False, example='CNOT',
+               fid_err_targ=1e-10, max_iter=500, max_wall_time=600, min_grad=1e-20, constant=0.5):
     """
 
     :param example_name: name of the example
@@ -107,7 +107,10 @@ def optcontrol(example_name, H_d, H_c, X_0, X_targ, n_ts, evo_time, initial_type
         report = open(output_num, "w+")
         print("Final evolution\n{}\n".format(result.evo_full_final), file=report)
         print("********* Summary *****************", file=report)
-        print("Final fidelity error {}".format(result.fid_err), file=report)
+        if example == "Leak":
+            print("Final fidelity error {}".format(result.fid_err), file=report)
+        else:
+            print("Final fidelity error {}".format(result.fid_err), file=report)
         print("Final gradient normal {}".format(result.grad_norm_final), file=report)
         print("Terminated due to {}".format(result.termination_reason), file=report)
         print("Number of iterations {}".format(result.num_iter), file=report)
@@ -115,6 +118,7 @@ def optcontrol(example_name, H_d, H_c, X_0, X_targ, n_ts, evo_time, initial_type
             datetime.timedelta(seconds=result.wall_time)), file=report)
         result.stats.report()
         report.close()
+    
     # f = open(output_num, "r")
     # dataset = f.readlines()
     # print(dataset)

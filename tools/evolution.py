@@ -25,10 +25,17 @@ def time_evolution(H_d, H_c, n_ts, evo_time, u_list, X_0, sum_cons_1, ops_max_am
     return X[-1]
 
 
-def compute_obj_fid(U_targ, U_result):
+def compute_obj_fid(U_targ, U_result, phase="PSU", leak=False):
     # fid = np.abs(np.trace((np.linalg.inv(U_targ.full()).dot(U_result)))) / U_targ.full().shape[0]
     # fid = np.abs(np.trace(((U_targ.full()).dot(U_result)))) / U_targ.full().shape[0]
-    fid = np.abs(np.trace((U_targ.full().conj().T.dot(U_result)))) / U_targ.full().shape[0]
+    denominator = np.linalg.matrix_rank(U_targ.full())
+    print(denominator)
+    if phase == "PSU":
+        fid = np.abs(np.trace((U_targ.full().conj().T.dot(U_result)))) / denominator
+    if phase == "SU":
+        fid = np.real(np.trace((U_targ.full().conj().T.dot(U_result)))) / denominator ** 2
+    # if leak:
+    #     fid = fid * U_targ.full().shape[0] / 2
     obj = 1 - fid
     return obj
 
@@ -38,8 +45,8 @@ def compute_obj_energy(C, X_result):
     return obj
 
 
-def compute_obj_with_TV(U_targ, U_result, u_list, n_ctrls, alpha):
-    fid = np.abs(np.trace((np.linalg.inv(U_targ.full()).dot(U_result)))) / U_targ.full().shape[0]
+def compute_obj_with_TV(U_targ, U_result, u_list, n_ctrls, alpha, phase="PSU"):
+    fid = compute_obj_fid(U_targ, U_result, phase)
     TV = sum(sum(abs(u_list[time_step + 1, j] - u_list[time_step, j]) for time_step in range(u_list.shape[0] - 1))
              for j in range(u_list.shape[1]))
     return 1 - fid + alpha * TV
@@ -58,7 +65,7 @@ def compute_sum_cons(u_list, max_controllers):
     return penalty
 
 
-def compute_obj_by_switch(ctrl_hamil, length, ctrl_hamil_idx, x0, xtarg, obj_type):
+def compute_obj_by_switch(ctrl_hamil, length, ctrl_hamil_idx, x0, xtarg, obj_type, phase="PSU"):
     forward = [x0]
     for k in range(len(ctrl_hamil_idx)):
         cur_state = expm(-1j * ctrl_hamil[ctrl_hamil_idx[k]].copy() * length[k]).dot(forward[k])
@@ -67,5 +74,13 @@ def compute_obj_by_switch(ctrl_hamil, length, ctrl_hamil_idx, x0, xtarg, obj_typ
     if obj_type == 'energy':
         obj = np.real(final_state.conj().T.dot(ctrl_hamil[1].dot(final_state)))
     if obj_type == 'fid':
-        obj = 1 - np.abs(np.trace(xtarg.conj().T.dot(final_state))) / xtarg.shape[0]
+        if phase == "PSU":
+            obj = 1 - np.abs(np.trace(xtarg.conj().T.dot(final_state))) / xtarg.shape[0]
+        if phase == "SU":
+            obj = 1 - np.real(np.trace(xtarg.conj().T.dot(final_state))) / xtarg.shape[0]
+    if obj_type == 'leak':
+        if phase == "PSU":
+            obj = 1 - np.abs(np.trace(xtarg.conj().T.dot(final_state))) / 2
+        if phase == "SU":
+            obj = 1 - np.real(np.trace(xtarg.conj().T.dot(final_state))) / 2
     return obj

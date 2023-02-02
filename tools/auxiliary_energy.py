@@ -571,21 +571,35 @@ import sys
        
        
 if __name__ == "__main__":
-        # n = 2
-        # num_edges = 1
-        # seed = 1
-        # Jij = generate_Jij_MC(n, seed)
+        n = 2
+        num_edges = 1
+        seed = 0
+        Jij = generate_Jij_MC(n, num_edges, 100)
+        # Jij = generate_Jij(n)
         # print(Jij)
-        # print(min(get_diag(Jij)))
-        n = 6
-        num_edges = 2
-        seed = 5
-        # Jij, edges = generate_Jij_MC(n, num_edges, 100)
-        Jij = generate_Jij(n, seed)
+        print((get_diag(Jij)))
+        # exit()
+        # n = 4
+        # num_edges = 2
+        # seeds = [1,2,3,4,5,6]
+        # # Jij, edges = generate_Jij_MC(n, num_edges, 100)
+        # for seed in seeds:
+        #         Jij = generate_Jij(n, seed)
+        #         diag = get_diag(Jij)
+        #         diag.sort()
+        #         print(diag)
+        #         print(diag[2] - diag[0], 1 - diag[2] / diag[0])
+
+        # exit()
 
         C_mat = get_ham(n, True, Jij)
         B_mat = get_ham(n, False, Jij)
-        
+        print(C_mat)
+        exit()
+
+        s_c, v_c = np.linalg.eigh(C_mat)
+        print(s_c)
+        exit()
         print(C_mat)
         print(B_mat)
         # exit()

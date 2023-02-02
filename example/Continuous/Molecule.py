@@ -2,12 +2,14 @@ import argparse
 import os
 import sys
 import matplotlib.pyplot as plt
+import random
 
 sys.path.append("../..")
 # sys.path.extend([os.path.join(root, name) for root, dirs, _ in os.walk("../") for name in dirs])
 from tools import *
 from qutip import Qobj, identity, sigmax, sigmaz, sigmay, tensor
 from selfoptcontrol.optcontrol_penalized_qutip import Optcontrol_Penalized_Qutip
+from selfoptcontrol.optcontrol_exact_qutip import Optcontrol_Exact_Qutip
 
 parser = argparse.ArgumentParser()
 # name of example
@@ -33,7 +35,7 @@ parser.add_argument('--fid_err_targ', help='target for the fidelity error', type
 # Maximum iterations for the optimise algorithm
 parser.add_argument('--max_iter', help='maximum number of iterations', type=int, default=3000)
 # Maximum (elapsed) time allowed in seconds
-parser.add_argument('--max_time', help='maximum allowed computational time (seconds)', type=float, default=7200)
+parser.add_argument('--max_time', help='maximum allowed computational time (seconds)', type=float, default=14400)
 # Minimum gradient (sum of gradients squared)
 # as this tends to 0 -> local minimum has been found
 parser.add_argument('--min_grad', help='minimum gradient', type=float, default=1e-6)
@@ -52,13 +54,11 @@ args = parser.parse_args()
 # args.target="../control/Continuous/MoleculeNew2_LiH_evotime20.0_n_ts200_target.csv"
 
 d = 2
-Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule, optimize=True)
 
 if args.target is not None:
-    U = np.loadtxt(args.target, dtype=np.complex_, delimiter=',')
+    Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule, optimize=True, target=args.target)
 elif args.gen_target == 1:
-    np.savetxt("../control/Continuous/" + "{}_evotime{}_n_ts{}".format(
-        args.name + "_" + args.molecule, args.evo_time, args.n_ts) + "_target.csv", U, delimiter=",")
+    Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule, optimize=True, target=None)
 else:
     print("Please provide the target file!")
     exit()
@@ -94,13 +94,17 @@ output_control = "../control/Continuous/" + "{}_evotime{}_n_ts{}_ptype{}_offset{
 
 # solve the optimization model
 ops_max_amp = 1
-Hadamard_penalized = Optcontrol_Penalized_Qutip()
+# Hadamard_penalized = Optcontrol_Penalized_Qutip()
+Hadamard_penalized = Optcontrol_Exact_Qutip()
+iseed = None
+if args.initial_type == "RND":
+    iseed = random.randint(0, 1e6)
 Hadamard_penalized.build_optimizer(H_d, H_c, X_0, X_targ, args.n_ts, args.evo_time,
                                    amp_lbound=0, amp_ubound=1, ops_max_amp=ops_max_amp,
                                    fid_err_targ=args.fid_err_targ, min_grad=args.min_grad,
                                    max_wall_time_step=args.max_time, max_iter_step=args.max_iter,
                                    fid_type="UNIT", phase_option="PSU",
-                                   p_type=args.initial_type, seed=None,
+                                   p_type=args.initial_type, seed=iseed,
                                    constant=args.offset, initial_control=args.initial_control,
                                    output_num=output_num, output_fig=output_fig, output_control=output_control,
                                    penalty=args.sum_penalty, max_controllers=max_controllers)
@@ -133,6 +137,7 @@ plt.legend()
 plt.savefig(output_fig.split(".png")[0] + "_continuous.png")
 
 f = open(output_num, "a+")
+print("random seed is", iseed, file=f)
 print("total tv norm", compute_TV_norm(b_rel), file=f)
 print("total l2 norm", compute_sum_cons(b_rel, 1), file=f)
 f.close()

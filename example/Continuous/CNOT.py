@@ -41,12 +41,15 @@ args = parser.parse_args()
 # Drift Hamiltonian
 H_d = tensor(sigmax(), sigmax()) + tensor(sigmay(), sigmay()) + tensor(sigmaz(), sigmaz())
 H_c = [tensor(sigmax(), identity(2)), tensor(sigmay(), identity(2))]
+print(H_d, H_c)
+exit()
 # start point for the gate evolution
 X_0 = identity(4)
 # Target for the gate evolution
 X_targ = cnot()
 
 print(H_d.full().conj().T.dot(H_d.full()))
+
 # objective value type
 obj_type = "UNIT"
 
@@ -93,3 +96,8 @@ plt.savefig(output_fig.split(".png")[0] + "_continuous.png")
 
 f = open(output_num, "a+")
 print("total tv norm", compute_TV_norm(b_rel), file=f)
+
+# h_d_mat = (tensor(sigmax(), sigmax()) + tensor(sigmay(), sigmay()) + tensor(sigmaz(), sigmaz())).full()
+# h_c_mat = [tensor(sigmax(), identity(2)).full(), tensor(sigmay(), identity(2)).full()]
+# rel_result = time_evolution(h_d_mat, h_c_mat, args.n_ts, args.evo_time, b_rel, X_0.full(), False, 1)
+# print(compute_obj_fid(X_targ, rel_result, phase="SU"))

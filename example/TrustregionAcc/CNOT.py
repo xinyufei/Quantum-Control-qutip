@@ -52,27 +52,27 @@ X_0 = identity(4)
 # Target for the gate evolution
 X_targ = cnot()
 
-if not os.path.exists("../output/Trustregion/"):
-    os.makedirs("../output/Trustregion/")
-if not os.path.exists("../control/Trustregion/"):
-    os.makedirs("../control/Trustregion/")
-if not os.path.exists("../figure/Trustregion/"):
-    os.makedirs("../figure/Trustregion/")
+if not os.path.exists("../output/TrustregionAcc/"):
+    os.makedirs("../output/TrustregionAcc/")
+if not os.path.exists("../control/TrustregionAcc/"):
+    os.makedirs("../control/TrustregionAcc/")
+if not os.path.exists("../figure/TrustregionAcc/"):
+    os.makedirs("../figure/TrustregionAcc/")
 
 if args.tr_type in ['tv', 'tvc']:
-    output_num = "../output/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[
+    output_num = "../output/TrustregionAcc/" + args.initial_file.split('/')[-1].split('.csv')[
         0] + "_alpha{}_sigma{}_eta{}_threshold{}_iter{}_type{}".format(args.alpha, args.sigma, args.eta,
                                                                        args.threshold, args.max_iter,
                                                                        args.tr_type) + ".log"
-    output_fig = "../figure/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[
+    output_fig = "../figure/TrustregionAcc/" + args.initial_file.split('/')[-1].split('.csv')[
         0] + "_alpha{}_sigma{}_eta{}_threshold{}_iter{}_type{}".format(args.alpha, args.sigma, args.eta,
                                                                        args.threshold, args.max_iter,
                                                                        args.tr_type) + ".png"
-    output_control = "../control/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[
+    output_control = "../control/TrustregionAcc/" + args.initial_file.split('/')[-1].split('.csv')[
         0] + "_alpha{}_sigma{}_eta{}_threshold{}_iter{}_type{}".format(args.alpha, args.sigma, args.eta,
                                                                        args.threshold, args.max_iter,
                                                                        args.tr_type) + ".csv"
-    tr_optimizer = TrustRegion()
+    tr_optimizer = Trustregion()
     tr_optimizer.build_optimizer(H_d.full(), [hc.full() for hc in H_c], X_0.full(), X_targ.full(), 
                                  args.n_ts, args.evo_time, alpha=args.alpha, obj_type="fid", 
                                  initial_file=args.initial_file, phase_option="PSU", 
@@ -85,25 +85,25 @@ if args.tr_type in ['tv', 'tvc']:
 
 if args.tr_type == 'hard':
     if args.hard_type == 'minup':
-        output_num = "../output/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
+        output_num = "../output/TrustregionAcc/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
                      "_sigma{}_eta{}_threshold{}_iter{}_type{}_time{}".format(
                          args.sigma, args.eta, args.threshold, args.max_iter, args.hard_type, args.min_up) + ".log"
-        output_fig = "../figure/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
+        output_fig = "../figure/TrustregionAcc/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
                      "_sigma{}_eta{}_threshold{}_iter{}_type{}_time{}".format(
                          args.sigma, args.eta, args.threshold, args.max_iter, args.hard_type, args.min_up) + ".png"
-        output_control = "../control/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
+        output_control = "../control/TrustregionAcc/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
                          "_sigma{}_eta{}_threshold{}_iter{}_type{}_time{}".format(
                              args.sigma, args.eta, args.threshold, args.max_iter, args.hard_type, args.min_up) + ".csv"
         cons_parameter = dict(hard_type=args.hard_type, time=args.min_up)
 
     if args.hard_type == "maxswitch":
-        output_num = "../output/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
+        output_num = "../output/TrustregionAcc/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
                      "_sigma{}_eta{}_threshold{}_iter{}_type{}_switch{}".format(
                          args.sigma, args.eta, args.threshold, args.max_iter, args.hard_type, args.max_switch) + ".log"
-        output_fig = "../figure/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
+        output_fig = "../figure/TrustregionAcc/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
                      "_sigma{}_eta{}_threshold{}_iter{}_type{}_switch{}".format(
                          args.sigma, args.eta, args.threshold, args.max_iter, args.hard_type, args.max_switch) + ".png"
-        output_control = "../control/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
+        output_control = "../control/TrustregionAcc/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
                          "_sigma{}_eta{}_threshold{}_iter{}_type{}_switch{}".format(
                              args.sigma, args.eta, args.threshold, args.max_iter, args.hard_type,
                              args.max_switch) + ".csv"

@@ -59,13 +59,20 @@ d = 2
 # args.target = "../control/Continuous/MoleculeVQE_LiH_evotime20.0_n_ts200_target.csv"
 # args.alpha = 0.0001
 
-
-Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule)
 if args.target is not None:
-    U = np.loadtxt(args.target, dtype=np.complex_, delimiter=',')
+    Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule, optimize=True, target=args.target)
+elif args.gen_target == 1:
+    Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule, optimize=True, target=None)
 else:
     print("Please provide the target file!")
     exit()
+    
+# Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule)
+# if args.target is not None:
+#     U = np.loadtxt(args.target, dtype=np.complex_, delimiter=',')
+# else:
+#     print("Please provide the target file!")
+#     exit()
 # args.n_ts = 200
 # args.evo_time = 20
 
@@ -97,7 +104,7 @@ if args.tr_type in ['tv', 'tvc']:
                                                                        args.tr_type) + ".csv"
     tr_optimizer = TrustRegion()
     tr_optimizer.build_optimizer(H0, Hops, U0, U, args.n_ts, args.evo_time, alpha=args.alpha, obj_type='fid',
-                                 initial_file=args.initial_file,
+                                 initial_file=args.initial_file, phase_option="PSU",
                                  sigma=args.sigma, eta=args.eta, delta_threshold=args.threshold,
                                  max_iter=args.max_iter, out_log_file=output_num, out_control_file=output_control)
     if args.tr_type == 'tv':
@@ -135,7 +142,7 @@ if args.tr_type == 'hard':
 
     tr_optimizer = TrustRegion()
     tr_optimizer.build_optimizer(H0, Hops, U0, U, args.n_ts, args.evo_time, alpha=args.alpha, obj_type='fid',
-                                 initial_file=args.initial_file,
+                                 initial_file=args.initial_file, phase_option="PSU",
                                  sigma=args.sigma, eta=args.eta, delta_threshold=args.threshold,
                                  max_iter=args.max_iter, out_log_file=output_num, out_control_file=output_control)
     tr_optimizer.trust_region_method_hard(cons_parameter, sos1=args.sos1)

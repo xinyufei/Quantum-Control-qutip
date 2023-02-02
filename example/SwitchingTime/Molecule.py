@@ -41,9 +41,16 @@ args = parser.parse_args()
 # args.qubit_num = 4
 
 d = 2
-Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule)
+# Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule)
+# if args.target is not None:
+#     U = np.loadtxt(args.target, dtype=np.complex_, delimiter=',')
+# else:
+#     print("Please provide the target file!")
+#     exit()
 if args.target is not None:
-    U = np.loadtxt(args.target, dtype=np.complex_, delimiter=',')
+    Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule, optimize=True, target=args.target)
+elif args.gen_target == 1:
+    Hops, H0, U0, U = generate_molecule_func(args.qubit_num, d, args.molecule, optimize=True, target=None)
 else:
     print("Please provide the target file!")
     exit()

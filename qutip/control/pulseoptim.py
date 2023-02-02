@@ -1704,6 +1704,9 @@ def create_pulse_optimizer(
     elif prop_type == 'FRECHET':
         if not isinstance(dyn.prop_computer, propcomp.PropCompFrechet):
             dyn.prop_computer = propcomp.PropCompFrechet(dyn)
+    elif prop_type == 'HERMITIAN':
+        if not isinstance(dyn.prop_computer, propcomp.PropCompHermitian):
+            dyn.prop_computer = propcomp.PropCompHermitian(dyn)
     else:
         raise errors.UsageError("No option for prop_type: " + prop_type)
     dyn.prop_computer.apply_params(prop_params)

@@ -446,3 +446,60 @@ class PropCompFrechet(PropagatorComputer):
             return prop, prop_grad
         else:
             return prop_grad
+
+
+class PropCompHermitian(PropagatorComputer):
+    """
+    Coumputes the propagator exponentiation using diagonalisation of
+    of the Hermitian matrix
+    """
+    def reset(self):
+        """
+        reset any configuration data
+        """
+        PropagatorComputer.reset(self)
+        self.id_text = 'HERMITIAN'
+        self.grad_exact = True
+        self.apply_params()
+
+    def _compute_propagator(self, k):
+        """
+        Calculates the exponentiation of the dynamics generator (H)
+        As part of the calc the the eigen decomposition is required, which
+        is reused in the propagator gradient calculation
+        """
+        dyn = self.parent
+        prop = sum(dyn.ctrl_amps[k, j] * dyn._initial_prop[j] for j in range(dyn._num_ctrls))
+        return prop
+
+    def _compute_prop_grad(self, k, j, compute_prop=True):
+        """
+        Calculate the gradient of propagator wrt the control amplitude
+        in the timeslot.
+
+        Returns:
+            [prop], prop_grad
+        """
+        dyn = self.parent
+
+        if compute_prop:
+            prop = self._compute_propagator(k)
+            expmhk = prop
+        else:
+            # print(dyn.prop[k])
+            expmhk = dyn._prop[k]
+
+        # prop_grad = dyn._initial_prop[j]
+        hj = dyn.ctrl_dyn_gen[j]
+        if isinstance(hj, Qobj):
+            hj = hj.full()
+        if isinstance(expmhk, Qobj):
+            expmhk = expmhk.full()
+        prop_grad = (-1j * hj * dyn.tau[k]).dot(expmhk)
+        if dyn.oper_dtype == Qobj:
+            prop_grad = Qobj(prop_grad, dims=dyn.dyn_dims)
+
+        if compute_prop:
+            return prop, prop_grad
+        else:
+            return prop_grad

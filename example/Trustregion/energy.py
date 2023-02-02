@@ -98,13 +98,13 @@ if args.tr_type == 'hard':
     if args.hard_type == 'minup':
         output_num = "../output/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
                      "_sigma{}_eta{}_threshold{}_iter{}_type{}_time{}".format(
-                         args.sigma, args.eta, args.threshold, args.max_iter, args.hard_type, args.min_up) + ".log"
+                         args.sigma, args.eta, args.threshold, args.max_iter, args.hard_type, args.min_up) + "test.log"
         output_fig = "../figure/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
                      "_sigma{}_eta{}_threshold{}_iter{}_type{}_time{}".format(
-                         args.sigma, args.eta, args.threshold, args.max_iter, args.hard_type, args.min_up) + ".png"
+                         args.sigma, args.eta, args.threshold, args.max_iter, args.hard_type, args.min_up) + "test.png"
         output_control = "../control/Trustregion/" + args.initial_file.split('/')[-1].split('.csv')[0] + \
                          "_sigma{}_eta{}_threshold{}_iter{}_type{}_time{}".format(
-                             args.sigma, args.eta, args.threshold, args.max_iter, args.hard_type, args.min_up) + ".csv"
+                             args.sigma, args.eta, args.threshold, args.max_iter, args.hard_type, args.min_up) + "test.csv"
         cons_parameter = dict(hard_type=args.hard_type, time=args.min_up)
         
     if args.hard_type == "maxswitch":

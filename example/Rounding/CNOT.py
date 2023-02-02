@@ -87,7 +87,7 @@ bin_result = time_evolution(h_d_mat, h_c_mat, args.n_ts, args.evo_time, b_bin, X
 
 f = open(output_num, "w+")
 print("computational time", c_time, file=f)
-print("original objective", compute_obj_fid(X_targ, bin_result), file=f)
+print("original objective", compute_obj_fid(X_targ, bin_result, phase="PSU"), file=f)
 print("total tv norm", compute_TV_norm(b_bin), file=f)
 f.close()
 

@@ -1074,6 +1074,13 @@ class Optimizer(object):
         grad_norm = np.sqrt(np.sum(grad ** 2))
         if grad_norm < tc.min_gradient_norm:
             raise errors.GradMinReachedTerminate(fid_comp.grad_norm)
+        # print(grad.flatten())
+        # u_new = args[0].copy()
+        # u_new[0] += 1e-6
+        # print((self.fid_err_func_wrapper_sum_penalty(u_new) - self.fid_err_func_wrapper_sum_penalty(args[0])) / 1e-6)
+        # u_new = args[0].copy()
+        # u_new[999] += 1e-6
+        # print((self.fid_err_func_wrapper_sum_penalty(u_new) - self.fid_err_func_wrapper_sum_penalty(args[0])) / 1e-6)
         return grad.flatten()
 
     def fid_err_grad_wrapper_all_penalty(self, *args):
@@ -1504,7 +1511,9 @@ class OptimizerLBFGSB(Optimizer):
                 bounds=self.bounds,
                 tol=term_conds.min_gradient_norm,
                 options={'maxiter': term_conds.max_iterations,
-                         'disp': self.msg_level},
+                         'disp': True},
+                method='trust-constr',
+                             # self.msg_level},
                 constraints=cons)
             optim_var_vals = res_dict.x
             fid = res_dict.fun
@@ -1714,10 +1723,12 @@ class OptimizerLBFGSB(Optimizer):
                 self.fid_err_func_wrapper_sum_penalty, self.optim_var_vals,
                 fprime=fprime,
                 approx_grad=self.approx_grad,
+                # approx_grad=1,
                 callback=self.iter_step_callback_func,
                 bounds=self.bounds, m=m, factr=factr,
                 pgtol=term_conds.min_gradient_norm,
-                disp=self.msg_level,
+                # disp=self.msg_level,
+                iprint=101,
                 maxfun=term_conds.max_fid_func_calls,
                 maxiter=term_conds.max_iterations)
 

@@ -435,6 +435,7 @@ class Dynamics(object):
         self._fwd_evo = None
         self._onwd_evo = None
         self._onto_evo = None
+        self._initial_prop = None
         # The _qobj attribs are Qobj representations of the equivalent
         # internal attribute. They are only set when the extenal accessors
         # are used
@@ -997,6 +998,14 @@ class Dynamics(object):
         self.fid_computer.init_comp()
         self._ctrls_initialized = True
         self.update_ctrl_amps(amps)
+
+    def initialize_props(self, props):
+        self._initial_prop = []
+        for prop in props:
+            if (self.oper_dtype == Qobj) and (~isinstance(prop, Qobj)):
+                self._initial_prop.append(Qobj(prop))
+            else:
+                self._initial_prop.append(prop)
 
     def check_ctrls_initialized(self):
         if not self._ctrls_initialized:

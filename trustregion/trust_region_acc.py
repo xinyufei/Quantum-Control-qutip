@@ -12,7 +12,7 @@ from tools import *
 import gurobipy as gb
 
 
-class TrustRegion:
+class TrustRegionAcc:
     def __init__(self):
         self.H_d = None
         self.H_c = None
@@ -60,7 +60,8 @@ class TrustRegion:
                                                     Qobj(self.X_0), Qobj(self.X_targ), self.n_ts, self.evo_time,
                                                     amp_lbound=0, amp_ubound=1, dyn_type='UNIT',
                                                     phase_option=self.phase_option,
-                                                    init_pulse_params={"offset": 0}, gen_stats=True)
+                                                    init_pulse_params={"offset": 0}, gen_stats=True,
+                                                    prop_type='HERMITIAN')
         if self.obj_type == 'energy':
             self.n_ctrl = len(self.H_c) - 1
             self._into = None
@@ -86,19 +87,29 @@ class TrustRegion:
         if self.obj_type == 'fid':
             dyn = self.optim.dynamics
             dyn.initialize_controls(self.initial_amps)
+            
+    def _init_props(self):
+        self.initial_props = []
+        for hc in self.H_c:
+            s, v = np.linalg.eigh(hc + self.H_d)
+            self.initial_props.append(
+                np.dot(v.dot(np.diag(np.exp(-1j * s * self.evo_time / self.n_ts))), v.conj().T))
+        if self.obj_type == 'fid':
+            dyn = self.optim.dynamics
+            dyn.initialize_props(self.initial_props)
 
     def time_evolution_energy(self, control_amps):
         self._into = [self.X_0]
         for k in range(self.n_ts):
-            fwd = expm(-1j * (control_amps[k] * self.H_c[0] + (1 - control_amps[k]) * self.H_c[1]) * self.delta_t).dot(
+            fwd = (control_amps[k] * self.initial_props[0] + (1 - control_amps[k]) * self.initial_props[1]).dot(
                 self._into[k])
             self._into.append(fwd)
 
     def back_propagation_energy(self, control_amps):
         self._onto = [self._into[-1].conj().T.dot(self.H_c[1].conj().T)]
         for k in range(self.n_ts):
-            bwd = self._onto[k].dot(expm(-1j * (control_amps[self.n_ts - k - 1] * self.H_c[0] + (
-                    1 - control_amps[self.n_ts - k - 1]) * self.H_c[1]) * self.delta_t))
+            bwd = self._onto[k].dot(control_amps[self.n_ts - k - 1] * self.initial_props[0] + (
+                    1 - control_amps[self.n_ts - k - 1]) * self.initial_props[1])
             self._onto.append(bwd)
 
     def _compute_obj(self, control_amps):
@@ -129,10 +140,8 @@ class TrustRegion:
                 self.u = control_amps
             grad = []
             for k in range(self.n_ts):
-                # grad += [-np.imag(self._onto[self.n_ts - k - 1].dot((self.H_c[1] - self.H_c[0]).dot(self._into[k + 1]))
-                #                   * self.delta_t)]
-                grad += [-np.imag(self._onto[self.n_ts - k - 1].dot((self.H_c[1] - self.H_c[0]).dot(self._into[k + 1]))
-                                  * self.delta_t) * 2]
+                grad += [np.imag(self._onto[self.n_ts - k - 1].dot(
+                    (self.H_c[0] - self.H_c[1]).dot(self._into[k + 1])) * self.delta_t) * 2]
             grad = np.expand_dims(np.array(grad), 1)
         return grad
 
@@ -163,6 +172,7 @@ class TrustRegion:
         pred = np.infty
 
         self._init_amps()
+        self._init_props()
         u_tilde = self.initial_amps.copy()
 
         start = time.time()
@@ -302,6 +312,7 @@ class TrustRegion:
         pred = np.infty
 
         self._init_amps()
+        self._init_props()
         u_tilde = self.initial_amps.copy()
 
         start = time.time()
@@ -437,6 +448,7 @@ class TrustRegion:
         pred = np.infty
 
         self._init_amps()
+        self._init_props()
         u_tilde = self.initial_amps.copy()
         
         # bin_result = time_evolution(self.H_d, self.H_c, self.n_ts, self.evo_time, u_tilde, self.X_0,
@@ -454,13 +466,10 @@ class TrustRegion:
             delta_n = delta_0
             delta_list = []
 
-            out_log = open(self.out_log_file, "a+")
             # get the gradient
             grad = self._compute_gradient(u_tilde.reshape(-1))
-            print("gradient", grad, file=out_log)
             # pre-compute objective value
             obj_u_tilde = self._compute_obj(u_tilde.reshape(-1))
-            print("objective", obj_u_tilde, file=out_log)
 
             while 1:
                 # solve the trust-region problem

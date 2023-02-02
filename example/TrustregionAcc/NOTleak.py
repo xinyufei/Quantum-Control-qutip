@@ -13,7 +13,7 @@ from trustregion.trust_region import *
 
 parser = argparse.ArgumentParser()
 # name of example
-parser.add_argument('--name', help='example name', type=str, default='CNOTTR')
+parser.add_argument('--name', help='example name', type=str, default='NOTleak')
 # evolution time
 parser.add_argument('--evo_time', help='evolution time', type=float, default=1)
 # time steps
@@ -45,12 +45,21 @@ parser.add_argument('--max_switch', help='maximum number of switches', type=int,
 args = parser.parse_args()
 
 # Drift Hamiltonian
-H_d = tensor(sigmax(), sigmax()) + tensor(sigmay(), sigmay()) + tensor(sigmaz(), sigmaz())
-H_c = [tensor(sigmax(), identity(2)), tensor(sigmay(), identity(2))]
+H_d_origin = Qobj(
+    0 * np.array([[0, 0, 0], [0, 1, 0], [0, 0, 0]]) + 2 * math.pi * np.array([[0, 0, 0], [0, 0, 0], [0, 0, 1]]))
+H_c_origin = [Qobj(1 / 2 * np.array([[0, 1, 0], [1, 0, 0], [0, 0, 0]])
+                   + np.sqrt(2) / 2 * np.array([[0, 0, 0], [0, 0, 1], [0, 1, 0]])),
+              Qobj(1 / 2 * np.array([[0, -1j, 0], [1j, 0, 0], [0, 0, 0]])
+                   + np.sqrt(2) / 2 * np.array([[0, 0, 0], [0, 0, -1j], [0, 1j, 0]]))]
+# print(H_d, H_c)
+H_d = H_d_origin - H_c_origin[0] - H_c_origin[1]
+H_c = [2 * hc for hc in H_c_origin]
+H_d = H_d_origin
+H_c = H_c_origin
 # start point for the gate evolution
-X_0 = identity(4)
+X_0 = identity(3)
 # Target for the gate evolution
-X_targ = cnot()
+X_targ = Qobj(np.array([[0, 1, 0], [1, 0, 0], [0, 0, 0]]))
 
 if not os.path.exists("../output/Trustregion/"):
     os.makedirs("../output/Trustregion/")

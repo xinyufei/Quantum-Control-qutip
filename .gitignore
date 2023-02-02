@@ -7,7 +7,7 @@
 
 results.xlsx
 
-./example/control
-./example/figure
-./example/output
-./example/TrustregionAcc
+example/control
+example/figure
+example/output
+#example/TrustregionAcc

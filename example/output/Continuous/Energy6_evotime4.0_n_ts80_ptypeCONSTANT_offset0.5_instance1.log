@@ -1,9 +1,9 @@
 ********* Summary *****************
-Final energy -3.681944581613196
-Final gradient norm 0.012870138583244563
-Number of iterations 52
+Final energy -3.681956508801818
+Final gradient norm 0.02455814410667906
+Number of iterations 45
 Terminated due to Function converged
-Completed in 0:00:59.430594 HH:MM:SS.US
-Computational time 59.430593834
-total tv norm 9.946850759812845
+Completed in 0:00:50.898726 HH:MM:SS.US
+Computational time 50.898725958
+total tv norm 9.979118061737907
 true energy -3.9625455943477483

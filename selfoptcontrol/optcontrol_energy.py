@@ -124,7 +124,7 @@ class optcontrol_energy():
             #                   * self.delta_t)]
             # grad += [-np.imag(self._onto[self.n_ts - k - 1].dot((self.C - self.B).dot(self._into[k + 1]))
             #                   * self.delta_t) * 2]
-            grad += [np.real(self._onto[self.n_ts - k - 1].dot(
+            grad += [np.imag(self._onto[self.n_ts - k - 1].dot(
                 (self.matrix_exp[0] - self.matrix_exp[1]).dot(self._into[k]))) * 2]
         # print(grad)
         return grad

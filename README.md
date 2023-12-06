@@ -7,6 +7,22 @@ with SOS1 property. Then we apply two rounding techniques, sum-up rounding (SUR)
 approximation (CIA) to obtain the binary controls. 
 Furthermore, we apply our improvement heuristic to improve the solutions. 
 
+## Citation
+If you use our code in your research, please cite our paper:
+> [**Binary Control Pulse Optimization for Quantum Systems**](https://quantum-journal.org/papers/q-2023-01-04-892/pdf/) <br />
+> Xinyu Fei, Lucas T. Brady, Jeffrey Larson, Sven Leyffer, Siqian Shen <br />
+> *Quantum, 2023*
+> ```
+> @article{fei2023binary,
+>   title={Binary control pulse optimization for quantum systems},
+>   author={Fei, Xinyu and Brady, Lucas T and Larson, Jeffrey and Leyffer, Sven and Shen, Siqian},
+>   journal={Quantum},
+>   volume={7},
+>   pages={892},
+>   year={2023},
+>   publisher={Verein zur F{\"o}rderung des Open Access Publizierens in den Quantenwissenschaften}
+> }
+> ```
 ## Test Instances
 There are three test instances in the paper:
 * Energy minimization problem

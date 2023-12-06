@@ -152,3 +152,11 @@ QAOA Problems** (https://arxiv.org/pdf/2003.08952.pdf).
 We refer to the paper **Partial Compilation of Variational Algorithms for 
 Noisy Intermediate-Scale Quantum Machines** (https://arxiv.org/pdf/1909.07522.pdf) for generating the 
 circuit compilation problem. Their code is presented at https://github.com/epiqc/PartialCompilation.
+
+## Developers
+Xinyu Fei (xinyuf@umich.edu)
+
+## Contact
+Xinyu Fei (xinyuf@umich.edu)
+
+Siqian Shen (siqian@umich.edu)
